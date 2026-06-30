@@ -94,13 +94,11 @@ constructor() {
 
     data.forEach((task) => {
 
-        let realIndex = this.tasks.indexOf(task);
-
         let li = document.createElement("li");
         li.draggable = true;
 
         li.innerHTML = `
-            <span onclick="todoApp.toggleTask(${realIndex})"
+            <span onclick="todoApp.toggleTask(${task.id})"
                 class="${task.termine ? 'completed' : ''}">
                 ${task.texte}
             </span>
@@ -110,8 +108,8 @@ constructor() {
             </small>
 
             <div>
-                <button onclick="todoApp.editTask(${realIndex})">✏️</button>
-                <button onclick="todoApp.deleteTask(${realIndex})">❌</button>
+                <button onclick="todoApp.editTask(${task.id})">✏️</button>
+                <button onclick="todoApp.deleteTask(${task.id})">❌</button>
             </div>
         `;
 
@@ -178,8 +176,8 @@ constructor() {
              const items = [...list.querySelectorAll("li")];
 
            this.tasks = items.map(li => {
-                const text = li.querySelector("span").innerText;
-                return this.tasks.find(t => t.texte === text);
+                const index = [...list.children].indexOf(li);
+                return this.tasks[index];
             });
 
             this.saveTasks();
