@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Todo App Pro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<section id="landingPage">
+
+    <div class="hero">
+
+        <div class="hero-text">
+
+            <h1>📝 Todo App Pro</h1>
+            <h2>Organisez votre journée efficacement</h2>
+
+            <p>Application moderne de gestion de tâches.</p>
+
+            <div class="hero-features">
+                <p>✅ Ajouter des tâches</p>
+                <p>✅ Trier par priorité</p>
+                <p>✅ Rechercher</p>
+                <p>✅ Mode sombre</p>
+            </div>
+
+            <button onclick="goToAuth()">Commencer</button>
+
+        </div>
+
+        <div class="hero-image">
+            <img src="images/tasks.svg" alt="Todo">
+        </div>
+
+    </div>
+
+</section>
+
+<section id="authPage" style="display:none;">
+
+    <div class="container">
+        <h2>Connexion</h2>
+
+        <input id="loginEmail" placeholder="Email">
+        <input id="loginPassword" type="password" placeholder="Mot de passe">
+        <button onclick="connecterUtilisateur()">Login</button>
+    </div>
+
+    <div class="container">
+        <h2>Inscription</h2>
+
+        <input id="registerNom" placeholder="Nom">
+        <input id="registerEmail" placeholder="Email">
+        <input id="registerPassword" type="password" placeholder="Mot de passe">
+        <button onclick="inscrireUtilisateur()">Créer</button>
+    </div>
+
+</section>
+
+<section id="app" style="display:none;">
+
+    <div class="container">
+
+        <h1>Todo App</h1>
+
+        <h3 id="welcomeMessage"></h3>
+
+        <button onclick="deconnecterUtilisateur()">Déconnexion</button>
+
+        <p id="taskCounter"></p>
+
+        <input id="taskInput" placeholder="Nouvelle tâche">
+        <button onclick="todoApp.addTask()">Ajouter</button>
+
+        <input oninput="todoApp.searchTask(this.value)" placeholder="Recherche">
+
+        <div class="filters">
+            <button onclick="todoApp.filterTasks('all')">All</button>
+            <button onclick="todoApp.filterTasks('active')">Actives</button>
+            <button onclick="todoApp.filterTasks('completed')">Terminées</button>
+            <button onclick="todoApp.sortByPriority()">Tri</button>
+            <button onclick="todoApp.clearCompleted()">Supprimer</button>
+            <button onclick="todoApp.toggleDarkMode()">Dark</button>
+        </div>
+
+        <ul id="taskList"></ul>
+
+    </div>
+
+</section>
+
+<script src="utilisateur.js"></script>
+<script src="login.js"></script>
+<script src="todo.js"></script>
+
+</body>
+</html>

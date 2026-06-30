@@ -1,0 +1,309 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #9face6);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    transition: background 0.4s ease;
+}
+
+.app {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.container {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    transition: all 0.3s ease;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+}
+
+.input-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    padding: 10px;
+    border-radius: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #4a69bd;
+    box-shadow: 0 0 5px rgba(74,105,189,0.3);
+}
+
+button {
+    padding: 10px 12px;
+    border: none;
+    background: #4a69bd;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+button:hover {
+    background: #1e3799;
+    transform: scale(1.03);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.filters button {
+    flex: 1;
+    font-size: 12px;
+}
+
+#taskList {
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#taskList li {
+    background: #f1f2f6;
+    padding: 12px;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    transition: all 0.2s ease;
+}
+
+#taskList li:hover {
+    transform: scale(1.02);
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.priority {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.priority.haute {
+    background: red;
+    color: white;
+}
+
+.priority.moyenne {
+    background: orange;
+    color: white;
+}
+
+.priority.basse {
+    background: green;
+    color: white;
+}
+
+.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+    background: #dcdde1;
+}
+
+#landingPage {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero {
+    width: 90%;
+    max-width: 1100px;
+
+    background: white;
+    border-radius: 20px;
+    padding: 60px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-image {
+    flex: 1;
+    text-align: center;
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 400px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    color: #4a69bd;
+}
+
+.hero h2 {
+    margin-top: 20px;
+    color: #333;
+}
+
+.hero p {
+    margin-top: 25px;
+    line-height: 30px;
+    color: #666;
+    font-size: 18px;
+}
+
+.hero-features {
+    margin: 30px 0;
+}
+
+.hero-features p {
+    font-size: 18px;
+    margin: 15px 0;
+}
+
+body.dark {
+    background: linear-gradient(135deg,#1f1f1f,#3d3d3d);
+}
+
+body.dark .container,
+body.dark .hero {
+    background: #2b2b2b;
+    color: white;
+}
+
+body.dark input {
+    background: #444;
+    color: white;
+    border: 1px solid #666;
+}
+
+body.dark input::placeholder {
+    color: #ddd;
+}
+
+body.dark #taskList li {
+    background: #3a3a3a;
+}
+
+body.dark .hero h2,
+body.dark .hero p {
+    color: #ddd;
+}
+
+body.dark #welcomeMessage {
+    color: #74ebd5;
+}
+
+#welcomeMessage {
+    text-align: center;
+    color: #4a69bd;
+    margin: 10px 0 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.container, .hero {
+    animation: fadeIn 0.5s ease-in-out;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero-image img {
+        max-width: 280px;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .filters button {
+        width: 100%;
+    }
+
+    .input-box {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}
