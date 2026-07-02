@@ -1,70 +1,37 @@
 class Todo {
 
-    constructor(
-        id,
-        titre,
-        description,
-        statut = "À faire",
-        priorite = "Moyenne",
-        dateCreation = new Date(),
-        dateFin = null
-    ) {
+constructor(
+    id,
+    titre,
+    description = "",
+    statut = "a faire",
+    priorite = "moyenne",
+    dateCreation = new Date(),
+    dateFin = null
+) {
+    this.id = id;
+    this.titre = titre;
+    this.description = description;
+    this.statut = statut;
+    this.priorite = priorite;
+    this.dateCreation = dateCreation;
+    this.dateFin = dateFin;
+}
 
-        this.id = id;
-        this.titre = titre;
-        this.description = description;
-        this.statut = statut;
-        this.priorite = priorite;
-        this.dateCreation = dateCreation;
-        this.dateFin = dateFin;
-    }
-    terminer() {
+terminer() {
+    this.statut = "terminee";
+    this.dateFin = new Date();
+}
 
-        this.statut = "Terminée";
-        this.dateFin = new Date();
-
-    }
-    modifierTitre(nouveauTitre) {
-        this.titre = nouveauTitre;
-    }
-
-    modifierDescription(nouvelleDescription) {
-        this.description = nouvelleDescription;
-    }
-
-    modifierPriorite(nouvellePriorite) {
-
-        const priorites = ["Haute", "Moyenne", "Basse"];
-
-        if (priorites.includes(nouvellePriorite)) {
-            this.priorite = nouvellePriorite;
-        }
-    }
-
-    modifierStatut(nouveauStatut) {
-
-        const statuts = ["À faire", "En cours", "Terminée"];
-
-        if (statuts.includes(nouveauStatut)) {
-            this.statut = nouveauStatut;
-        }
-    }
-    copyWith({
-        titre = null,
-        description = null,
-        statut = null,
-        priorite = null,
-        dateFin = null
-    }) {
-
+copyWith(data) {
     return new Todo(
         this.id,
-        titre ?? this.titre,
-        description ?? this.description,
-        statut ?? this.statut,
-        priorite ?? this.priorite,
+        data.titre ?? this.titre,
+        data.description ?? this.description,
+        data.statut ?? this.statut,
+        data.priorite ?? this.priorite,
         this.dateCreation,
-        dateFin ?? this.dateFin
+        data.dateFin ?? this.dateFin
     );
 }
 

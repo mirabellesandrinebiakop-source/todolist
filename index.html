@@ -75,7 +75,14 @@
 
         <p id="taskCounter"></p>
 
-        <input id="taskInput" placeholder="Nouvelle tâche">
+       <input id="taskInput" placeholder="Nouvelle tâche">
+
+        <select id="prioritySelect">
+            <option value="haute">🔴 Haute</option>
+            <option value="moyenne" selected>🟠 Moyenne</option>
+            <option value="basse">🟢 Basse</option>
+        </select>
+
         <button onclick="todoApp.addTask()">Ajouter</button>
 
         <input oninput="todoApp.searchTask(this.value)" placeholder="Recherche">
@@ -103,10 +110,33 @@
 <script src="TodoApp.js"></script>
 
 <script>
-window.addEventListener("load", () => {
-    const saved = localStorage.getItem("utilisateurConnecte");
-    if (saved && typeof TodoApp !== "undefined") {
+window.addEventListener("DOMContentLoaded", () => {
+
+    try {
+
+        const saved = localStorage.getItem("utilisateurConnecte");
+
+        if (!saved) return;
+
+        if (typeof Todo !== "function") {
+            console.error("Todo.js manquant ou cassé");
+            return;
+        }
+
+        if (typeof TodoManager !== "function") {
+            console.error("TodoManager.js manquant ou cassé");
+            return;
+        }
+
+        if (typeof TodoApp !== "function") {
+            console.error("TodoApp.js manquant ou cassé");
+            return;
+        }
+
         window.todoApp = new TodoApp();
+
+    } catch (e) {
+        console.error("Erreur initialisation TodoApp :", e);
     }
 });
 </script>

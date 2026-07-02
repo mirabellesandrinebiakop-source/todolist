@@ -307,3 +307,113 @@ body.dark #welcomeMessage {
         width: 100%;
     }
 }
+
+#taskList li {
+    border-left: 5px solid transparent;
+    transition: all 0.25s ease;
+}
+
+#taskList li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.priority.haute {
+    background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+    color: white;
+    font-weight: bold;
+}
+
+.priority.moyenne {
+    background: linear-gradient(135deg, #ffa502, #ff7f00);
+    color: white;
+    font-weight: bold;
+}
+
+.priority.basse {
+    background: linear-gradient(135deg, #2ed573, #1eae60);
+    color: white;
+    font-weight: bold;
+}
+
+#taskList li:has(.priority.haute) {
+    border-left-color: #ff4d4d;
+}
+
+#taskList li:has(.priority.moyenne) {
+    border-left-color: #ffa502;
+}
+
+#taskList li:has(.priority.basse) {
+    border-left-color: #2ed573;
+}
+
+#taskList li button {
+    background: transparent;
+    color: #555;
+    border: none;
+    font-size: 16px;
+    margin-left: 8px;
+    transition: 0.2s;
+}
+
+#taskList li button:hover {
+    transform: scale(1.2);
+    color: #e74c3c;
+}
+
+#taskList li {
+    animation: popIn 0.25s ease;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#taskList {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+#taskList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#taskList::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 10px;
+}
+
+body.dark #taskList::-webkit-scrollbar-thumb {
+    background: #666;
+}
+
+#prioritySelect {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#prioritySelect:focus {
+    border-color: #4a69bd;
+    box-shadow: 0 0 5px rgba(74,105,189,0.3);
+    outline: none;
+}
+
+body.dark #prioritySelect {
+    background: #444;
+    color: white;
+    border: 1px solid #666;
+}
