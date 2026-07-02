@@ -12,10 +12,12 @@ function goToAuth() {
 function inscrireUtilisateur() {
 
     const nom = document.getElementById("registerNom").value.trim();
+    const prenom = document.getElementById("registerPrenom").value.trim();
+    const age = document.getElementById("registerAge").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const mdp = document.getElementById("registerPassword").value.trim();
 
-    if (!nom || !email || !mdp) {
+    if (!nom || !prenom || !age || !email || !mdp) {
         alert("Tous les champs sont obligatoires.");
         return;
     }
@@ -27,7 +29,14 @@ function inscrireUtilisateur() {
         return;
     }
 
-    const user = new Utilisateur(nom, email, mdp);
+    const user = new Utilisateur(
+        Date.now(),
+        nom,
+        prenom,
+        age,
+        email,
+        mdp
+    );
 
     utilisateurs.push(user);
 

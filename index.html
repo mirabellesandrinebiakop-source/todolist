@@ -54,6 +54,8 @@
         <h2>Inscription</h2>
 
         <input id="registerNom" placeholder="Nom">
+        <input id="registerPrenom" placeholder="Prénom">
+        <input id="registerAge" type="number" placeholder="Âge">
         <input id="registerEmail" placeholder="Email">
         <input id="registerPassword" type="password" placeholder="Mot de passe">
         <button onclick="inscrireUtilisateur()">Créer</button>
@@ -95,7 +97,19 @@
 
 <script src="utilisateur.js"></script>
 <script src="login.js"></script>
-<script src="todo.js"></script>
+
+<script src="Todo.js"></script>
+<script src="TodoManager.js"></script>
+<script src="TodoApp.js"></script>
+
+<script>
+window.addEventListener("load", () => {
+    const saved = localStorage.getItem("utilisateurConnecte");
+    if (saved && typeof TodoApp !== "undefined") {
+        window.todoApp = new TodoApp();
+    }
+});
+</script>
 
 </body>
 </html>
