@@ -12,13 +12,30 @@ function goToAuth() {
 function inscrireUtilisateur() {
 
     const nom = document.getElementById("registerNom").value.trim();
+
     const prenom = document.getElementById("registerPrenom").value.trim();
-    const age = document.getElementById("registerAge").value.trim();
+
+    const age = "";
+
     const email = document.getElementById("registerEmail").value.trim();
+
     const mdp = document.getElementById("registerPassword").value.trim();
 
-    if (!nom || !prenom || !age || !email || !mdp) {
+    const confirm = document.getElementById("confirmPassword").value.trim();
+
+
+    if (!nom || !prenom || !email || !mdp || !confirm) {
+
         alert("Tous les champs sont obligatoires.");
+
+        return;
+    }
+
+
+    if (mdp !== confirm) {
+
+        alert("Les mots de passe ne correspondent pas.");
+
         return;
     }
 
@@ -38,15 +55,27 @@ function inscrireUtilisateur() {
         mdp
     );
 
-    utilisateurs.push(user);
+utilisateurs.push(user);
 
-    localStorage.setItem("utilisateurs", JSON.stringify(utilisateurs));
+localStorage.setItem("utilisateurs", JSON.stringify(utilisateurs));
 
-    alert("Compte créé avec succès !");
 
-    document.getElementById("registerNom").value = "";
-    document.getElementById("registerEmail").value = "";
-    document.getElementById("registerPassword").value = "";
+utilisateurConnecte = user;
+
+localStorage.setItem(
+    "utilisateurConnecte",
+    JSON.stringify(user)
+);
+
+
+document.getElementById("landingPage").style.display = "none";
+
+document.getElementById("authPage").style.display = "none";
+
+document.getElementById("app").style.display = "block";
+
+
+window.todoApp = new TodoApp();
 
 }
 
@@ -105,3 +134,22 @@ window.addEventListener("load", () => {
     }
 
 });
+
+
+function showRegister(){
+
+    document.querySelector(".auth-card").style.display = "none";
+
+    document.getElementById("registerCard").style.display = "block";
+
+}
+
+
+
+function showLogin(){
+
+    document.querySelector(".auth-card").style.display = "block";
+
+    document.getElementById("registerCard").style.display = "none";
+
+}

@@ -12,93 +12,915 @@
 
 <section id="landingPage">
 
-    <div class="hero">
 
-        <div class="hero-text">
+    <nav class="navbar">
 
-            <h1>📝 Todo App Pro</h1>
-            <h2>Organisez votre journée efficacement</h2>
+        <div class="logo">
+            TodoApp Pro
+        </div>
 
-            <p>Application moderne de gestion de tâches.</p>
+        <ul class="menu">
 
-            <div class="hero-features">
-                <p>✅ Ajouter des tâches</p>
-                <p>✅ Trier par priorité</p>
-                <p>✅ Rechercher</p>
-                <p>✅ Mode sombre</p>
+            <li><a href="#">Home</a></li>
+
+            <li><a href="#features">Features</a></li>
+
+            <li><a href="#about">About</a></li>
+
+            <li>
+
+                <button class="login-btn"
+                        onclick="goToAuth()">
+
+                    Login
+
+                </button>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <section class="hero">
+
+        <div class="hero-left">
+
+            <h1>
+
+                Organisez votre travail.
+
+                <br>
+
+                Gérez votre vie.
+
+            </h1>
+
+            <p>
+
+                Notre application permet de gérer vos tâches,
+
+                suivre vos priorités,
+
+                respecter les échéances
+
+                et améliorer votre productivité.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+
+                    class="primary-btn"
+
+                    onclick="goToAuth()">
+
+                    Get Started
+
+                </button>
+
+                <button
+
+                    class="secondary-btn">
+
+                    Voir la démo
+
+                </button>
+
             </div>
 
-            <button onclick="goToAuth()">Commencer</button>
+        </div>
+
+        <div class="hero-right">
+
+            <img
+
+            src="images/tasks.svg"
+
+            alt="Todo Illustration">
 
         </div>
 
-        <div class="hero-image">
-            <img src="images/tasks.svg" alt="Todo">
+    </section>
+
+<section id="features" class="features-section">
+
+
+    <h2>
+        Powerful Features
+    </h2>
+
+
+    <p class="section-description">
+        Everything you need to manage your tasks efficiently.
+    </p>
+
+
+
+    <div class="features-container">
+
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ✅
+            </div>
+
+            <h3>
+                Task Management
+            </h3>
+
+            <p>
+                Create, organize and track all your daily tasks.
+            </p>
+
         </div>
+
+
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🎯
+            </div>
+
+            <h3>
+                Priority Tracking
+            </h3>
+
+            <p>
+                Focus on important tasks with smart priorities.
+            </p>
+
+        </div>
+
+
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🚀
+            </div>
+
+            <h3>
+                Productivity
+            </h3>
+
+            <p>
+                Improve your workflow and reach your goals.
+            </p>
+
+        </div>
+
+
+
+    </div>
+
+
+</section>   
+
+<section id="about" class="about-section">
+
+
+    <div class="about-content">
+
+
+        <div class="about-text">
+
+
+            <h2>
+                About TodoApp Pro
+            </h2>
+
+
+            <p>
+                TodoApp Pro est une application moderne
+                de gestion des tâches conçue pour aider
+                les utilisateurs à organiser leur travail,
+                suivre leurs priorités et améliorer leur productivité.
+            </p>
+
+
+            <p>
+                Cette application a été développée avec
+                HTML, CSS et JavaScript en utilisant
+                une architecture orientée objet.
+            </p>
+
+
+
+        </div>
+
+
+
+
+        <div class="about-card">
+
+
+            <h3>
+                Why choose TodoApp Pro?
+            </h3>
+
+
+            <ul>
+
+                <li>
+                    ✔ Simple task management
+                </li>
+
+
+                <li>
+                    ✔ Priority organization
+                </li>
+
+
+                <li>
+                    ✔ Local storage saving
+                </li>
+
+
+                <li>
+                    ✔ Modern dashboard
+                </li>
+
+
+            </ul>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+<section class="cta-section">
+
+    <div class="cta-content">
+
+        <h2>Prêt à devenir plus productif ?</h2>
+
+        <p>
+            Rejoignez des centaines d'utilisateurs qui organisent
+            leurs tâches efficacement avec TodoApp Pro.
+        </p>
+
+        <button class="cta-btn" onclick="goToAuth()">
+            Commencer maintenant
+        </button>
 
     </div>
 
 </section>
+<footer class="footer">
+
+    <div class="footer-content">
+
+        <h3>TodoApp Pro</h3>
+
+        <p>
+            Une application moderne de gestion des tâches développée
+            dans le cadre d'un projet académique.
+        </p>
+
+        <p>
+            © 2026 TodoApp Pro — Tous droits réservés.
+        </p>
+
+    </div>
+
+</footer>
+
+</section>
+
+    <div class="hero-image">
+
+        <img src="images/tasks.svg" alt="Todo App">
+
+    </div>
+
+</div> 
 
 <section id="authPage" style="display:none;">
 
-    <div class="container">
-        <h2>Connexion</h2>
 
-        <input id="loginEmail" placeholder="Email">
-        <input id="loginPassword" type="password" placeholder="Mot de passe">
-        <button onclick="connecterUtilisateur()">Login</button>
-    </div>
+    <div class="auth-container">
 
-    <div class="container">
-        <h2>Inscription</h2>
 
-        <input id="registerNom" placeholder="Nom">
-        <input id="registerPrenom" placeholder="Prénom">
-        <input id="registerAge" type="number" placeholder="Âge">
-        <input id="registerEmail" placeholder="Email">
-        <input id="registerPassword" type="password" placeholder="Mot de passe">
-        <button onclick="inscrireUtilisateur()">Créer</button>
+        <div class="auth-card">
+
+
+            <div class="auth-logo">
+
+                <h1>
+                    TodoApp Pro
+                </h1>
+
+            </div>
+
+
+
+            <h2>
+                Welcome Back
+            </h2>
+
+
+            <p class="auth-description">
+                Connectez-vous pour gérer vos tâches.
+            </p>
+
+
+
+
+            <label>
+                Email
+            </label>
+
+
+            <input 
+                id="loginEmail"
+                type="email"
+                placeholder="Enter your email"
+            >
+
+
+
+
+            <label>
+                Password
+            </label>
+
+
+            <input 
+                id="loginPassword"
+                type="password"
+                placeholder="Enter your password"
+            >
+
+
+
+
+
+            <div class="forgot-password">
+
+                <a href="#">
+                    Forgot password?
+                </a>
+
+            </div>
+
+
+
+
+            <button 
+                class="auth-btn"
+                onclick="connecterUtilisateur()">
+
+                Login
+
+            </button>
+
+
+
+
+
+            <div class="social-login">
+
+
+                <button>
+                    Google
+                </button>
+
+
+
+                <button>
+                    GitHub
+                </button>
+
+
+            </div>
+
+
+            <p class="switch-auth">
+
+                Don't have an account?
+
+                <a href="#" onclick="showRegister()">
+                     Sign up
+                </a>
+
+
+            </p>
+
+
+
+        </div>
+
+
+    <div class="auth-card" id="registerCard" style="display:none;">
+
+
+        <div class="auth-logo">
+
+            <h1>
+                TodoApp Pro
+            </h1>
+
+        </div>
+
+
+
+        <h2>
+            Create Account
+        </h2>
+
+
+
+        <p class="auth-description">
+            Create your account and start managing your tasks.
+        </p>
+
+
+
+
+        <label>
+            First Name
+        </label>
+
+        <input
+            id="registerPrenom"
+            placeholder="First Name"
+        >
+
+
+
+
+        <label>
+            Last Name
+        </label>
+
+        <input
+            id="registerNom"
+            placeholder="Last Name"
+        >
+
+
+
+
+        <label>
+            Email
+        </label>
+
+        <input
+            id="registerEmail"
+            type="email"
+            placeholder="Email"
+        >
+
+
+
+
+        <label>
+            Password
+        </label>
+
+        <input
+            id="registerPassword"
+            type="password"
+            placeholder="Password"
+        >
+
+
+
+
+        <label>
+            Confirm Password
+        </label>
+
+        <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm Password"
+        >
+
+
+
+
+
+         <button
+            class="auth-btn"
+            onclick="inscrireUtilisateur()">
+
+            Create Account
+
+        </button>
+
+
+
+
+        <p class="switch-auth">
+
+            Already have an account?
+
+            <a href="#" onclick="showLogin()">
+
+                Login
+
+            </a>
+
+
+        </p>
+
+
+
+        </div>
     </div>
 
 </section>
 
 <section id="app" style="display:none;">
 
-    <div class="container">
+    <div class="dashboard-layout">
 
-        <h1>Todo App</h1>
+        <aside class="sidebar">
 
-        <h3 id="welcomeMessage"></h3>
+            <div class="sidebar-logo">
+                <h2>TodoApp Pro</h2>
+            </div>
 
-        <button onclick="deconnecterUtilisateur()">Déconnexion</button>
 
-        <p id="taskCounter"></p>
+            <button class="create-task-btn" onclick="todoApp.addTask()">
+                ➕ Create Task
+            </button>
 
-       <input id="taskInput" placeholder="Nouvelle tâche">
 
-        <select id="prioritySelect">
-            <option value="haute">🔴 Haute</option>
-            <option value="moyenne" selected>🟠 Moyenne</option>
-            <option value="basse">🟢 Basse</option>
-        </select>
+            <nav class="sidebar-menu">
 
-        <button onclick="todoApp.addTask()">Ajouter</button>
+                <a href="#" class="active">
+                    🏠 Dashboard
+                </a>
 
-        <input oninput="todoApp.searchTask(this.value)" placeholder="Recherche">
+                <a href="#">
+                    📁 Projects
+                </a>
 
-        <div class="filters">
-            <button onclick="todoApp.filterTasks('all')">All</button>
-            <button onclick="todoApp.filterTasks('active')">Actives</button>
-            <button onclick="todoApp.filterTasks('completed')">Terminées</button>
-            <button onclick="todoApp.sortByPriority()">Tri</button>
-            <button onclick="todoApp.clearCompleted()">Supprimer</button>
-            <button onclick="todoApp.toggleDarkMode()">Dark</button>
-        </div>
+                <a href="#">
+                    ✅ Tasks
+                </a>
 
-        <ul id="taskList"></ul>
+                <a href="#">
+                    ⚙️ Settings
+                </a>
+
+                <a href="#">
+                    💬 Messages
+                </a>
+
+                <a href="#">
+                    ❓ Help
+                </a>
+
+            </nav>
+
+
+            <button class="logout-btn" onclick="deconnecterUtilisateur()">
+                Déconnexion
+            </button>
+
+
+        </aside>
+
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+
+                <div>
+
+                    <h1 id="welcomeMessage">
+                        
+                    </h1>
+
+                    <p>
+                        Gérez vos tâches et améliorez votre productivité.
+                    </p>
+
+                </div>
+
+
+                <div class="profile-card">
+
+
+    <div class="profile-icon">
+        👤
+    </div>
+
+
+    <div>
+
+        <strong id="profileName">
+            User
+        </strong>
+
+
+        <small>
+            Online
+        </small>
+
 
     </div>
+
+
+</div>
+
+
+            </header>
+
+
+            <section class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <h3>Total Tasks</h3>
+
+                    <strong id="totalTasks">
+                        0
+                    </strong>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <h3>Completed</h3>
+
+                    <strong id="completedTasks">
+                        0
+                    </strong>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <h3>Pending</h3>
+
+                    <strong id="pendingTasks">
+                        0
+                    </strong>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <h3>Overdue</h3>
+
+                    <strong id="overdueTasks">
+                        0
+                    </strong>
+
+                </div>
+
+
+            </section>
+
+
+            <section class="task-controls">
+
+
+                <input 
+                    id="taskInput"
+                    placeholder="Nouvelle tâche"
+                >
+
+
+
+                <select id="prioritySelect">
+
+                    <option value="haute">
+                        🔴 Haute
+                    </option>
+
+                    <option value="moyenne" selected>
+                        🟠 Moyenne
+                    </option>
+
+                    <option value="basse">
+                        🟢 Basse
+                    </option>
+
+
+                </select>
+
+
+
+                <button onclick="todoApp.addTask()">
+                    Ajouter
+                </button>
+
+
+
+                <input 
+                    oninput="todoApp.searchTask(this.value)"
+                    placeholder="Rechercher une tâche"
+                >
+
+
+
+            </section>
+
+
+
+
+            <section class="filters">
+
+
+                <button onclick="todoApp.filterTasks('all')">
+                    All
+                </button>
+
+
+                <button onclick="todoApp.filterTasks('active')">
+                    Active
+                </button>
+
+
+                <button onclick="todoApp.filterTasks('completed')">
+                    Completed
+                </button>
+
+
+                <button onclick="todoApp.sortByPriority()">
+                    Tri priorité
+                </button>
+
+
+                <button onclick="todoApp.clearCompleted()">
+                    Supprimer terminées
+                </button>
+
+
+                <button onclick="todoApp.toggleDarkMode()">
+                    Dark Mode
+                </button>
+
+
+            </section>
+
+
+
+            <section class="tasks-table-container">
+
+
+                <table class="tasks-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Nom de la tâche
+                            </th>
+
+
+                            <th>
+                                Priorité
+                            </th>
+
+
+                            <th>
+                                Date
+                            </th>
+
+
+                            <th>
+                                Statut
+                            </th>
+
+
+                            <th>
+                                Actions
+                            </th>
+
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="taskList">
+
+                    </tbody>
+
+
+                </table>
+
+
+            </section>
+
+
+            <section class="bottom-dashboard">
+
+
+                <div class="performance-card">
+
+
+                    <h3>
+                        Recent Performance
+                    </h3>
+
+
+
+                <div class="performance-info">
+
+
+                <div>
+
+                    <span>
+                        Completed
+                    </span>
+
+                    <strong id="performanceCompleted">
+                        0%
+                    </strong>
+
+                </div>
+
+
+
+                <div>
+
+                    <span>
+                        Productivity
+                    </span>
+
+                    <strong id="productivity">
+                        0%
+                    </strong>
+
+                </div>
+
+
+    </div>
+
+
+
+    <div class="progress-bar">
+
+        <div id="progressValue"></div>
+
+    </div>
+
+
+
+</div>
+
+
+            <div class="summary-card">
+
+
+                    <h3>
+                        Résumé
+                    </h3>
+
+
+                    <p>
+                        Continuez à organiser vos tâches.
+                    </p>
+
+
+                    <button onclick="todoApp.addTask()">
+                        + Ajouter une tâche
+                    </button>
+
+
+                </div>
+
+
+            </section>
+
+
+
+        </main>
+
+
+    </div>
+
 
 </section>
 

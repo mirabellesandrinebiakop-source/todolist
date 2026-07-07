@@ -10,6 +10,7 @@ constructor() {
     this.utilisateur = saved ? JSON.parse(saved) : null;
 
     this.manager = new TodoManager(this.utilisateur);
+    this.updateProfile();
 
     this.render();
 }
@@ -78,53 +79,252 @@ filterTasks(type) {
 }
 
 render(filter = "all") {
-    
+
     const all = this.manager.getAll();
+
     let data = [...all];
 
+
     if (filter === "active") {
-        data = data.filter(t => t.statut !== "terminee");
+
+        data = data.filter(
+            t => t.statut !== "terminee"
+        );
+
     }
 
+
     if (filter === "completed") {
-        data = data.filter(t => t.statut === "terminee");
+
+        data = data.filter(
+            t => t.statut === "terminee"
+        );
+
     }
+
+
 
     this.taskList.innerHTML = "";
 
+
+
     data.forEach(todo => {
 
-        const li = document.createElement("li");
 
-        li.innerHTML = `
-            <span onclick="todoApp.toggleTask(${todo.id})"
-                class="${(todo.statut || '') === 'terminee' ? 'completed' : ''}">
-                ${todo.titre}
-            </span>
+        const tr = document.createElement("tr");
 
-            <small class="priority ${todo.priorite}">
-                ${todo.priorite}
-            </small>
 
-            <button onclick="todoApp.deleteTask(${todo.id})">❌</button>
-            <button onclick="todoApp.editTask(${todo.id})">✏️</button>
+
+        tr.innerHTML = `
+
+
+            <td>
+
+                <span 
+                onclick="todoApp.toggleTask(${todo.id})"
+                class="${todo.statut === 'terminee' ? 'completed' : ''}">
+
+                    ${todo.titre}
+
+                </span>
+
+            </td>
+
+
+
+            <td>
+
+                <span class="priority ${todo.priorite}">
+
+                    ${todo.priorite}
+
+                </span>
+
+            </td>
+
+
+
+            <td>
+
+                ${new Date(todo.dateCreation)
+                  .toLocaleDateString("fr-FR")}
+
+            </td>
+
+
+
+
+            <td>
+
+                ${
+                    todo.statut === "terminee"
+                    ? `<span class="status completed-status">
+                        Completed
+                       </span>`
+                    : `<span class="status pending-status">
+                        Pending
+                    </span>`
+                }
+
+
+            </td>
+
+
+
+
+            <td>
+
+
+                <button onclick="todoApp.editTask(${todo.id})">
+
+                    ✏️
+
+                </button>
+
+
+
+                <button onclick="todoApp.deleteTask(${todo.id})">
+
+                    ❌
+
+                </button>
+
+
+            </td>
+
+
+
         `;
 
-        this.taskList.appendChild(li);
+
+
+        this.taskList.appendChild(tr);
+
+
+
     });
 
+
+
     this.updateCounter();
+
 }
 
 updateCounter() {
 
+
     const todos = this.manager.getAll();
 
-    const total = todos.length;
-    const rest = todos.filter(t => t.statut !== "terminee").length;
 
-    this.taskCounter.textContent =
-        `${total} tâches • ${rest} restantes`;
+
+    const total = todos.length;
+
+
+
+    const completed = todos.filter(
+        t => t.statut === "terminee"
+    ).length;
+
+
+
+    const pending = todos.filter(
+        t => t.statut !== "terminee"
+    ).length;
+
+
+
+
+const overdue = 0;
+
+
+    if(this.taskCounter){
+
+        this.taskCounter.textContent =
+        `${total} tâches • ${pending} restantes`;
+
+    }
+
+
+    const totalElement =
+    document.getElementById("totalTasks");
+
+
+    const completedElement =
+    document.getElementById("completedTasks");
+
+
+    const pendingElement =
+    document.getElementById("pendingTasks");
+
+
+    const overdueElement =
+    document.getElementById("overdueTasks");
+
+
+
+
+    if(totalElement)
+        totalElement.textContent = total;
+
+
+
+    if(completedElement)
+        completedElement.textContent = completed;
+
+
+
+    if(pendingElement)
+        pendingElement.textContent = pending;
+
+
+
+    if(overdueElement)
+        overdueElement.textContent = overdue;
+
+    const completedPercent =
+    total === 0
+    ? 0
+    : Math.round((completed / total) * 100);
+
+
+
+    const progress =
+    document.getElementById("progressValue");
+
+
+    const completedText =
+    document.getElementById("performanceCompleted");
+
+
+    const productivity =
+    document.getElementById("productivity");
+
+
+
+    if(progress){
+
+        progress.style.width =
+        completedPercent + "%";
+
+    }
+
+
+
+    if(completedText){
+
+        completedText.textContent =
+        completedPercent + "%";
+
+    }
+
+
+
+    if(productivity){
+
+        productivity.textContent =
+        completedPercent + "%";
+
+    }
 }
 
 clearCompleted() {
@@ -175,6 +375,20 @@ searchTask(value) {
 
 toggleDarkMode() {
     document.body.classList.toggle("dark");
+}
+
+updateProfile(){
+
+    const profile = document.getElementById("profileName");
+
+
+    if(profile && this.utilisateur){
+
+        profile.textContent =
+        this.utilisateur.prenom + " " + this.utilisateur.nom;
+
+    }
+
 }
 
 }
