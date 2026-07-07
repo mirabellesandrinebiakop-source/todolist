@@ -289,6 +289,7 @@ body.dark #welcomeMessage {
     gap:60px;
 
     background:#f8fafc;
+    margin:60px auto;
 
 }
 
@@ -460,7 +461,7 @@ body.dark #prioritySelect {
 
 }
 
-.nav-links{
+.menu{
 
     display:flex;
 
@@ -474,7 +475,7 @@ body.dark #prioritySelect {
 
 }
 
-.nav-links a{
+.menu a{
 
     text-decoration:none;
 
@@ -657,33 +658,80 @@ body.dark #prioritySelect {
 
 
 
-.stat-card {
+.stat-card{
 
-    background:white;
+    position:relative;
 
-    padding:25px;
+    overflow:hidden;
 
-    border-radius:18px;
+    background:#ffffff;
 
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    padding:28px;
+
+    border-radius:22px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+    transition:all .35s ease;
+
+    cursor:pointer;
 
 }
 
 
+.stat-card:hover{
 
-.stat-card h3 {
+    transform:translateY(-8px);
 
-    color:#6b7280;
+    box-shadow:0 25px 45px rgba(37,99,235,.18);
+
+}
+
+
+.stat-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:6px;
+
+    background:linear-gradient(90deg,#2563eb,#60a5fa);
+
+}
+
+
+.stat-card h3{
 
     font-size:15px;
 
+    color:#6b7280;
+
+    margin:0;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
 }
 
 
 
-.stat-card strong {
+.stat-card strong{
 
-    font-size:35px;
+    display:block;
+
+    margin-top:10px;
+
+    font-size:42px;
+
+    font-weight:700;
 
     color:#2563eb;
 
@@ -849,10 +897,18 @@ body.dark #prioritySelect {
 
     box-shadow:
     0 20px 40px rgba(0,0,0,.12);
-
+    transition:.3s;
 
 }
 
+
+.auth-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 25px 55px rgba(0,0,0,.15);
+
+}
 
 
 .auth-logo h1 {
@@ -977,13 +1033,33 @@ body.dark #prioritySelect {
 
 
 
-.social-login button {
-
+.social-login button{
 
     flex:1;
 
-    background:#111827;
+    background:white;
 
+    color:#374151;
+
+    border:1px solid #d1d5db;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.social-login button:hover{
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+    border-color:#2563eb;
 
 }
 
@@ -1214,10 +1290,6 @@ body.dark #prioritySelect {
 
 }
 
-/* ================= */
-/* STATUS BADGES */
-/* ================= */
-
 
 .status {
 
@@ -1250,10 +1322,6 @@ body.dark #prioritySelect {
     color:#d97706;
 
 }
-
-/* ================= */
-/* TASK TABLE */
-/* ================= */
 
 
 .tasks-table-container {
@@ -1398,5 +1466,209 @@ body.dark #prioritySelect {
     background:#2563eb;
 
     transition:.4s;
+
+}
+
+.footer{
+
+    background:#111827;
+
+    color:white;
+
+    padding:40px;
+
+    text-align:center;
+
+    margin-top:80px;
+
+}
+
+.footer p{
+
+    color:#d1d5db;
+
+}
+
+.cta-section{
+
+    padding:80px 8%;
+
+    text-align:center;
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.cta-btn{
+
+    margin-top:25px;
+
+    padding:15px 35px;
+
+    border-radius:12px;
+
+    background:white;
+
+    color:#2563eb;
+
+    font-weight:bold;
+
+}
+
+.sidebar{
+    border-right:1px solid #e5e7eb;
+}
+
+.sidebar-logo{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.sidebar-logo h2{
+    font-size:30px;
+    font-weight:700;
+}
+
+.create-task-btn{
+    width:100%;
+    padding:16px;
+    font-size:16px;
+    border-radius:14px;
+}
+
+.sidebar-menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.sidebar-menu a:hover{
+    transform:translateX(6px);
+}
+
+.dashboard-header{
+
+    background:white;
+
+    padding:25px 35px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+
+}
+
+.dashboard-header p{
+
+    color:#6b7280;
+
+    margin-top:8px;
+
+}
+
+.profile-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    background:#f8fafc;
+
+    padding:15px 20px;
+
+    border-radius:18px;
+
+    border:1px solid #e5e7eb;
+
+}
+
+.profile-icon{
+
+    width:55px;
+
+    height:55px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:24px;
+
+}
+
+.profile-card strong{
+
+    display:block;
+
+    color:#111827;
+
+    font-size:16px;
+
+}
+
+.profile-card small{
+
+    color:#6b7280;
+
+}
+
+
+.stat-card,
+.performance-card,
+.summary-card,
+.tasks-table-container{
+
+    transition:all .3s ease;
+
+}
+
+.stat-card:hover,
+.performance-card:hover,
+.summary-card:hover,
+.tasks-table-container:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 20px 40px rgba(37,99,235,.12);
+
+}
+
+.create-task-btn{
+
+    transition:.3s;
+
+}
+
+.create-task-btn:hover{
+
+    transform:scale(1.05);
+
+}
+
+.tasks-table tbody tr{
+
+    transition:.25s;
+
+}
+
+.tasks-table tbody tr:hover{
+
+    background:#eff6ff;
 
 }

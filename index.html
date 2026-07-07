@@ -846,39 +846,39 @@
 
 
 
-                <div class="performance-info">
+                <div class="performance-card">
 
+    <h3>
+        📈 Recent Performance
+    </h3>
 
-                <div>
+    <div class="performance-info">
 
-                    <span>
-                        Completed
-                    </span>
+        <div>
 
-                    <strong id="performanceCompleted">
-                        0%
-                    </strong>
+            <span>Total Tasks</span>
 
-                </div>
+            <strong id="perfTotal">0</strong>
 
+        </div>
 
+        <div>
 
-                <div>
+            <span>Completed</span>
 
-                    <span>
-                        Productivity
-                    </span>
+            <strong id="perfCompleted">0</strong>
 
-                    <strong id="productivity">
-                        0%
-                    </strong>
+        </div>
 
-                </div>
+        <div>
 
+            <span>Progress</span>
+
+            <strong id="perfPercent">0%</strong>
+
+        </div>
 
     </div>
-
-
 
     <div class="progress-bar">
 
@@ -886,30 +886,33 @@
 
     </div>
 
-
-
 </div>
 
 
             <div class="summary-card">
 
+    <h3>📋 Résumé</h3>
 
-                    <h3>
-                        Résumé
-                    </h3>
+    <p>
+        Total des tâches :
+        <strong id="summaryTotal">0</strong>
+    </p>
 
+    <p>
+        Tâches terminées :
+        <strong id="summaryCompleted">0</strong>
+    </p>
 
-                    <p>
-                        Continuez à organiser vos tâches.
-                    </p>
+    <p>
+        Tâches restantes :
+        <strong id="summaryPending">0</strong>
+    </p>
 
+    <button onclick="todoApp.addTask()">
+        ➕ Ajouter une tâche
+    </button>
 
-                    <button onclick="todoApp.addTask()">
-                        + Ajouter une tâche
-                    </button>
-
-
-                </div>
+</div>
 
 
             </section>

@@ -276,7 +276,21 @@ const overdue = 0;
     if(pendingElement)
         pendingElement.textContent = pending;
 
+    const summaryTotal = document.getElementById("summaryTotal");
+const summaryCompleted = document.getElementById("summaryCompleted");
+const summaryPending = document.getElementById("summaryPending");
 
+if(summaryTotal){
+    summaryTotal.textContent = total;
+}
+
+if(summaryCompleted){
+    summaryCompleted.textContent = completed;
+}
+
+if(summaryPending){
+    summaryPending.textContent = pending;
+}
 
     if(overdueElement)
         overdueElement.textContent = overdue;
@@ -286,45 +300,34 @@ const overdue = 0;
     ? 0
     : Math.round((completed / total) * 100);
 
+    const perfTotal =
+    document.getElementById("perfTotal");
 
+    const perfCompleted =
+    document.getElementById("perfCompleted");
+
+    const perfPercent =
+    document.getElementById("perfPercent");
 
     const progress =
     document.getElementById("progressValue");
 
+    if(perfTotal){
+        perfTotal.textContent = total;
+    }
 
-    const completedText =
-    document.getElementById("performanceCompleted");
+    if(perfCompleted){
+        perfCompleted.textContent = completed;
+    }
 
-
-    const productivity =
-    document.getElementById("productivity");
-
-
+    if(perfPercent){
+        perfPercent.textContent = completedPercent + "%";
+    }
 
     if(progress){
-
-        progress.style.width =
-        completedPercent + "%";
-
-    }
-
-
-
-    if(completedText){
-
-        completedText.textContent =
-        completedPercent + "%";
-
-    }
-
-
-
-    if(productivity){
-
-        productivity.textContent =
-        completedPercent + "%";
-
-    }
+        progress.style.width = completedPercent + "%";
+    }   
+    
 }
 
 clearCompleted() {
