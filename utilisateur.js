@@ -9,39 +9,53 @@ class Utilisateur {
         this.email = email;
         this.motDePasse = motDePasse;
         this.todos = todos;
+    }
+    
+    getNomComplet() {
+
+        return this.prenom + " " + this.nom;
 
     }
 
-    ajouterTodo(todo) {
-        this.todos.unshift(todo);
+    verifierMotDePasse(motDePasse) {
+
+    return this.motDePasse === motDePasse;
+
     }
 
-    supprimerTodo(id) {
-        this.todos = this.todos.filter(t => t.id !== id);
+    modifierMotDePasse(nouveauMotDePasse) {
+
+        this.motDePasse = nouveauMotDePasse;
+
     }
 
-    modifierTodo(id, nouvellesDonnees) {
-        const index = this.todos.findIndex(t => t.id === id);
+    estMajeur() {
 
-        if (index !== -1) {
-            this.todos[index] = {
-                ...this.todos[index],
-                ...nouvellesDonnees
-            };
-        }
-    }
+    return this.age >= 18;
 
-    validerTodo(id) {
-        const todo = this.todos.find(t => t.id === id);
+}
 
-        if (todo) {
-            todo.statut = "Terminée";
-            todo.dateFin = new Date();
-        }
-    }
+modifierInformations(nom, prenom, age, email) {
 
-    getTodos() {
-        return this.todos;
-    }
+    this.nom = nom;
+    this.prenom = prenom;
+    this.age = age;
+    this.email = email;
+
+}
+
+toJSON() {
+
+    return {
+        id: this.id,
+        nom: this.nom,
+        prenom: this.prenom,
+        age: this.age,
+        email: this.email,
+        motDePasse: this.motDePasse,
+        todos: this.todos
+    };
+
+}
 
 }

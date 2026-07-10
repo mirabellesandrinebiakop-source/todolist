@@ -7,9 +7,17 @@ constructor() {
     this.taskCounter = document.getElementById("taskCounter");
 
     const saved = localStorage.getItem("utilisateurConnecte");
+
     this.utilisateur = saved ? JSON.parse(saved) : null;
 
-    this.manager = new TodoManager(this.utilisateur);
+
+    if(!this.utilisateur){
+        console.log("Aucun utilisateur connecté");
+        return;
+    }
+
+
+    this.manager = new TodoManager(this.utilisateur); 
     this.updateProfile();
 
     this.render();
@@ -20,18 +28,22 @@ addTask() {
     const text = this.taskInput.value.trim();
 
     if (!text) {
-        alert("Veuillez saisir une tâche.");
-        return;
+    this.showNotification("⚠️ Veuillez saisir une tâche.", "warning");
+    return;
     }
 
     const finalPriority = document.getElementById("prioritySelect").value;
+    const deadline = document.getElementById("deadlineInput").value;
 
     const todo = new Todo(
-        Date.now(),
-        text,
-        "",
-        "a faire",
-        finalPriority
+    Date.now(),
+    text,
+    "",
+    "a faire",
+    finalPriority,
+    new Date(),
+    null,
+    deadline
     );
 
     this.manager.add(todo);
@@ -39,13 +51,16 @@ addTask() {
     this.taskInput.value = "";
 
     document.getElementById("prioritySelect").value = "moyenne";
+    document.getElementById("deadlineInput").value = "";
 
     this.render();
+
+    this.showNotification("✅ Tâche ajoutée avec succès !");
 }
 
 editTask(id) {
 
-    const todo = this.manager.getAll().find(t => t.id === id);
+    const todo = this.manager.findById(id);
     if (!todo) return;
 
     const nouveauTitre = prompt("Nouveau titre :", todo.titre);
@@ -56,22 +71,39 @@ editTask(id) {
         todo.priorite
     );
 
+    console.log("Avant modification :", todo);
+    console.log("Nouveau titre :", nouveauTitre);
+    console.log("Nouvelle priorité :", nouvellePriorite);
+
     this.manager.update(id, {
         titre: nouveauTitre,
         priorite: nouvellePriorite || todo.priorite
     });
 
+    console.log("Après modification :", this.manager.findById(id));
+
     this.render();
+    this.showNotification("✏️ Tâche modifiée avec succès !");
 }
 
 deleteTask(id) {
+
     this.manager.delete(id);
+
     this.render();
+
+    this.showNotification("🗑️ Tâche supprimée.", "error");
+
 }
 
 toggleTask(id) {
+
     this.manager.toggle(id);
+
     this.render();
+
+    this.showNotification("🎉 Tâche marquée comme terminée !");
+
 }
 
 filterTasks(type) {
@@ -87,18 +119,18 @@ render(filter = "all") {
 
     if (filter === "active") {
 
-        data = data.filter(
-            t => t.statut !== "terminee"
-        );
+    data = data.filter(
+    t => t.statut !== "terminee"
+    );
 
     }
 
 
     if (filter === "completed") {
 
-        data = data.filter(
-            t => t.statut === "terminee"
-        );
+    data = data.filter(
+    t => t.statut === "terminee"
+    );
 
     }
 
@@ -110,91 +142,104 @@ render(filter = "all") {
 
     data.forEach(todo => {
 
+        let deadlineWarning = "";
 
+if (todo.dateLimite) {
+
+    const aujourdHui = new Date();
+
+    const limite = new Date(todo.dateLimite);
+
+    const difference =
+        (limite - aujourdHui) / (1000 * 60 * 60 * 24);
+
+    if (difference <= 1 && todo.statut !== "terminee") {
+
+        deadlineWarning =
+            `<span style="
+                color:red;
+                font-weight:bold;
+            ">
+            🔴 Deadline proche
+            </span>`;
+
+    }
+
+}
         const tr = document.createElement("tr");
 
 
 
         tr.innerHTML = `
+<td class="task-cell">
+    <div class="task-info">
+        <div class="task-icon">📝</div>
 
+        <div>
+            <strong 
+            onclick="todoApp.toggleTask(${todo.id})"
+            class="${todo.statut === 'terminee' ? 'completed' : ''}">
+            ${todo.titre}
+            </strong>
+            <br>
 
-            <td>
+            <small>
+                ${todo.description || "Aucune description"}
+            </small>
 
-                <span 
-                onclick="todoApp.toggleTask(${todo.id})"
-                class="${todo.statut === 'terminee' ? 'completed' : ''}">
+            <br>
 
-                    ${todo.titre}
+            ${deadlineWarning}
+        </div>
+    </div>
+</td>
 
-                </span>
+<td>
+    <span class="priority ${todo.priorite}">
+        ${todo.priorite}
+    </span>
+</td>
 
-            </td>
+<td>
+    ${
+        todo.statut === "terminee"
+        ? `<span class="status completed-status">🟢 Completed</span>`
+        : `<span class="status pending-status">🟡 Pending</span>`
+    }
+</td>
 
+<td>
+    ${new Date(todo.dateCreation).toLocaleDateString("fr-FR")}
+</td>
 
+<td>
+    ${
+        todo.dateLimite
+        ? new Date(todo.dateLimite).toLocaleDateString("fr-FR")
+        : "-"
+    }
+</td>
 
-            <td>
+<td class="action-buttons">
 
-                <span class="priority ${todo.priorite}">
+    <button onclick="todoApp.moveUp(${todo.id})">
+        ⬆️
+    </button>
 
-                    ${todo.priorite}
+    <button onclick="todoApp.moveDown(${todo.id})">
+        ⬇️
+    </button>
 
-                </span>
+    <button onclick="todoApp.editTask(${todo.id})">
+        ✏️
+    </button>
 
-            </td>
+    <button onclick="todoApp.deleteTask(${todo.id})">
+        🗑️
+    </button>
 
-
-
-            <td>
-
-                ${new Date(todo.dateCreation)
-                  .toLocaleDateString("fr-FR")}
-
-            </td>
-
-
-
-
-            <td>
-
-                ${
-                    todo.statut === "terminee"
-                    ? `<span class="status completed-status">
-                        Completed
-                       </span>`
-                    : `<span class="status pending-status">
-                        Pending
-                    </span>`
-                }
-
-
-            </td>
-
-
-
-
-            <td>
-
-
-                <button onclick="todoApp.editTask(${todo.id})">
-
-                    ✏️
-
-                </button>
-
-
-
-                <button onclick="todoApp.deleteTask(${todo.id})">
-
-                    ❌
-
-                </button>
-
-
-            </td>
-
-
-
-        `;
+</td>
+`;
 
 
 
@@ -213,34 +258,23 @@ render(filter = "all") {
 updateCounter() {
 
 
-    const todos = this.manager.getAll();
+    const total = this.manager.countTotal();
+
+    const completed = this.manager.countCompleted();
+
+    const pending = this.manager.countPending();
 
 
 
-    const total = todos.length;
+    const overdue = this.manager.countOverdue();
+    const highPriority = this.manager.countHighPriority();
+    
+    const overdueElement =
+    document.getElementById("overdueTasks");
 
+    if(overdueElement){
 
-
-    const completed = todos.filter(
-        t => t.statut === "terminee"
-    ).length;
-
-
-
-    const pending = todos.filter(
-        t => t.statut !== "terminee"
-    ).length;
-
-
-
-
-const overdue = 0;
-
-
-    if(this.taskCounter){
-
-        this.taskCounter.textContent =
-        `${total} tâches • ${pending} restantes`;
+    overdueElement.textContent = overdue;
 
     }
 
@@ -257,10 +291,14 @@ const overdue = 0;
     document.getElementById("pendingTasks");
 
 
-    const overdueElement =
-    document.getElementById("overdueTasks");
+    const highPriorityElement =
+    document.getElementById("highPriorityTasks");
 
+    if(highPriorityElement){
 
+    highPriorityElement.textContent = highPriority;
+
+    }
 
 
     if(totalElement)
@@ -277,20 +315,20 @@ const overdue = 0;
         pendingElement.textContent = pending;
 
     const summaryTotal = document.getElementById("summaryTotal");
-const summaryCompleted = document.getElementById("summaryCompleted");
-const summaryPending = document.getElementById("summaryPending");
+    const summaryCompleted = document.getElementById("summaryCompleted");
+    const summaryPending = document.getElementById("summaryPending");
 
-if(summaryTotal){
-    summaryTotal.textContent = total;
-}
+    if(summaryTotal){
+        summaryTotal.textContent = total;
+    }
 
-if(summaryCompleted){
-    summaryCompleted.textContent = completed;
-}
+    if(summaryCompleted){
+        summaryCompleted.textContent = completed;
+    }
 
-if(summaryPending){
-    summaryPending.textContent = pending;
-}
+    if(summaryPending){
+        summaryPending.textContent = pending;
+    }
 
     if(overdueElement)
         overdueElement.textContent = overdue;
@@ -326,7 +364,54 @@ if(summaryPending){
 
     if(progress){
         progress.style.width = completedPercent + "%";
-    }   
+    } 
+    
+    const circle = document.getElementById("progressCircle");
+    const circleText = document.getElementById("circlePercent");
+
+if(circle){
+
+    const rayon = 55;
+
+    const circonference = 2 * Math.PI * rayon;
+
+    const offset =
+        circonference -
+        (completedPercent / 100) * circonference;
+
+    circle.style.strokeDasharray = circonference;
+
+    circle.style.strokeDashoffset = offset;
+
+}
+
+    if(circleText){
+
+        circleText.textContent = completedPercent + "%";
+
+    }
+    const date = new Date();
+
+    const options = {
+
+    weekday:"long",
+
+    day:"numeric",
+
+    month:"long",
+
+    year:"numeric"
+
+    };
+
+    const today = document.getElementById("todayDate");
+
+    if(today){
+
+    today.textContent =
+        date.toLocaleDateString("fr-FR", options);
+
+    }
     
 }
 
@@ -337,47 +422,80 @@ clearCompleted() {
 
 sortByPriority() {
 
-    const ordre = { haute: 1, moyenne: 2, basse: 3 };
-
-    const data = this.manager.getAll();
-
-    data.sort((a, b) =>
-        (ordre[a.priorite] ?? 99) - (ordre[b.priorite] ?? 99)
-    );
+    this.manager.sortByPriority();
 
     this.render();
-}
 
+}
 searchTask(value) {
 
-    const data = this.manager.getAll().filter(t =>
-        t.titre.toLowerCase().includes(value.toLowerCase())
-    );
+    const data = this.manager.search(value);
 
     this.taskList.innerHTML = "";
 
     data.forEach(todo => {
 
-        const li = document.createElement("li");
+        const tr = document.createElement("tr");
 
-        li.innerHTML = `
-            <span onclick="todoApp.toggleTask(${todo.id})"
-                class="${todo.statut === 'terminee' ? 'completed' : ''}">
-                ${todo.titre}
-            </span>
+        tr.innerHTML = `
 
-            <small>${todo.priorite}</small>
+            <td>
+                <span
+                    onclick="todoApp.toggleTask(${todo.id})"
+                    class="${todo.statut === 'terminee' ? 'completed' : ''}">
+                    ${todo.titre}
+                </span>
+            </td>
 
-            <button onclick="todoApp.deleteTask(${todo.id})">❌</button>
-            <button onclick="todoApp.editTask(${todo.id})">✏️</button>
+            <td>
+                <span class="priority ${todo.priorite}">
+                    ${todo.priorite}
+                </span>
+            </td>
+
+            <td>
+                ${new Date(todo.dateCreation).toLocaleDateString("fr-FR")}
+            </td>
+
+            <td>
+                ${
+                    todo.statut === "terminee"
+                    ? `<span class="status completed-status">Completed</span>`
+                    : `<span class="status pending-status">Pending</span>`
+                }
+            </td>
+
+            <td>
+                <button onclick="todoApp.editTask(${todo.id})">✏️</button>
+                <button onclick="todoApp.deleteTask(${todo.id})">❌</button>
+            </td>
+
         `;
 
-        this.taskList.appendChild(li);
+        this.taskList.appendChild(tr);
+
     });
+
 }
 
 toggleDarkMode() {
     document.body.classList.toggle("dark");
+}
+
+moveUp(id) {
+
+    this.manager.moveUp(id);
+
+    this.render();
+
+}
+
+moveDown(id) {
+
+    this.manager.moveDown(id);
+
+    this.render();
+
 }
 
 updateProfile(){
@@ -391,6 +509,28 @@ updateProfile(){
         this.utilisateur.prenom + " " + this.utilisateur.nom;
 
     }
+
+}
+
+showNotification(message, type = "success") {
+
+    const notification = document.getElementById("notification");
+
+    if (!notification) return;
+
+    notification.textContent = message;
+
+    notification.className = "";
+
+    notification.classList.add(type);
+
+    notification.classList.add("show");
+
+    setTimeout(() => {
+
+        notification.classList.remove("show");
+
+    }, 3000);
 
 }
 

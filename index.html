@@ -6,10 +6,13 @@
 
 <title>Todo App Pro</title>
 <link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
-
+<div id="notification"></div>
 <section id="landingPage">
 
 
@@ -558,40 +561,48 @@
 
 
             <button class="create-task-btn" onclick="todoApp.addTask()">
-                ➕ Create Task
+                <i class="fa-solid fa-plus"></i>
+                Create Task
             </button>
 
 
             <nav class="sidebar-menu">
 
                 <a href="#" class="active">
-                    🏠 Dashboard
+                    <i class="fa-solid fa-house"></i>
+                    Dashboard
                 </a>
 
                 <a href="#">
-                    📁 Projects
+                    <i class="fa-solid fa-folder"></i>
+                    Projects
                 </a>
 
                 <a href="#">
-                    ✅ Tasks
+                    <i class="fa-solid fa-list-check"></i>
+                    Tasks
                 </a>
 
                 <a href="#">
-                    ⚙️ Settings
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
                 </a>
 
                 <a href="#">
-                    💬 Messages
+                    <i class="fa-solid fa-message"></i>
+                    Messages
                 </a>
 
                 <a href="#">
-                    ❓ Help
+                    <i class="fa-solid fa-circle-question"></i>
+                    Help
                 </a>
 
             </nav>
 
 
             <button class="logout-btn" onclick="deconnecterUtilisateur()">
+                <i class="fa-solid fa-right-from-bracket"></i>
                 Déconnexion
             </button>
 
@@ -604,144 +615,189 @@
             <header class="dashboard-header">
 
 
-                <div>
+               <div class="welcome-section">
 
-                    <h1 id="welcomeMessage">
-                        
+
+                    <h1>
+                        Bonjour, 
+                        <span id="welcomeMessage"></span>
                     </h1>
 
+
                     <p>
-                        Gérez vos tâches et améliorez votre productivité.
+                        Voici ce qui se passe avec vos projets aujourd'hui.
                     </p>
+
 
                 </div>
 
 
-                <div class="profile-card">
+
+                <div class="header-actions">
 
 
-    <div class="profile-icon">
-        👤
-    </div>
+                    <button class="notification-btn">
+                        <i class="fa-regular fa-bell"></i>
+                    </button>
 
 
-    <div>
 
-        <strong id="profileName">
-            User
-        </strong>
+                    <div class="upgrade-box">
 
 
-        <small>
-            Online
-        </small>
+                        <button class="upgrade-btn">
+                            Upgrade Now
+                        </button>
 
 
-    </div>
+                        <span>
+                            5000 FCFA / mois
+                        </span>
 
 
-</div>
+                    </div>
+
+
+
+
+                    <div class="profile-card">
+
+
+                        <div class="profile-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+
+                    <div>
+
+                        <strong id="profileName">
+                            User
+                        </strong>
+
+
+                        <small>
+                            Online
+                        </small>
+
+
+                     </div>
+
+
+                </div>
+
+
+
+                 </div>
 
 
             </header>
 
 
-            <section class="stats-grid">
+<section class="stats-grid">
 
+    <div class="stat-card">
 
-                <div class="stat-card">
+        <div class="stat-icon blue">
+            <i class="fa-solid fa-list-check"></i>
+        </div>
 
-                    <h3>Total Tasks</h3>
+        <div class="stat-content">
+            <h3>Total Tasks</h3>
+            <strong id="totalTasks">0</strong>
+            <small>Total des tâches</small>
+        </div>
 
-                    <strong id="totalTasks">
-                        0
-                    </strong>
+    </div>
 
-                </div>
+    <div class="stat-card">
 
+        <div class="stat-icon green">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
 
+        <div class="stat-content">
+            <h3>Completed</h3>
+            <strong id="completedTasks">0</strong>
+            <small>Tâches terminées</small>
+        </div>
 
-                <div class="stat-card">
+    </div>
 
-                    <h3>Completed</h3>
+    <div class="stat-card">
 
-                    <strong id="completedTasks">
-                        0
-                    </strong>
+        <div class="stat-icon orange">
+            <i class="fa-solid fa-hourglass-half"></i>
+        </div>
 
-                </div>
+        <div class="stat-content">
+            <h3>Pending</h3>
+            <strong id="pendingTasks">0</strong>
+            <small>En cours</small>
+        </div>
 
+    </div>
 
+    <div class="stat-card">
 
-                <div class="stat-card">
+        <div class="stat-icon red">
+            <i class="fa-solid fa-bolt"></i>
+        </div>
 
-                    <h3>Pending</h3>
+        <div class="stat-content">
+            <h3>High Priority</h3>
+            <strong id="highPriorityTasks">0</strong>
+            <small>Priorité haute</small>
+        </div>
 
-                    <strong id="pendingTasks">
-                        0
-                    </strong>
+    </div>
 
-                </div>
+    <div class="stat-card">
 
+        <div class="stat-icon red">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
 
+        <div class="stat-content">
+            <h3>Overdue</h3>
+            <strong id="overdueTasks">0</strong>
+            <small>Tâches en retard</small>
+        </div>
 
-                <div class="stat-card">
+    </div>
 
-                    <h3>Overdue</h3>
-
-                    <strong id="overdueTasks">
-                        0
-                    </strong>
-
-                </div>
-
-
-            </section>
+</section>
 
 
             <section class="task-controls">
 
+    <div class="input-box">
 
-                <input 
-                    id="taskInput"
-                    placeholder="Nouvelle tâche"
-                >
+        <input
+            type="text"
+            id="taskInput"
+            placeholder="Nouvelle tâche">
 
+        <select id="prioritySelect">
+            <option value="haute">Haute</option>
+            <option value="moyenne">Moyenne</option>
+            <option value="basse">Basse</option>
+        </select>
 
+        <input
+            type="date"
+            id="deadlineInput">
 
-                <select id="prioritySelect">
+        <button onclick="todoApp.addTask()">
+            Ajouter
+        </button>
 
-                    <option value="haute">
-                        🔴 Haute
-                    </option>
+    </div>
 
-                    <option value="moyenne" selected>
-                        🟠 Moyenne
-                    </option>
+    <input
+        oninput="todoApp.searchTask(this.value)"
+        placeholder="Rechercher une tâche">
 
-                    <option value="basse">
-                        🟢 Basse
-                    </option>
-
-
-                </select>
-
-
-
-                <button onclick="todoApp.addTask()">
-                    Ajouter
-                </button>
-
-
-
-                <input 
-                    oninput="todoApp.searchTask(this.value)"
-                    placeholder="Rechercher une tâche"
-                >
-
-
-
-            </section>
+</section>
 
 
 
@@ -802,6 +858,10 @@
                                 Priorité
                             </th>
 
+                            <th>
+                                Statut
+                            </th>
+
 
                             <th>
                                 Date
@@ -809,7 +869,7 @@
 
 
                             <th>
-                                Statut
+                                Deadline
                             </th>
 
 
@@ -837,20 +897,37 @@
             <section class="bottom-dashboard">
 
 
-                <div class="performance-card">
-
-
-                    <h3>
-                        Recent Performance
-                    </h3>
-
-
-
-                <div class="performance-card">
+                    <div class="performance-card">
 
     <h3>
         📈 Recent Performance
     </h3>
+    <div class="progress-circle">
+
+    <svg width="140" height="140">
+
+        <circle
+            class="circle-bg"
+            cx="70"
+            cy="70"
+            r="55">
+        </circle>
+
+        <circle
+            class="circle-progress"
+            cx="70"
+            cy="70"
+            r="55"
+            id="progressCircle">
+        </circle>
+
+    </svg>
+
+    <div class="circle-text" id="circlePercent">
+        0%
+    </div>
+
+</div>
 
     <div class="performance-info">
 
@@ -913,7 +990,29 @@
     </button>
 
 </div>
+    <div class="calendar-card">
 
+    <h3>📅 Calendar</h3>
+
+    <div class="today-date" id="todayDate">
+        9 July 2026
+    </div>
+
+    <div class="calendar-events">
+
+        <div class="event-item">
+            <span>🟢</span>
+            <p>Aucune échéance aujourd'hui</p>
+        </div>
+
+        <div class="event-item">
+            <span>🟠</span>
+            <p>Pensez à terminer vos tâches importantes.</p>
+        </div>
+
+    </div>
+
+    </div>
 
             </section>
 
