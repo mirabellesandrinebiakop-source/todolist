@@ -13,321 +13,520 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <body>
 <div id="notification"></div>
+
 <section id="landingPage">
 
+<nav class="navbar">
 
-    <nav class="navbar">
+<div class="logo">
 
-        <div class="logo">
-            TodoApp Pro
+    <div class="logo-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
+
+    <div class="logo-text">
+
+        <h2>TodoApp</h2>
+
+        <span>PRO</span>
+
+    </div>
+
+</div>
+
+
+<ul class="nav-links">
+
+<li><a href="#features">Features</a></li>
+
+<li><a href="#pricing">Pricing</a></li>
+
+<li><a href="#about">About</a></li>
+
+<li>
+<button class="login-btn" onclick="goToAuth()">
+Login
+</button>
+</li>
+
+<li>
+    <button class="nav-start" onclick="goToAuth()">
+        Get Started
+    </button>
+</li>
+
+</ul>
+
+</nav>
+
+
+<section class="hero">
+
+
+<div class="hero-left">
+
+
+<h1>
+
+Organisez votre travail.<br>
+Gérez votre vie.
+
+</h1>
+
+
+
+<p>
+
+Une application moderne pour organiser,
+prioriser et accomplir vos tâches quotidiennes
+avec élégance. Conçue pour la productivité sereine.
+
+</p>
+
+
+
+<div class="hero-buttons">
+
+
+<button class="primary-btn" onclick="goToAuth()">
+
+Get Started
+
+</button>
+
+
+
+<button class="secondary-btn" onclick="showDemo()">
+
+Voir la démo
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+<div class="hero-right">
+    <div class="hero-illustrarion">
+    <div class="logo-icon">
+        <i class="fa-solid fa-list-check"></i>
+    </div>
+
+    <div class="logo">
+
+    <div class="logo-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
+
+    <div class="logo-text">
+
+        <h2>TodoApp</h2>
+
+        <span>PRO</span>
+
+    </div>
+
+</div>
+    </div>
+</div>
+
+</section>
+
+
+<section id="features">
+
+
+<h2>
+
+Tout ce dont vous avez besoin
+
+</h2>
+
+
+<p>
+
+Des outils puissants, une interface intuitive.
+
+</p>
+
+
+
+
+<div class="feature-grid">
+
+
+
+<div class="feature-card feature-task">
+
+    <div class="task-left">
+
+        <div class="feature-icon">
+            <i class="fa-solid fa-list-check"></i>
         </div>
 
-        <ul class="menu">
+        <h3>Task Management</h3>
 
-            <li><a href="#">Home</a></li>
+        <p>
+            Créez, gérez et suivez vos tâches avec une fluidité sans précédent.
+            Notre système de glisser-déposer intuitif rend l'organisation naturelle.
+        </p>
 
-            <li><a href="#features">Features</a></li>
+    </div>
 
-            <li><a href="#about">About</a></li>
+    <div class="task-right">
 
-            <li>
-
-                <button class="login-btn"
-                        onclick="goToAuth()">
-
-                    Login
-
-                </button>
-
-            </li>
-
-        </ul>
-
-    </nav>
-
-
-    <section class="hero">
-
-        <div class="hero-left">
-
-            <h1>
-
-                Organisez votre travail.
-
-                <br>
-
-                Gérez votre vie.
-
-            </h1>
-
-            <p>
-
-                Notre application permet de gérer vos tâches,
-
-                suivre vos priorités,
-
-                respecter les échéances
-
-                et améliorer votre productivité.
-
-            </p>
-
-            <div class="hero-buttons">
-
-                <button
-
-                    class="primary-btn"
-
-                    onclick="goToAuth()">
-
-                    Get Started
-
-                </button>
-
-                <button
-
-                    class="secondary-btn">
-
-                    Voir la démo
-
-                </button>
-
-            </div>
-
+        <div class="mini-task">
+            ✔ Finaliser le rapport annuel
         </div>
 
-        <div class="hero-right">
-
-            <img
-
-            src="images/tasks.svg"
-
-            alt="Todo Illustration">
-
+        <div class="mini-task done">
+            ✔ Meeting équipe créative
         </div>
 
-    </section>
+        <div class="mini-task">
+            ✔ Review des nouveaux designs
+        </div>
 
-<section id="features" class="features-section">
+    </div>
 
+</div>
 
-    <h2>
-        Powerful Features
-    </h2>
+<div class="feature-card">
 
+    <div class="feature-icon">
+        <i class="fa-solid fa-flag"></i>
+    </div>
 
-    <p class="section-description">
-        Everything you need to manage your tasks efficiently.
+    <h3>Priority Management</h3>
+
+    <p>
+        Identifiez instantanément ce qui compte le plus grâce à notre système de tags intelligents.
     </p>
 
+    <div class="priority-preview">
 
+        <span class="urgent">URGENT</span>
 
-    <div class="features-container">
+        <span class="medium">MOYEN</span>
 
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                ✅
-            </div>
-
-            <h3>
-                Task Management
-            </h3>
-
-            <p>
-                Create, organize and track all your daily tasks.
-            </p>
-
-        </div>
-
-
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                🎯
-            </div>
-
-            <h3>
-                Priority Tracking
-            </h3>
-
-            <p>
-                Focus on important tasks with smart priorities.
-            </p>
-
-        </div>
-
-
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                🚀
-            </div>
-
-            <h3>
-                Productivity
-            </h3>
-
-            <p>
-                Improve your workflow and reach your goals.
-            </p>
-
-        </div>
-
-
+        <span class="low">FAIBLE</span>
 
     </div>
 
-
-</section>   
-
-<section id="about" class="about-section">
+</div>
 
 
-    <div class="about-content">
+<div class="feature-card">
 
 
-        <div class="about-text">
+<div class="feature-icon">
 
+<i class="fa-solid fa-magnifying-glass"></i>
 
-            <h2>
-                About TodoApp Pro
-            </h2>
-
-
-            <p>
-                TodoApp Pro est une application moderne
-                de gestion des tâches conçue pour aider
-                les utilisateurs à organiser leur travail,
-                suivre leurs priorités et améliorer leur productivité.
-            </p>
-
-
-            <p>
-                Cette application a été développée avec
-                HTML, CSS et JavaScript en utilisant
-                une architecture orientée objet.
-            </p>
+</div>
 
 
 
-        </div>
+<h3>
+
+Search
+
+</h3>
+
+
+<p>
+
+Ne perdez plus jamais une information.
+La recherche ultra-rapide indexe tout instantanément.
+
+</p>
+
+
+
+</div>
 
 
 
 
-        <div class="about-card">
 
 
-            <h3>
-                Why choose TodoApp Pro?
-            </h3>
+
+<div class="feature-card">
 
 
-            <ul>
+<div class="feature-icon">
 
-                <li>
-                    ✔ Simple task management
-                </li>
+<i class="fa-solid fa-moon"></i>
 
-
-                <li>
-                    ✔ Priority organization
-                </li>
+</div>
 
 
-                <li>
-                    ✔ Local storage saving
-                </li>
+<h3>
+
+Dark Mode
+
+</h3>
 
 
-                <li>
-                    ✔ Modern dashboard
-                </li>
+<p>
+
+Une expérience visuelle apaisante pour vos sessions de travail nocturnes.
+Basculez en un clic.
+
+</p>
 
 
-            </ul>
+</div>
 
 
-        </div>
+
+</div>
 
 
+</section>
+
+<section id="pricing" class="info-section">
+
+
+<h2>
+Pricing
+</h2>
+
+
+<p>
+Commencez gratuitement avec TodoApp Pro.
+</p>
+
+
+<div class="pricing-card">
+
+<h3>
+Free Plan
+</h3>
+
+<strong>
+0 FCFA
+</strong>
+
+<p>
+Gestion de vos tâches quotidiennes.
+</p>
+
+</div>
+
+
+</section>
+
+
+
+
+<section id="about" class="info-section">
+
+
+<h2>
+About TodoApp Pro
+</h2>
+
+
+<p>
+
+TodoApp Pro est une application moderne
+créée pour organiser vos tâches,
+améliorer votre productivité et simplifier votre quotidien.
+
+</p>
+
+
+</section>
+
+<section id="testimonials">
+
+    <div class="testimonial-header">
+
+        <h2>Ce que disent nos utilisateurs</h2>
+
+        <p>
+            Découvrez pourquoi des centaines d'utilisateurs font confiance à TodoApp Pro.
+        </p>
 
     </div>
 
+    <div class="testimonial-grid">
 
+        <div class="testimonial-card">
+
+            <div class="stars">★★★★★</div>
+
+            <p>
+                "TodoApp Pro m'a permis d'organiser mes journées beaucoup plus facilement. L'interface est simple et très agréable."
+            </p>
+
+            <div class="author">
+                <strong>Marie Dupont</strong>
+                <small>Chef de projet</small>
+            </div>
+
+        </div>
+
+        <div class="testimonial-card">
+
+            <div class="stars">★★★★★</div>
+
+            <p>
+                "Grâce aux priorités et aux deadlines, je respecte désormais tous mes délais."
+            </p>
+
+            <div class="author">
+                <strong>Jean Martin</strong>
+                <small>Développeur Web</small>
+            </div>
+
+        </div>
+
+        <div class="testimonial-card">
+
+            <div class="stars">★★★★★</div>
+
+            <p>
+                "Une application moderne, rapide et intuitive. Je l'utilise chaque jour pour gérer mes projets."
+            </p>
+
+            <div class="author">
+                <strong>Sophie Bernard</strong>
+                <small>Designer UI/UX</small>
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
 <section class="cta-section">
 
-    <div class="cta-content">
+<h2>
 
-        <h2>Prêt à devenir plus productif ?</h2>
+Prêt à transformer votre productivité ?
 
-        <p>
-            Rejoignez des centaines d'utilisateurs qui organisent
-            leurs tâches efficacement avec TodoApp Pro.
-        </p>
+</h2>
 
-        <button class="cta-btn" onclick="goToAuth()">
-            Commencer maintenant
-        </button>
 
-    </div>
+<p>
+
+Rejoignez des milliers d'utilisateurs qui ont déjà fait le choix
+de l'efficacité élégante.
+
+</p>
+
+
+
+<button class="cta-button" onclick="goToAuth()">
+
+Démarrer gratuitement
+
+</button>
+
+
+
+<p class="trial">
+
+Pas de carte de crédit requise • Essai gratuit de 14 jours
+
+</p>
+
 
 </section>
+
+
+
+
+
+
 <footer class="footer">
 
-    <div class="footer-content">
+    <div class="logo">
 
-        <h3>TodoApp Pro</h3>
+    <div class="logo-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
+
+    <div class="logo-text">
+
+        <h2>TodoApp</h2>
+
+        <span>PRO</span>
+
+    </div>
+
+</div>
+
+
+    <div class="footer-links">
+
+        <a href="#">
+            Privacy
+        </a>
+
+        <a href="#">
+            Terms
+        </a>
+
+        <a href="#">
+            Contact
+        </a>
+
+    </div>
+
+
+
+    <div class="footer-copy">
 
         <p>
-            Une application moderne de gestion des tâches développée
-            dans le cadre d'un projet académique.
-        </p>
-
-        <p>
-            © 2026 TodoApp Pro — Tous droits réservés.
+            © 2026 TodoApp Pro Inc.
         </p>
 
     </div>
+
 
 </footer>
 
-</section>
 
-    <div class="hero-image">
 
-        <img src="images/tasks.svg" alt="Todo App">
-
-    </div>
-
-</div> 
+</section> 
 
 <section id="authPage" style="display:none;">
 
 
     <div class="auth-container">
+        <button 
+        class="back-btn"
+        onclick="goHome()">
 
+        ← Retour
+
+        </button>
 
         <div class="auth-card">
 
 
-            <div class="auth-logo">
+            <div class="logo">
 
-                <h1>
-                    TodoApp Pro
-                </h1>
+    <div class="logo-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
 
-            </div>
+    <div class="logo-text">
+
+        <h2>TodoApp</h2>
+
+        <span>PRO</span>
+
+    </div>
+
+</div>
 
 
 
@@ -374,14 +573,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
             <div class="forgot-password">
 
-                <a href="#">
+                <a href="#" onclick="forgotPassword()">
                     Forgot password?
                 </a>
 
             </div>
 
-
-
+            <p id="loginMessage" class="form-message"></p>
 
             <button 
                 class="auth-btn"
@@ -398,13 +596,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             <div class="social-login">
 
 
-                <button>
+                <button onclick="googleLogin()">
                     Google
                 </button>
 
-
-
-                <button>
+                <button onclick="githubLogin()">
                     GitHub
                 </button>
 
@@ -431,13 +627,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     <div class="auth-card" id="registerCard" style="display:none;">
 
 
-        <div class="auth-logo">
+        <div class="logo">
 
-            <h1>
-                TodoApp Pro
-            </h1>
+    <div class="logo-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
 
-        </div>
+    <div class="logo-text">
+
+        <h2>TodoApp</h2>
+
+        <span>PRO</span>
+
+    </div>
+
+</div>
 
 
 
@@ -454,71 +658,70 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-        <label>
-            First Name
-        </label>
+<div class="form-row">
+
+    <div class="form-group">
+
+        <label>First Name</label>
 
         <input
             id="registerPrenom"
-            placeholder="First Name"
-        >
+            type="text"
+            placeholder="First Name">
 
+    </div>
 
+    <div class="form-group">
 
-
-        <label>
-            Last Name
-        </label>
+        <label>Last Name</label>
 
         <input
             id="registerNom"
-            placeholder="Last Name"
-        >
+            type="text"
+            placeholder="Last Name">
 
+    </div>
 
+</div>
 
+<div class="form-group">
 
-        <label>
-            Email
-        </label>
+    <label>Email</label>
 
-        <input
-            id="registerEmail"
-            type="email"
-            placeholder="Email"
-        >
+    <input
+        id="registerEmail"
+        type="email"
+        placeholder="Enter your email">
 
+</div>
 
+<div class="form-row">
 
+    <div class="form-group">
 
-        <label>
-            Password
-        </label>
+        <label>Password</label>
 
         <input
             id="registerPassword"
             type="password"
-            placeholder="Password"
-        >
+            placeholder="Password">
 
+    </div>
 
+    <div class="form-group">
 
-
-        <label>
-            Confirm Password
-        </label>
+        <label>Confirm Password</label>
 
         <input
             id="confirmPassword"
             type="password"
-            placeholder="Confirm Password"
-        >
+            placeholder="Confirm Password">
 
+    </div>
 
-
-
-
-         <button
+    </div>
+        <p id="registerMessage" class="form-message"></p>
+        <button
             class="auth-btn"
             onclick="inscrireUtilisateur()">
 
@@ -555,9 +758,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
         <aside class="sidebar">
 
-            <div class="sidebar-logo">
-                <h2>TodoApp Pro</h2>
-            </div>
+            <div class="logo">
+
+    <div class="logo-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
+
+    <div class="logo-text">
+
+        <h2>TodoApp</h2>
+
+        <span>PRO</span>
+
+    </div>
+
+</div>
 
 
             <button class="create-task-btn" onclick="todoApp.addTask()">
@@ -568,35 +783,35 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
             <nav class="sidebar-menu">
 
-                <a href="#" class="active">
-                    <i class="fa-solid fa-house"></i>
-                    Dashboard
-                </a>
+            <a href="#" class="active" onclick="showSection('dashboard', this)">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+            </a>
 
-                <a href="#">
-                    <i class="fa-solid fa-folder"></i>
-                    Projects
-                </a>
+            <a href="#" onclick="showSection('projects', this)">
+            <i class="fa-solid fa-folder"></i>
+            Projects
+            </a>
 
-                <a href="#">
-                    <i class="fa-solid fa-list-check"></i>
-                    Tasks
-                </a>
+            <a href="#" onclick="showSection('tasks', this)">
+            <i class="fa-solid fa-list-check"></i>
+            Tasks
+            </a>
 
-                <a href="#">
-                    <i class="fa-solid fa-gear"></i>
-                    Settings
-                </a>
+            <a href="#" onclick="showSection('settings', this)">
+            <i class="fa-solid fa-gear"></i>
+            Settings
+            </a>
 
-                <a href="#">
-                    <i class="fa-solid fa-message"></i>
-                    Messages
-                </a>
+            <a href="#" onclick="showSection('messages', this)">
+            <i class="fa-solid fa-message"></i>
+            Messages
+            </a>
 
-                <a href="#">
-                    <i class="fa-solid fa-circle-question"></i>
-                    Help
-                </a>
+            <a href="#" onclick="showSection('help', this)">
+            <i class="fa-solid fa-circle-question"></i>
+            Help
+            </a>
 
             </nav>
 
@@ -614,7 +829,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
             <header class="dashboard-header">
 
+                <div id="pageTitle" class="page-title">
 
+                Dashboard
+
+               </div>
                <div class="welcome-section">
 
 
@@ -1015,7 +1234,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     </div>
 
             </section>
+        
+            <footer class="dashboard-footer">
 
+                <p>
+                    © 2026 TodoApp Pro — Designed by Florinda Kombou
+                </p>
+
+            </footer>
 
 
         </main>
@@ -1064,6 +1290,38 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 </script>
+
+<div id="appModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3 id="modalTitle">TodoApp Pro</h3>
+
+            <button class="close-modal" onclick="closeModal()">
+                &times;
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <p id="modalMessage"></p>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button class="modal-btn" onclick="closeModal()">
+                OK
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
