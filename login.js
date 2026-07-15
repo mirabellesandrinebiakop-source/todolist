@@ -210,7 +210,7 @@ function connecterUtilisateur() {
     loginMessage.textContent = "Email ou mot de passe incorrect.";
 
     return;
-    }
+}
 
     utilisateurConnecte = user;
 
@@ -262,17 +262,18 @@ window.addEventListener("load", () => {
 
 function showRegister(){
 
-    document.querySelector(".auth-card").style.display = "none";
+    document.getElementById("loginCard").style.display = "none";
 
     document.getElementById("registerCard").style.display = "block";
 
 }
 
+
 function showLogin(){
 
-    document.querySelector(".auth-card").style.display = "block";
-
     document.getElementById("registerCard").style.display = "none";
+
+    document.getElementById("loginCard").style.display = "block";
 
 }
 

@@ -12,6 +12,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </head>
 
 <body>
+
+<div id="loader">
+
+    <div class="loader-logo">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+    </div>
+
+</div>
 <div id="notification"></div>
 
 <section id="landingPage">
@@ -41,6 +51,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <li><a href="#pricing">Pricing</a></li>
 
 <li><a href="#about">About</a></li>
+
+<li><a href="#testimonials">Témoignages</a></li>
 
 <li>
 <button class="login-btn" onclick="goToAuth()">
@@ -97,7 +109,7 @@ Voir la démo
 </div>
 
 <div class="hero-right">
-    <div class="hero-illustrarion">
+    <div class="hero-illustration">
     <div class="logo-icon">
         <i class="fa-solid fa-list-check"></i>
     </div>
@@ -441,7 +453,7 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
         </button>
 
-        <div class="auth-card">
+        <div class="auth-card" id="loginCard">
 
             <div class="logo">
 
@@ -522,12 +534,14 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
                 Don't have an account?
 
-                <a href="#" onclick="showRegister()">
+                <a href="#" onclick="showRegister(); return false;">
                      Sign up
                 </a>
 
             </p>
 
+        </div>
+        
     <div class="auth-card" id="registerCard" style="display:none;">
 
 
@@ -630,7 +644,7 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
             Already have an account?
 
-            <a href="#" onclick="showLogin()">
+            <a href="#" onclick="showLogin(); return false;">
 
                 Login
 
@@ -639,6 +653,7 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
         </p>
 
         </div>
+
     </div>
 
 </section>
@@ -1182,6 +1197,16 @@ window.addEventListener("DOMContentLoaded", () => {
     </div>
 
 </div>
+
+<script>
+
+window.onload=function(){
+
+    document.getElementById("loader").style.display="none";
+
+}
+
+</script>
 
 </body>
 </html>
