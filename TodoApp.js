@@ -3,8 +3,19 @@ class TodoApp {
 constructor() {
 
     this.taskInput = document.getElementById("taskInput");
-    this.taskList = document.getElementById("taskList");
-    this.taskCounter = document.getElementById("taskCounter");
+
+    this.taskList = document.querySelector("#taskList");
+
+    this.taskCounter = document.querySelector("#taskCounter");
+
+    if(!this.taskList){
+    console.error("taskList introuvable");
+    return;
+    }
+
+    console.log("taskInput :", this.taskInput);
+    console.log("taskList :", this.taskList);
+    console.log("taskCounter :", this.taskCounter);
 
     const saved = localStorage.getItem("utilisateurConnecte");
 
@@ -21,6 +32,7 @@ constructor() {
     this.updateProfile();
 
     this.render();
+
 }
 
 addTask() {
@@ -531,6 +543,58 @@ showNotification(message, type = "success") {
         notification.classList.remove("show");
 
     }, 3000);
+
+}
+
+addTaskFromModal(){
+
+    const titre = document.getElementById("modalTaskTitle").value;
+
+    const description = document.getElementById("modalTaskDescription").value;
+
+    const priorite = document.getElementById("modalPriority").value;
+
+    const deadline = document.getElementById("modalDeadline").value;
+
+
+    if(!titre.trim()){
+
+        alert("Veuillez entrer un titre");
+
+        return;
+
+    }
+
+
+    const todo = new Todo(
+    Date.now(),
+    titre,
+    description,
+    "a faire",
+    priorite,
+    new Date(),
+    null,
+    deadline
+    );
+
+    this.manager.add(todo);
+
+
+    this.manager.save();
+
+
+    this.render();
+
+
+    this.updateCounter();
+
+
+    closeTaskModal();
+
+
+    document.getElementById("modalTaskTitle").value="";
+    document.getElementById("modalTaskDescription").value="";
+    document.getElementById("modalDeadline").value="";
 
 }
 

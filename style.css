@@ -2705,7 +2705,6 @@ button:hover{
 
 }
 
-
 @media (max-width:576px){
 
     .navbar{
@@ -2745,38 +2744,99 @@ button:hover{
 
 }
 
-/* LOADER */
-
 #loader{
 
     position:fixed;
 
-    inset:0;
+    top:0;
 
-    background:#FFFFFF;
+    left:0;
+
+    width:100%;
+
+    height:100vh;
+
+    background:#ffffff;
 
     display:flex;
+
+    flex-direction:column;
 
     justify-content:center;
 
     align-items:center;
 
-    z-index:999999;
+    z-index:99999;
 
 }
 
+.spinner{
 
-.loader-logo{
+    width:70px;
 
-    width:80px;
+    height:70px;
 
-    height:80px;
+    border:8px solid #e5e7eb;
+
+    border-top:8px solid #2563eb;
 
     border-radius:50%;
 
+    animation:spin 1s linear infinite;
+
+    margin-bottom:20px;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+#loader h2{
+
+    color:#2563eb;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+}
+
+.loader-logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:30px;
+
+}
+
+.loader-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:18px;
+
     background:#2563EB;
 
-    color:white;
+    color:#FFFFFF;
 
     display:flex;
 
@@ -2784,21 +2844,104 @@ button:hover{
 
     align-items:center;
 
-    font-size:35px;
+    font-size:32px;
 
-    animation:pulse 1s infinite;
+    animation:pulse 1.2s infinite;
 
 }
 
+.loader-logo h2{
+
+    font-size:34px;
+
+    color:#111827;
+
+}
+
+.loader-logo span{
+
+    color:#2563EB;
+
+}
+
+#loader p{
+
+    margin-top:25px;
+
+    color:#64748B;
+
+    font-size:15px;
+
+}
 
 @keyframes pulse{
 
-    50%{
+    0%{
 
-        transform:scale(1.15);
-
-        opacity:.7;
+        transform:scale(1);
 
     }
+
+    50%{
+
+        transform:scale(1.08);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+.completed{
+    text-decoration: line-through;
+    color:#94A3B8;
+    opacity:0.7;
+}
+
+#taskModal{
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+#taskModal .modal-content{
+
+    width:550px;
+
+    max-width:95%;
+
+}
+
+#taskModal input,
+#taskModal textarea,
+#taskModal select{
+
+    width:100%;
+
+    margin-top:8px;
+
+    margin-bottom:18px;
+
+    padding:12px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+}
+
+#taskModal textarea{
+
+    resize:vertical;
 
 }

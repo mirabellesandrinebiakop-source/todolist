@@ -17,9 +17,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
     <div class="loader-logo">
 
-        <i class="fa-solid fa-circle-check"></i>
+        <div class="loader-icon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h2>TodoApp <span>PRO</span></h2>
 
     </div>
+
+    <div class="spinner"></div>
+
+    <p>Chargement de votre espace de travail...</p>
 
 </div>
 <div id="notification"></div>
@@ -680,34 +688,34 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
 </div>
 
-            <button class="create-task-btn" onclick="todoApp.addTask()">
+            <button class="create-task-btn" onclick="openTaskModal()">
                 <i class="fa-solid fa-circle-plus"></i>
                 Create Task
             </button>
 
             <nav class="sidebar-menu">
 
-            <a href="#" class="active" onclick="showSection('dashboard', this)">
+            <a href="#" class="active" onclick="showSection('dashboard', this); return false;">
             <i class="fa-solid fa-table-columns"></i>
             Dashboard
             </a>
 
-            <a href="#" onclick="showSection('projects', this)">
+            <a href="#" onclick="showSection('projects', this); return false;">
             <i class="fa-regular fa-folder-open"></i>
             Projects
             </a>
 
-            <a href="#" onclick="showSection('tasks', this)">
+            <a href="#" onclick="showSection('tasks', this); return false;">
             <i class="fa-regular fa-clipboard"></i>
             Tasks
             </a>
 
-            <a href="#" onclick="showSection('settings', this)">
+            <a href="#" onclick="showSection('settings', this); return false;">
             <i class="fa-solid fa-gear"></i>
             Settings
             </a>
 
-            <a href="#" onclick="showSection('help', this)">
+            <a href="#" onclick="showSection('help', this); return false;">
             <i class="fa-regular fa-circle-question"></i>
             Help
             </a>
@@ -792,15 +800,13 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
         <div class="welcome-section">
 
-    <small class="dashboard-subtitle">
+    <small class="dashboard-subtitle" id="pageTitle">
         Tableau de bord
     </small>
 
     <h1>
-
         Bonjour,
         <span id="welcomeMessage"></span>
-
     </h1>
 
     <p>
@@ -915,8 +921,8 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
     </div>
 
     <input
-        oninput="todoApp.searchTask(this.value)"
-        placeholder="Rechercher une tâche">
+    oninput="todoApp.searchTask(this.value)"
+    placeholder="Rechercher une tâche">
 
 </section>
 
@@ -1126,7 +1132,71 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
     </div>
 
 </section>
+<div id="taskModal" class="modal">
 
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3>Créer une nouvelle tâche</h3>
+
+            <button class="close-modal" onclick="closeTaskModal()">
+                &times;
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <label>Titre</label>
+
+            <input
+                type="text"
+                id="modalTaskTitle"
+                placeholder="Nom de la tâche">
+
+            <label>Description</label>
+
+            <textarea
+                id="modalTaskDescription"
+                rows="4"
+                placeholder="Description de la tâche"></textarea>
+
+            <label>Priorité</label>
+
+            <select id="modalPriority">
+
+                <option value="haute">Haute</option>
+
+                <option value="moyenne">Moyenne</option>
+
+                <option value="basse">Basse</option>
+
+            </select>
+
+            <label>Date limite</label>
+
+            <input
+                type="date"
+                id="modalDeadline">
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="modal-btn"
+                onclick="todoApp.addTaskFromModal()">
+
+                Créer la tâche
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 <script src="utilisateur.js"></script>
 <script src="login.js"></script>
 
@@ -1134,37 +1204,6 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 <script src="TodoManager.js"></script>
 <script src="TodoApp.js"></script>
 
-<script>
-window.addEventListener("DOMContentLoaded", () => {
-
-    try {
-
-        const saved = localStorage.getItem("utilisateurConnecte");
-
-        if (!saved) return;
-
-        if (typeof Todo !== "function") {
-            console.error("todo.js manquant ou cassé");
-            return;
-        }
-
-        if (typeof TodoManager !== "function") {
-            console.error("TodoManager.js manquant ou cassé");
-            return;
-        }
-
-        if (typeof TodoApp !== "function") {
-            console.error("TodoApp.js manquant ou cassé");
-            return;
-        }
-
-        window.todoApp = new TodoApp();
-
-    } catch (e) {
-        console.error("Erreur initialisation TodoApp :", e);
-    }
-});
-</script>
 
 <div id="appModal" class="modal">
 
@@ -1200,12 +1239,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
 <script>
 
-window.onload=function(){
+window.onload = function(){
 
-    document.getElementById("loader").style.display="none";
+    setTimeout(function(){
+
+        document.getElementById("loader").style.display = "none";
+
+    },1500);
 
 }
-
 </script>
 
 </body>

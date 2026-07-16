@@ -141,11 +141,11 @@ return;
     }
 
     const user = new Utilisateur(
-        Date.now(),
-        nom,
-        prenom,
-        email,
-        mdp
+    Date.now(),
+    nom,
+    prenom,
+    email,
+    mdp
     );
 
     message.style.color = "#16a34a";
@@ -178,8 +178,9 @@ document.getElementById("authPage").style.display = "none";
 
 document.getElementById("app").style.display = "block";
 
-
 window.todoApp = new TodoApp();
+
+afficherUtilisateur(user);
 
 }
 
@@ -229,6 +230,8 @@ function connecterUtilisateur() {
 
     window.todoApp = new TodoApp();
 
+    afficherUtilisateur(user);
+
 }
 
 function deconnecterUtilisateur() {
@@ -254,6 +257,8 @@ window.addEventListener("load", () => {
         document.getElementById("app").style.display = "block";
 
         window.todoApp = new TodoApp();
+
+        console.log("TodoApp créé :", window.todoApp);
 
     }
 
@@ -414,5 +419,29 @@ document.getElementById("appModal").classList.add("show");
 function closeModal(){
 
 document.getElementById("appModal").classList.remove("show");
+
+}
+
+function afficherUtilisateur(user){
+
+    document.getElementById("welcomeMessage").textContent = user.prenom;
+
+    document.getElementById("sidebarProfileName").textContent =
+        user.prenom + " " + user.nom;
+
+    document.getElementById("headerProfileName").textContent =
+        user.prenom + " " + user.nom;
+
+}
+
+function openTaskModal(){
+
+    document.getElementById("taskModal").style.display = "flex";
+
+}
+
+function closeTaskModal(){
+
+    document.getElementById("taskModal").style.display = "none";
 
 }

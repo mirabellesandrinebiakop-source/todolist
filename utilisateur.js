@@ -1,6 +1,6 @@
 class Utilisateur {
 
-    constructor(id, nom, prenom, age, email, motDePasse, todos = []) {
+    constructor(id, nom, prenom, age, email, motDePasse,) {
 
         this.id = id;
         this.nom = nom;
@@ -8,7 +8,6 @@ class Utilisateur {
         this.age = age;
         this.email = email;
         this.motDePasse = motDePasse;
-        this.todos = todos;
     }
     
     getNomComplet() {
