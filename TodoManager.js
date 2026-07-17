@@ -1,11 +1,17 @@
 class TodoManager {
 
 constructor(utilisateur) {
+
     this.utilisateur = utilisateur;
 
-    if (!this.utilisateur.todos) {
+    if (!this.utilisateur) {
+        throw new Error("Aucun utilisateur connecté.");
+    }
+
+    if (!Array.isArray(this.utilisateur.todos)) {
         this.utilisateur.todos = [];
     }
+
 }
 
 getAll() {

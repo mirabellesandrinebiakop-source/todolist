@@ -3,35 +3,25 @@ class TodoApp {
 constructor() {
 
     this.taskInput = document.getElementById("taskInput");
-
-    this.taskList = document.querySelector("#taskList");
-
-    this.taskCounter = document.querySelector("#taskCounter");
-
-    if(!this.taskList){
-    console.error("taskList introuvable");
-    return;
-    }
-
-    console.log("taskInput :", this.taskInput);
-    console.log("taskList :", this.taskList);
-    console.log("taskCounter :", this.taskCounter);
+    this.taskList = document.getElementById("taskList");
+    this.taskCounter = document.getElementById("taskCounter");
 
     const saved = localStorage.getItem("utilisateurConnecte");
 
     this.utilisateur = saved ? JSON.parse(saved) : null;
 
+    if (!this.utilisateur) {
 
-    if(!this.utilisateur){
-        console.log("Aucun utilisateur connecté");
+        console.error("Aucun utilisateur connecté.");
+
         return;
+
     }
 
-
-    this.manager = new TodoManager(this.utilisateur); 
-    this.updateProfile();
+    this.manager = new TodoManager(this.utilisateur);
 
     this.render();
+    this.updateCounter();
 
 }
 
@@ -73,29 +63,34 @@ addTask() {
 editTask(id) {
 
     const todo = this.manager.findById(id);
-    if (!todo) return;
 
-    const nouveauTitre = prompt("Nouveau titre :", todo.titre);
-    if (!nouveauTitre) return;
+    if (!todo) {
+        return;
+    }
 
-    const nouvellePriorite = prompt(
-        "Priorité (haute / moyenne / basse) :",
-        todo.priorite
+    const nouveauTitre = prompt(
+        "Modifier le titre :",
+        todo.titre
     );
 
-    console.log("Avant modification :", todo);
-    console.log("Nouveau titre :", nouveauTitre);
-    console.log("Nouvelle priorité :", nouvellePriorite);
+    if (!nouveauTitre || nouveauTitre.trim() === "") {
+        return;
+    }
+
 
     this.manager.update(id, {
-        titre: nouveauTitre,
-        priorite: nouvellePriorite || todo.priorite
+
+        titre: nouveauTitre.trim()
+
     });
 
-    console.log("Après modification :", this.manager.findById(id));
 
     this.render();
-    this.showNotification("✏️ Tâche modifiée avec succès !");
+
+    this.showNotification(
+        "✏️ Tâche modifiée avec succès !"
+    );
+
 }
 
 deleteTask(id) {
@@ -110,11 +105,30 @@ deleteTask(id) {
 
 toggleTask(id) {
 
+    const todo = this.manager.findById(id);
+
+    if (!todo) return;
+
+
     this.manager.toggle(id);
+
 
     this.render();
 
-    this.showNotification("🎉 Tâche marquée comme terminée !");
+
+    if(todo.statut === "terminee"){
+
+        this.showNotification(
+            "🎉 Tâche terminée !"
+        );
+
+    }else{
+
+        this.showNotification(
+            "↩️ Tâche remise en cours."
+        );
+
+    }
 
 }
 

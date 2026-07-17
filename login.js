@@ -30,8 +30,6 @@ function inscrireUtilisateur() {
 
     const prenom = document.getElementById("registerPrenom").value.trim();
 
-    const age = "";
-
     const email = document.getElementById("registerEmail").value.trim();
 
     const mdp = document.getElementById("registerPassword").value.trim();
@@ -159,10 +157,14 @@ return;
 
     });
 
-utilisateurs.push(user);
+    utilisateurs.push(user);
 
-localStorage.setItem("utilisateurs", JSON.stringify(utilisateurs));
+    localStorage.setItem("utilisateurs", JSON.stringify(utilisateurs));
 
+    console.log(
+    "Contenu localStorage :",
+    JSON.parse(localStorage.getItem("utilisateurs"))
+    );
 
 utilisateurConnecte = user;
 
@@ -250,17 +252,19 @@ window.addEventListener("load", () => {
 
     const saved = localStorage.getItem("utilisateurConnecte");
 
-    if (saved) {
-
-        document.getElementById("landingPage").style.display = "none";
-        document.getElementById("authPage").style.display = "none";
-        document.getElementById("app").style.display = "block";
-
-        window.todoApp = new TodoApp();
-
-        console.log("TodoApp créé :", window.todoApp);
-
+    if (!saved) {
+        return;
     }
+
+    utilisateurConnecte = JSON.parse(saved);
+
+    document.getElementById("landingPage").style.display = "none";
+    document.getElementById("authPage").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    afficherUtilisateur(utilisateurConnecte);
+
+    window.todoApp = new TodoApp();
 
 });
 

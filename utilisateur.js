@@ -1,24 +1,26 @@
 class Utilisateur {
 
-    constructor(id, nom, prenom, age, email, motDePasse,) {
+    constructor(id, nom, prenom, email, motDePasse) {
 
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
-        this.age = age;
         this.email = email;
         this.motDePasse = motDePasse;
+
+        this.todos = [];
+
     }
-    
+
     getNomComplet() {
 
-        return this.prenom + " " + this.nom;
+        return `${this.prenom} ${this.nom}`;
 
     }
 
     verifierMotDePasse(motDePasse) {
 
-    return this.motDePasse === motDePasse;
+        return this.motDePasse === motDePasse;
 
     }
 
@@ -28,33 +30,19 @@ class Utilisateur {
 
     }
 
-    estMajeur() {
+    toJSON() {
 
-    return this.age >= 18;
+        return {
 
-}
+            id: this.id,
+            nom: this.nom,
+            prenom: this.prenom,
+            email: this.email,
+            motDePasse: this.motDePasse,
+            todos: this.todos
 
-modifierInformations(nom, prenom, age, email) {
+        };
 
-    this.nom = nom;
-    this.prenom = prenom;
-    this.age = age;
-    this.email = email;
-
-}
-
-toJSON() {
-
-    return {
-        id: this.id,
-        nom: this.nom,
-        prenom: this.prenom,
-        age: this.age,
-        email: this.email,
-        motDePasse: this.motDePasse,
-        todos: this.todos
-    };
-
-}
+    }
 
 }
