@@ -21,7 +21,10 @@ constructor() {
     addTask() {
 
     if (!this.utilisateur) {
-        alert("Veuillez vous connecter !");
+        this.showNotification(
+            "Veuillez vous connecter !",
+             "warning"
+        );
         return;
     }
 

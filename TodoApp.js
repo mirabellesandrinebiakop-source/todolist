@@ -573,7 +573,9 @@ addTaskFromModal(){
 
     if(!titre.trim()){
 
-        alert("Veuillez entrer un titre");
+        this.showNotification("Veuillez entrer un titre.",
+            "warning"
+        );
 
         return;
 

@@ -897,29 +897,6 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
             <section class="task-controls">
 
-    <div class="input-box">
-
-        <input
-            type="text"
-            id="taskInput"
-            placeholder="Nouvelle tâche">
-
-        <select id="prioritySelect">
-            <option value="haute">Haute</option>
-            <option value="moyenne">Moyenne</option>
-            <option value="basse">Basse</option>
-        </select>
-
-        <input
-            type="date"
-            id="deadlineInput">
-
-        <button onclick="openTaskModal()">
-            Ajouter
-        </button>
-
-    </div>
-
     <input
     oninput="todoApp.searchTask(this.value)"
     placeholder="Rechercher une tâche">
@@ -1121,11 +1098,21 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
         
             <footer class="dashboard-footer">
 
-                <p>
-                    © 2026 TodoApp Pro — Designed by Florinda Kombou
-                </p>
+    <p class="footer-copy">
+        © 2026 TodoApp Pro — Designed by Florinda Kombou
+    </p>
 
-            </footer>
+    <div class="footer-links">
+
+        <a href="#">Privacy</a>
+
+        <a href="#">Terms</a>
+
+        <a href="#">Contact</a>
+
+    </div>
+
+</footer>
 
         </main>
 
@@ -1249,6 +1236,18 @@ window.onload = function(){
 
 }
 </script>
+
+<a
+    href="https://wa.me/237xxxxxxxxx"
+    class="whatsapp-btn"
+    target="_blank"
+    title="Contactez-nous sur WhatsApp"
+>
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+<div class="whatsapp-tooltip">
+    Besoin d'aide ?
+</div>
 
 </body>
 </html>
