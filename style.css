@@ -35,6 +35,22 @@ button{
     cursor:pointer;
     font-family:inherit;
     transition:.3s ease;
+
+    padding:12px 22px;
+    border-radius:12px;
+
+    font-size:15px;
+    font-weight:600;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+}
+
+button:hover{
+    transform:translateY(-2px);
 }
 
 input,
@@ -86,10 +102,15 @@ textarea{
 
 .section-title{
 
-    font-size:38px;
+    font-size:42px;
     font-weight:700;
     color:var(--text);
-    margin-bottom:15px;
+
+    margin-bottom:12px;
+
+    line-height:1.2;
+
+    letter-spacing:-0.5px;
 
 }
 
@@ -260,7 +281,7 @@ textarea{
 
     gap:70px;
 
-    padding:70px;
+    padding:90px 80px;
 
 }
 
@@ -294,7 +315,7 @@ textarea{
 
     color:var(--text-light);
 
-    margin-bottom:40px;
+    margin-bottom:28px;
 
 }
 
@@ -398,7 +419,7 @@ textarea{
 
 #features{
 
-    padding:90px 70px;
+    padding:110px 80px;
 
     background:#F8FAFC;
 
@@ -431,13 +452,21 @@ textarea{
 
     border-radius:22px;
 
-    padding:24px;
+    padding:32px;
 
     border:1px solid var(--border);
 
-    box-shadow:var(--shadow);
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
 
     transition:.3s;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    min-height: 360px;
 
 }
 
@@ -615,7 +644,7 @@ textarea{
 
 .info-section{
 
-    padding:90px 70px;
+    padding:80px 80px;
 
     background:#FFFFFF;
 
@@ -695,7 +724,7 @@ textarea{
 
 .about-section{
 
-    padding:90px 70px;
+    padding:70px 80px;
 
     background:#F8FAFC;
 
@@ -721,7 +750,7 @@ textarea{
 
 #testimonials{
 
-    padding:90px 70px;
+    padding:110px 80px;
 
     background:#F8FAFC;
 
@@ -731,7 +760,7 @@ textarea{
 
     text-align:center;
 
-    margin-bottom:60px;
+    margin-bottom:35px;
 
 }
 
@@ -761,7 +790,7 @@ textarea{
 
     border-radius:22px;
 
-    padding:30px;
+    padding:40px;
 
     box-shadow:var(--shadow);
 
@@ -901,7 +930,7 @@ textarea{
 
     color:white;
 
-    padding:45px 70px;
+    padding:55px 70px;
 
     display:flex;
 
@@ -1336,7 +1365,7 @@ textarea{
 
 .dashboard-main{
     flex:1;
-    padding:25px;
+    padding:35px;
     overflow:auto;
 }
 
@@ -1439,7 +1468,7 @@ textarea{
 
     border-radius:20px;
 
-    padding:20px;
+    padding:28px;
 
     display:flex;
 
@@ -1447,9 +1476,11 @@ textarea{
 
     gap:18px;
 
+    min-height:110px;
+
     border:1px solid var(--border);
 
-    box-shadow:var(--shadow);
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
 
     transition:.3s;
 
@@ -1457,9 +1488,9 @@ textarea{
 
 .stat-card:hover{
 
-    transform:translateY(-6px);
+    transform:translateY(-4px);
 
-    box-shadow:0 18px 40px rgba(37,99,235,.12);
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
 
 }
 
@@ -1523,7 +1554,7 @@ textarea{
 
 .stat-content strong{
 
-    font-size:28px;
+    font-size:30px;
 
     font-weight:700;
 
@@ -1775,7 +1806,7 @@ textarea{
 
 }
 
-.tasks-table-container{
+.tasksable-container{
 
     background:#FFFFFF;
 
@@ -1815,7 +1846,7 @@ textarea{
 
 .tasks-table th{
 
-    padding:18px;
+    padding:22px 18px;
 
     text-align:left;
 
@@ -1831,7 +1862,7 @@ textarea{
 
 .tasks-table td{
 
-    padding:18px;
+    padding:22px 18px;
 
     border-bottom:1px solid #EEF2F7;
 
@@ -1843,7 +1874,7 @@ textarea{
 
 .tasks-table tbody tr{
 
-    transition:.25s;
+    transition:.3s ease;
 
 }
 
@@ -1851,13 +1882,15 @@ textarea{
 
     background:#F8FAFC;
 
+    transform:scale(1.01);
+
 }
 
 .tasks-table td button{
 
-    width:36px;
+    width:40px;
 
-    height:36px;
+    height:40px;
 
     border-radius:10px;
 
@@ -1867,7 +1900,7 @@ textarea{
 
     color:#2563EB;
 
-    transition:.25s;
+    transition:.3s ease;
 
 }
 
@@ -1977,9 +2010,9 @@ textarea{
 
     border-radius:20px;
 
-    padding:25px;
+    padding:30px;
 
-    box-shadow:var(--shadow);
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
 
 }
 
@@ -2069,7 +2102,7 @@ textarea{
 
     text-align:center;
 
-    gap:10px;
+    gap:20px;
 
     margin-bottom:20px;
 
@@ -2087,7 +2120,7 @@ textarea{
 
 .performance-info strong{
 
-    font-size:24px;
+    font-size:26px;
 
     color:#111827;
 
@@ -2348,7 +2381,7 @@ textarea{
 
     animation:popup .25s ease;
 
-    box-shadow:0 20px 50px rgba(0,0,0,.25);
+    box-shadow:0 12px 30px rgba(15,23,42,.15);
 
 }
 

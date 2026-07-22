@@ -269,6 +269,76 @@ constructor() {
     getNomAffichage() {
         return this.utilisateur?.nom?.toUpperCase() || "";
     }
+
+    openInfoModal(type){
+
+    console.log("modale ouverte", type);
+
+    const modal =
+    document.getElementById("infoModal");
+
+    const title =
+    document.getElementById("infoTitle");
+
+    const text =
+    document.getElementById("infoText");
+
+
+    if(type === "privacy"){
+
+        title.textContent = "Privacy";
+
+        text.textContent =
+        "Vos données restent privées et sont stockées localement.";
+
+    }
+
+
+    if(type === "terms"){
+
+        title.textContent = "Terms";
+
+        text.textContent =
+        "L'utilisation de TodoApp Pro implique l'acceptation des conditions d'utilisation.";
+
+    }
+
+
+    if(type === "contact"){
+
+        title.textContent = "Contact";
+
+        text.textContent =
+        "Contactez-nous pour toute question concernant l'application.";
+
+    }
+
+
+    modal.classList.add("show");
+
+    }
+
+
+
+    closeInfoModal(){
+
+        document.getElementById("infoModal")
+        .classList.remove("show");
+
+    }
 }
 
 const todoApp = new TodoApp();
+
+function openInfoModal(type){
+
+    todoApp.openInfoModal(type);
+
+}
+
+
+function closeInfoModal(){
+
+    todoApp.closeInfoModal();
+
+}

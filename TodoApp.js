@@ -18,6 +18,8 @@ constructor() {
 
     }
 
+    this.editingTaskId = null;
+
     this.manager = new TodoManager(this.utilisateur);
 
     this.render();
@@ -60,36 +62,44 @@ addTask() {
     this.showNotification("✅ Tâche ajoutée avec succès !");
 }
 
-editTask(id) {
+editTask(id){
 
     const todo = this.manager.findById(id);
 
-    if (!todo) {
-        return;
-    }
-
-    const nouveauTitre = prompt(
-        "Modifier le titre :",
-        todo.titre
-    );
-
-    if (!nouveauTitre || nouveauTitre.trim() === "") {
+    if(!todo){
         return;
     }
 
 
-    this.manager.update(id, {
-
-        titre: nouveauTitre.trim()
-
-    });
+    this.editingTaskId = id;
 
 
-    this.render();
+    document.getElementById("modalTitle").textContent =
+    "Modifier la tâche";
 
-    this.showNotification(
-        "✏️ Tâche modifiée avec succès !"
-    );
+
+    document.getElementById("modalSubmitBtn").textContent =
+    "Enregistrer";
+
+
+    document.getElementById("modalTaskTitle").value =
+    todo.titre;
+
+
+    document.getElementById("modalTaskDescription").value =
+    todo.description || "";
+
+
+    document.getElementById("modalPriority").value =
+    todo.priorite;
+
+
+    document.getElementById("modalDeadline").value =
+    todo.dateFin || "";
+
+
+    document.getElementById("taskModal").style.display =
+    "flex";
 
 }
 
@@ -562,18 +572,23 @@ showNotification(message, type = "success") {
 
 addTaskFromModal(){
 
-    const titre = document.getElementById("modalTaskTitle").value;
+    const titre =
+    document.getElementById("modalTaskTitle").value;
 
-    const description = document.getElementById("modalTaskDescription").value;
+    const description =
+    document.getElementById("modalTaskDescription").value;
 
-    const priorite = document.getElementById("modalPriority").value;
+    const priorite =
+    document.getElementById("modalPriority").value;
 
-    const deadline = document.getElementById("modalDeadline").value;
+    const deadline =
+    document.getElementById("modalDeadline").value;
 
 
     if(!titre.trim()){
 
-        this.showNotification("Veuillez entrer un titre.",
+        this.showNotification(
+            "Veuillez entrer un titre.",
             "warning"
         );
 
@@ -581,19 +596,47 @@ addTaskFromModal(){
 
     }
 
+    if(this.editingTaskId){
 
-    const todo = new Todo(
-    Date.now(),
-    titre,
-    description,
-    "a faire",
-    priorite,
-    new Date(),
-    null,
-    deadline
-    );
+        this.manager.update(
+            this.editingTaskId,
+            {
+                titre:titre.trim(),
+                description:description,
+                priorite:priorite,
+                dateFin:deadline
+            }
+        );
 
-    this.manager.add(todo);
+
+        this.showNotification(
+            "✏️ Tâche modifiée avec succès !"
+        );
+
+
+    }else {
+
+
+        const todo = new Todo(
+            Date.now(),
+            titre.trim(),
+            description,
+            "a faire",
+            priorite,
+            new Date(),
+            null,
+            deadline
+        );
+
+
+        this.manager.add(todo);
+
+
+        this.showNotification(
+            "✅ Tâche créée avec succès !"
+        );
+
+    }
 
 
     this.manager.save();
@@ -609,9 +652,93 @@ addTaskFromModal(){
 
 
     document.getElementById("modalTaskTitle").value="";
+    
     document.getElementById("modalTaskDescription").value="";
+    
     document.getElementById("modalDeadline").value="";
 
+    this.editingTaskId = null;
+
+
+    document.getElementById("modalTitle").textContent =
+    "Créer une nouvelle tâche";
+
+
+    document.getElementById("modalSubmitBtn").textContent =
+    "Créer la tâche";
+
 }
+
+openInfoModal(type){
+
+    const modal =
+    document.getElementById("infoModal");
+
+    const title =
+    document.getElementById("infoTitle");
+
+    const text =
+    document.getElementById("infoText");
+
+
+    if(type === "privacy"){
+
+        title.textContent = "Privacy";
+
+        text.textContent =
+        "Vos données restent privées et sont stockées localement dans votre navigateur.";
+
+    }
+
+
+    if(type === "terms"){
+
+        title.textContent = "Terms";
+
+        text.textContent =
+        "En utilisant TodoApp Pro, vous acceptez les conditions d'utilisation de l'application.";
+
+    }
+
+
+    if(type === "contact"){
+
+        title.textContent = "Contact";
+
+        text.textContent =
+        "Pour toute question, contactez l'équipe TodoApp Pro.";
+
+    }
+
+
+    modal.classList.add("show");
+
+}
+
+
+
+closeInfoModal(){
+
+    document
+    .getElementById("infoModal")
+    .classList.remove("show");
+
+}
+
+}
+
+const todoApp = new TodoApp();
+
+
+function openInfoModal(type){
+
+    todoApp.openInfoModal(type);
+
+}
+
+
+function closeInfoModal(){
+
+    todoApp.closeInfoModal();
 
 }
