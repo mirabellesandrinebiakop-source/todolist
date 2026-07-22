@@ -1496,11 +1496,9 @@ textarea{
 
 .stat-icon{
 
-    width:60px;
+    width:52px;
 
-    height:60px;
-
-    border-radius:18px;
+    height:52px;
 
     display:flex;
 
@@ -1508,28 +1506,27 @@ textarea{
 
     align-items:center;
 
-    color:#FFFFFF;
+    border-radius:14px;
 
-    font-size:24px;
+    background:#DBEAFE;
+
+    color:var(--primary);
+
+    font-size:22px;
 
     flex-shrink:0;
 
 }
 
-.blue{
-    background:#3B82F6;
-}
-
-.green{
-    background:#22C55E;
-}
-
-.orange{
-    background:#F59E0B;
-}
-
+.blue,
+.green,
+.orange,
 .red{
-    background:#EF4444;
+
+    background:#DBEAFE;
+
+    color:var(--primary);
+
 }
 
 .stat-content{
