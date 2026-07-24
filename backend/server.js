@@ -4,6 +4,7 @@ const cors = require("cors");
 const db = require("./database");
 
 const usersRoutes = require("./routes/users");
+const todosRoutes = require("./routes/todos");
 
 
 const app = express();
@@ -12,13 +13,11 @@ const PORT = 3000;
 
 
 app.use(cors());
-
 app.use(express.json());
 
 
-// Route utilisateurs
 app.use("/users", usersRoutes);
-
+app.use("/todos", todosRoutes);
 
 
 app.get("/", (req, res) => {
@@ -26,7 +25,6 @@ app.get("/", (req, res) => {
     res.send("🚀 Backend TodoApp Pro fonctionne !");
 
 });
-
 
 
 app.get("/test-db", (req, res) => {
@@ -47,7 +45,6 @@ app.get("/test-db", (req, res) => {
     });
 
 });
-
 
 
 app.listen(PORT, () => {
