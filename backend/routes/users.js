@@ -5,23 +5,23 @@ const router = express.Router();
 const db = require("../database");
 
 
-// INSCRIPTION
-
 router.post("/register", (req, res) => {
 
-    const { nom, prenom, age, email, motDePasse } = req.body;
+    console.log(req.body);
+
+    const { nom, prenom, email, motDePasse } = req.body;
 
 
     const sql = `
         INSERT INTO utilisateurs 
-        (nom, prenom, age, email, motDePasse)
-        VALUES (?, ?, ?, ?, ?)
+        (nom, prenom, email, motDePasse)
+        VALUES (?, ?, ?, ?)
     `;
 
 
     db.query(
         sql,
-        [nom, prenom, age, email, motDePasse],
+        [nom, prenom, email, motDePasse],
         (err, result) => {
 
             if (err) {
@@ -52,7 +52,6 @@ router.post("/register", (req, res) => {
 
 
 
-// CONNEXION
 
 router.post("/login", (req, res) => {
 
