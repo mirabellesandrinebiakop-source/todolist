@@ -21,7 +21,7 @@ getAll() {
 findById(id) {
 
     return this.utilisateur.todos.find(
-        t => t.id === id
+        t => Number(t.id) === Number(id)
     );
 
 }

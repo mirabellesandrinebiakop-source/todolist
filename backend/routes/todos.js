@@ -123,6 +123,7 @@ router.put("/:id", (req,res)=>{
     console.log("ID reçu :", id);
     console.log("BODY reçu :", req.body);
 
+
     const {
         titre,
         description,
@@ -131,38 +132,39 @@ router.put("/:id", (req,res)=>{
         dateFin
     } = req.body;
 
-
-    console.log("DONNEES RECUES :", req.body);
+    const dateMysql = dateFin
+    ? dateFin.substring(0,10)
+    : null;
 
 
     const sql = `
-    UPDATE todos
-    SET 
-        titre = COALESCE(?, titre),
-        description = COALESCE(?, description),
-        priorite = COALESCE(?, priorite),
-        statut = COALESCE(?, statut),
-        dateFin = COALESCE(?, dateFin)
-    WHERE id = ?
+        UPDATE todos
+        SET 
+            titre = ?,
+            description = ?,
+            priorite = ?,
+            statut = ?,
+            dateFin = ?
+        WHERE id = ?
     `;
 
 
     db.query(
         sql,
         [
-            titre || null,
-            description || null,
-            priorite || null,
-            statut || null,
-            dateFin || null,
+            titre,
+            description,
+            priorite,
+            statut,
+            dateMysql,
             id
         ],
-        (err,result)=>{
 
+        (err,result)=>{
 
             if(err){
 
-                console.log(err);
+                console.log("ERREUR SQL :", err);
 
                 return res.status(500).json({
                     message:"Erreur modification tâche"
@@ -171,13 +173,16 @@ router.put("/:id", (req,res)=>{
             }
 
 
+            console.log("RESULTAT SQL :", result);
+
+
             res.json({
                 message:"Tâche modifiée avec succès"
             });
 
-
         }
     );
+
 
 });
 

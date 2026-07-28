@@ -227,6 +227,10 @@ async toggleTask(id) {
 
     const todo = this.manager.findById(id);
 
+    console.log("ID reçu :", id);
+    console.log("Mes tâches :", this.manager.getAll());
+    console.log("Tâche trouvée :", todo);
+
     if (!todo) return;
     
     if (!todo) return;
@@ -261,7 +265,9 @@ async toggleTask(id) {
 
                     statut: nouveauStatut,
 
-                    dateFin: todo.dateFin
+                    dateFin: nouveauStatut === "terminee"
+                        ? (todo.dateFin ? todo.dateFin.substring(0,10) : null)
+                        : null
 
                 })
 
