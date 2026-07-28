@@ -6,6 +6,8 @@ const db = require("../database");
 
 router.post("/", (req, res) => {
 
+    console.log("Tâche reçue :", req.body);
+
     const {
         utilisateur_id,
         titre,
@@ -84,5 +86,99 @@ router.get("/:utilisateur_id", (req, res) => {
 
 });
 
+
+router.delete("/:id", (req, res) => {
+
+    const id = req.params.id;
+
+    const sql = `
+        DELETE FROM todos
+        WHERE id = ?
+    `;
+
+    db.query(sql, [id], (err, result) => {
+
+        if (err) {
+
+            console.log(err);
+
+            return res.status(500).json({
+                message: "Erreur lors de la suppression."
+            });
+
+        }
+
+        res.json({
+            message: "Tâche supprimée avec succès."
+        });
+
+    });
+
+});
+
+router.put("/:id", (req,res)=>{
+
+    const id = req.params.id;
+
+    console.log("ID reçu :", id);
+    console.log("BODY reçu :", req.body);
+
+    const {
+        titre,
+        description,
+        priorite,
+        statut,
+        dateFin
+    } = req.body;
+
+
+    console.log("DONNEES RECUES :", req.body);
+
+
+    const sql = `
+    UPDATE todos
+    SET 
+        titre = COALESCE(?, titre),
+        description = COALESCE(?, description),
+        priorite = COALESCE(?, priorite),
+        statut = COALESCE(?, statut),
+        dateFin = COALESCE(?, dateFin)
+    WHERE id = ?
+    `;
+
+
+    db.query(
+        sql,
+        [
+            titre || null,
+            description || null,
+            priorite || null,
+            statut || null,
+            dateFin || null,
+            id
+        ],
+        (err,result)=>{
+
+
+            if(err){
+
+                console.log(err);
+
+                return res.status(500).json({
+                    message:"Erreur modification tâche"
+                });
+
+            }
+
+
+            res.json({
+                message:"Tâche modifiée avec succès"
+            });
+
+
+        }
+    );
+
+});
 
 module.exports = router;

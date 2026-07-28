@@ -234,4 +234,28 @@ moveDown(id) {
 
 }
 
+async chargerDepuisServeur() {
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:3000/todos/${this.utilisateur.id}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Impossible de charger les tâches.");
+        }
+
+        this.utilisateur.todos = await response.json();
+
+    } catch (error) {
+
+        console.error(error);
+
+        this.utilisateur.todos = [];
+
+    }
+
+}
+
 }

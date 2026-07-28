@@ -22,7 +22,7 @@ function goToAuth() {
 
 }
 
-function inscrireUtilisateur() {
+async function inscrireUtilisateur() {
 
     resetValidation();
 
@@ -129,42 +129,71 @@ return;
 
     }
 
-    const existe = utilisateurs.find(u => u.email === email);
+    let user;
 
-    if (existe) {
+try {
 
-        message.textContent = "Cet email est déjà utilisé.";
+    const response = await fetch("http://localhost:3000/users/register", {
 
-        return;
-    }
+        method: "POST",
 
-    const user = new Utilisateur(
-    Date.now(),
-    nom,
-    prenom,
-    email,
-    mdp
-    );
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-    message.style.color = "#16a34a";
-    message.textContent = "Compte créé avec succès.";
+        body: JSON.stringify({
 
-    document
-    .querySelectorAll("#registerCard input")
-    .forEach(input=>{
+            nom,
+            prenom,
+            email,
+            motDePasse: mdp
 
-    input.classList.add("input-success");
+        })
 
     });
 
-    utilisateurs.push(user);
+    const data = await response.json();
 
-    localStorage.setItem("utilisateurs", JSON.stringify(utilisateurs));
+    if (!response.ok) {
 
-    console.log(
-    "Contenu localStorage :",
-    JSON.parse(localStorage.getItem("utilisateurs"))
-    );
+        message.textContent = data.message;
+
+        return;
+
+    }
+
+    user = {
+
+        id: data.id,
+
+        nom,
+        prenom,
+        email,
+        motDePasse: mdp
+
+    };
+
+} catch (error) {
+
+    console.error(error);
+
+    message.textContent = "Impossible de contacter le serveur.";
+
+    return;
+
+}
+
+message.style.color = "#16a34a";
+
+message.textContent = "Compte créé avec succès.";
+
+document
+.querySelectorAll("#registerCard input")
+.forEach(input => {
+
+    input.classList.add("input-success");
+
+});
 
 utilisateurConnecte = user;
 
@@ -186,7 +215,7 @@ afficherUtilisateur(user);
 
 }
 
-function connecterUtilisateur() {
+async function connecterUtilisateur() {
 
     resetValidation();
 
@@ -198,26 +227,63 @@ function connecterUtilisateur() {
 
     loginMessage.textContent = "";
 
-    const user = utilisateurs.find(u =>
-        u.email === email && u.motDePasse === mdp
-    );
+    let user;
 
-    if (!user) {
+try {
 
-    document.getElementById("loginEmail")
-    .classList.add("input-error");
+    const response = await fetch("http://localhost:3000/users/login", {
 
-    document.getElementById("loginPassword")
-    .classList.add("input-error");
+        method: "POST",
 
-    loginMessage.textContent = "Email ou mot de passe incorrect.";
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            email,
+            motDePasse: mdp
+        })
+
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+
+        document.getElementById("loginEmail")
+        .classList.add("input-error");
+
+        document.getElementById("loginPassword")
+        .classList.add("input-error");
+
+        loginMessage.textContent = data.message;
+
+        return;
+
+    }
+
+    user = data.utilisateur;
+
+    console.log("Utilisateur reçu :", user);
+
+} catch (error) {
+
+    loginMessage.textContent = "Impossible de contacter le serveur.";
+
+    console.error(error);
 
     return;
+
 }
 
     utilisateurConnecte = user;
 
     localStorage.setItem("utilisateurConnecte", JSON.stringify(user));
+
+    console.log(
+    "Après sauvegarde :",
+    localStorage.getItem("utilisateurConnecte")
+    );
 
     document.getElementById("landingPage").style.display = "none";
     document.getElementById("authPage").style.display = "none";

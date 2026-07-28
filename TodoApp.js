@@ -20,14 +20,25 @@ constructor() {
 
     this.editingTaskId = null;
 
+    this.deletingTaskId = null;
+
     this.manager = new TodoManager(this.utilisateur);
 
+    this.init();
+
+}
+
+async init() {
+
+    await this.manager.chargerDepuisServeur();
+
     this.render();
+
     this.updateCounter();
 
 }
 
-addTask() {
+async addTask() {
 
     const text = this.taskInput.value.trim();
 
@@ -38,6 +49,20 @@ addTask() {
 
     const finalPriority = document.getElementById("prioritySelect").value;
     const deadline = document.getElementById("deadlineInput").value;
+    const utilisateur = JSON.parse(
+        localStorage.getItem("utilisateurConnecte")
+    );
+
+    if (!utilisateur) {
+
+        this.showNotification(
+            "Veuillez vous connecter.",
+            "error"
+        );
+
+        return;
+
+    }
 
     const todo = new Todo(
     Date.now(),
@@ -50,16 +75,56 @@ addTask() {
     deadline
     );
 
-    this.manager.add(todo);
+    try {
 
-    this.taskInput.value = "";
+        const response = await fetch("http://localhost:3000/todos", {
 
-    document.getElementById("prioritySelect").value = "moyenne";
-    document.getElementById("deadlineInput").value = "";
+            method: "POST",
 
-    this.render();
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    this.showNotification("✅ Tâche ajoutée avec succès !");
+            body: JSON.stringify({
+
+                utilisateur_id: utilisateur.id,
+                titre: text,
+                description: "",
+                priorite: finalPriority,
+                dateFin: deadline
+
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            this.showNotification(data.message, "error");
+
+            return;
+
+        }
+
+        this.taskInput.value = "";
+
+        document.getElementById("prioritySelect").value = "moyenne";
+
+        document.getElementById("deadlineInput").value = "";
+
+        this.showNotification("✅ Tâche ajoutée avec succès !");
+
+    } catch (error) {
+
+        console.error(error);
+
+        this.showNotification(
+            "Impossible de contacter le serveur.",
+            "error"
+        );
+
+    }
 }
 
 editTask(id){
@@ -103,39 +168,150 @@ editTask(id){
 
 }
 
-deleteTask(id) {
+async deleteTask(id) {
 
-    this.manager.delete(id);
+    if (!confirm("Voulez-vous vraiment supprimer cette tâche ?")) {
 
-    this.render();
+        return;
 
-    this.showNotification("🗑️ Tâche supprimée.", "error");
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `http://localhost:3000/todos/${id}`,
+
+            {
+
+                method: "DELETE"
+
+            }
+
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            this.showNotification(data.message, "error");
+
+            return;
+
+        }
+
+        await this.manager.chargerDepuisServeur();
+
+        this.render();
+
+        this.updateCounter();
+
+        this.showNotification(
+            "🗑️ Tâche supprimée avec succès."
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        this.showNotification(
+            "Impossible de supprimer la tâche.",
+            "error"
+        );
+
+    }
 
 }
 
-toggleTask(id) {
+async toggleTask(id) {
 
     const todo = this.manager.findById(id);
 
     if (!todo) return;
+    
+    if (!todo) return;
+
+    console.log("Tâche sélectionnée :", todo);
+
+    const nouveauStatut =
+    todo.statut === "terminee"
+    ? "a faire"
+    : "terminee";
 
 
-    this.manager.toggle(id);
+    try {
 
+        const response = await fetch(
+            `http://localhost:3000/todos/${id}`,
+            {
 
-    this.render();
+                method:"PUT",
 
+                headers:{
+                    "Content-Type":"application/json"
+                },
 
-    if(todo.statut === "terminee"){
+                body:JSON.stringify({
 
-        this.showNotification(
-            "🎉 Tâche terminée !"
+                    titre: todo.titre,
+
+                    description: todo.description,
+
+                    priorite: todo.priorite,
+
+                    statut: nouveauStatut,
+
+                    dateFin: todo.dateFin
+
+                })
+
+            }
         );
 
-    }else{
+
+        const data = await response.json();
+
+
+        if(!response.ok){
+
+            this.showNotification(
+                data.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        await this.manager.chargerDepuisServeur();
+
+
+        this.render();
+
+
+        if(nouveauStatut === "terminee"){
+
+            this.showNotification(
+                "🎉 Tâche terminée !"
+            );
+
+        }else{
+
+            this.showNotification(
+                "↩️ Tâche remise en cours."
+            );
+
+        }
+
+
+    } catch(error){
+
+        console.error(error);
 
         this.showNotification(
-            "↩️ Tâche remise en cours."
+            "Impossible de modifier le statut.",
+            "error"
         );
 
     }
@@ -180,7 +356,7 @@ render(filter = "all") {
 
         let deadlineWarning = "";
 
-if (todo.dateLimite) {
+if (todo.dateFin) {
 
     const aujourdHui = new Date();
 
@@ -250,7 +426,7 @@ if (todo.dateLimite) {
 
 <td>
     ${
-        todo.dateLimite
+        todo.dateFin
         ? new Date(todo.dateLimite).toLocaleDateString("fr-FR")
         : "-"
     }
@@ -270,7 +446,7 @@ if (todo.dateLimite) {
         ✏️
     </button>
 
-    <button onclick="todoApp.deleteTask(${todo.id})">
+    <button onclick="todoApp.openDeleteModal(${todo.id})">
         🗑️
     </button>
 
@@ -503,7 +679,7 @@ searchTask(value) {
 
             <td>
                 <button onclick="todoApp.editTask(${todo.id})">✏️</button>
-                <button onclick="todoApp.deleteTask(${todo.id})">❌</button>
+                <button onclick="todoApp.openDeleteModal(${todo.id})">❌</button>
             </td>
 
         `;
@@ -570,7 +746,7 @@ showNotification(message, type = "success") {
 
 }
 
-addTaskFromModal(){
+async addTaskFromModal(){
 
     const titre =
     document.getElementById("modalTaskTitle").value;
@@ -596,50 +772,125 @@ addTaskFromModal(){
 
     }
 
-    if(this.editingTaskId){
+    if (this.editingTaskId) {
 
-        this.manager.update(
-            this.editingTaskId,
+    try {
+
+        const response = await fetch(
+            `http://localhost:3000/todos/${this.editingTaskId}`,
             {
-                titre:titre.trim(),
-                description:description,
-                priorite:priorite,
-                dateFin:deadline
+
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    titre: titre.trim(),
+                    description: description,
+                    priorite: priorite,
+                    statut: "a faire",
+                    dateFin: deadline
+
+                })
+
             }
         );
 
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            this.showNotification(data.message, "error");
+
+            return;
+
+        }
+
+        await this.manager.chargerDepuisServeur();
 
         this.showNotification(
             "✏️ Tâche modifiée avec succès !"
         );
 
+    } catch (error) {
 
-    }else {
+        console.error(error);
 
-
-        const todo = new Todo(
-            Date.now(),
-            titre.trim(),
-            description,
-            "a faire",
-            priorite,
-            new Date(),
-            null,
-            deadline
+        this.showNotification(
+            "Impossible de modifier la tâche.",
+            "error"
         );
 
+        return;
 
-        this.manager.add(todo);
+    }
 
+} else {
+
+
+        const utilisateur = JSON.parse(
+            localStorage.getItem("utilisateurConnecte")
+        );
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:3000/todos",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                    "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        utilisateur_id: utilisateur.id,
+                        titre: titre.trim(),
+                        description: description,
+                        priorite: priorite,
+                        dateFin: deadline
+
+                    })
+
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            this.showNotification(data.message, "error");
+
+            return;
+
+        }
+
+        await this.manager.chargerDepuisServeur();
 
         this.showNotification(
             "✅ Tâche créée avec succès !"
         );
 
+    } catch (error) {
+
+        console.error(error);
+
+        this.showNotification(
+            "Impossible de contacter le serveur.",
+            "error"
+        );
+
+        return;
+
     }
 
+    }
 
-    this.manager.save();
 
 
     this.render();
@@ -722,6 +973,93 @@ closeInfoModal(){
     document
     .getElementById("infoModal")
     .classList.remove("show");
+
+}
+
+openDeleteModal(id) {
+
+    this.deletingTaskId = id;
+
+    document.getElementById("deleteModal").style.display = "flex";
+
+}
+
+
+closeDeleteModal() {
+
+    this.deletingTaskId = null;
+
+    document.getElementById("deleteModal").style.display = "none";
+
+}
+
+
+async confirmDeleteTask() {
+
+    if (!this.deletingTaskId) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const response = await fetch(
+
+            `http://localhost:3000/todos/${this.deletingTaskId}`,
+
+            {
+                method: "DELETE"
+            }
+
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            this.showNotification(
+                data.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        await this.manager.chargerDepuisServeur();
+
+
+        this.render();
+
+
+        this.updateCounter();
+
+
+        this.showNotification(
+            "🗑️ Tâche supprimée avec succès."
+        );
+
+
+        this.closeDeleteModal();
+
+        this.deletingTaskId = null;
+
+    } catch(error) {
+
+        console.error(error);
+
+
+        this.showNotification(
+            "Impossible de supprimer la tâche.",
+            "error"
+        );
+
+    }
 
 }
 
