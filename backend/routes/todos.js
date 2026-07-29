@@ -6,7 +6,9 @@ const db = require("../database");
 
 router.post("/", (req, res) => {
 
+
     console.log("Tâche reçue :", req.body);
+
 
     const {
         utilisateur_id,
@@ -15,6 +17,23 @@ router.post("/", (req, res) => {
         priorite,
         dateFin
     } = req.body;
+
+
+    if(!utilisateur_id || !titre){
+
+        return res.status(400).json({
+
+            message:"L'utilisateur et le titre sont obligatoires."
+
+        });
+
+    }
+
+
+
+    const prioriteFinale = priorite || "moyenne";
+
+    const descriptionFinale = description || null;
 
 
     const sql = `
@@ -29,9 +48,9 @@ router.post("/", (req, res) => {
         [
             utilisateur_id,
             titre,
-            description,
-            priorite,
-            dateFin
+            descriptionFinale,
+            prioriteFinale,
+            dateFin || null
         ],
         (err, result) => {
 
@@ -60,8 +79,10 @@ router.get("/:utilisateur_id", (req, res) => {
 
 
     const sql = `
-        SELECT * FROM todos
+        SELECT *
+        FROM todos
         WHERE utilisateur_id = ?
+        ORDER BY dateCreation DESC
     `;
 
 

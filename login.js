@@ -118,14 +118,21 @@ return;
         return;
     }
 
-    if (mdp.length < 8) {
+    const passwordRegex =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
-    document.getElementById("registerPassword")
-    .classList.add("input-error");
 
-    message.textContent = "Le mot de passe doit contenir au moins 8 caractères.";
+    if(!passwordRegex.test(mdp)){
 
-    return;
+        document.getElementById("registerPassword")
+        .classList.add("input-error");
+
+
+        message.textContent =
+        "Le mot de passe doit contenir au moins 8 caractères avec une majuscule, une minuscule, un chiffre et un caractère spécial.";
+
+
+        return;
 
     }
 
@@ -167,9 +174,10 @@ try {
         id: data.id,
 
         nom,
+
         prenom,
-        email,
-        motDePasse: mdp
+
+        email
 
     };
 
@@ -219,7 +227,6 @@ async function connecterUtilisateur() {
 
     resetValidation();
 
-    utilisateurs = JSON.parse(localStorage.getItem("utilisateurs")) || [];
 
     const email = document.getElementById("loginEmail").value.trim();
     const mdp = document.getElementById("loginPassword").value.trim();
@@ -264,6 +271,8 @@ try {
 
     user = data.utilisateur;
 
+    const token = data.token;
+
     console.log("Utilisateur reçu :", user);
 
 } catch (error) {
@@ -279,6 +288,7 @@ try {
     utilisateurConnecte = user;
 
     localStorage.setItem("utilisateurConnecte", JSON.stringify(user));
+    localStorage.setItem("token", token);
 
     console.log(
     "Après sauvegarde :",
@@ -305,6 +315,7 @@ try {
 function deconnecterUtilisateur() {
 
     localStorage.removeItem("utilisateurConnecte");
+    localStorage.removeItem("token");
 
     utilisateurConnecte = null;
 

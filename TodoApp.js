@@ -12,7 +12,11 @@ constructor() {
 
     if (!this.utilisateur) {
 
-        console.error("Aucun utilisateur connecté.");
+        document.getElementById("landingPage").style.display = "block";
+
+        document.getElementById("authPage").style.display = "none";
+
+        document.getElementById("app").style.display = "none";
 
         return;
 
@@ -112,6 +116,12 @@ async addTask() {
         document.getElementById("prioritySelect").value = "moyenne";
 
         document.getElementById("deadlineInput").value = "";
+
+        await this.manager.chargerDepuisServeur();
+
+        this.render();
+
+        this.updateCounter();
 
         this.showNotification("✅ Tâche ajoutée avec succès !");
 
@@ -366,7 +376,7 @@ if (todo.dateFin) {
 
     const aujourdHui = new Date();
 
-    const limite = new Date(todo.dateLimite);
+    const limite = new Date(todo.dateFin);
 
     const difference =
         (limite - aujourdHui) / (1000 * 60 * 60 * 24);
@@ -433,7 +443,7 @@ if (todo.dateFin) {
 <td>
     ${
         todo.dateFin
-        ? new Date(todo.dateLimite).toLocaleDateString("fr-FR")
+        ? new Date(todo.dateFin).toLocaleDateString("fr-FR")
         : "-"
     }
 </td>
@@ -1066,6 +1076,56 @@ async confirmDeleteTask() {
         );
 
     }
+
+}
+
+openLogoutModal() {
+
+    document.getElementById("logoutModal").style.display = "flex";
+
+}
+
+
+closeLogoutModal() {
+
+    document.getElementById("logoutModal").style.display = "none";
+
+}
+
+
+confirmLogout() {
+
+    localStorage.removeItem("utilisateurConnecte");
+
+    sessionStorage.clear();
+
+    this.utilisateur = null;
+
+    this.editingTaskId = null;
+
+    this.deletingTaskId = null;
+
+    this.taskList.innerHTML = "";
+
+    const profile = document.getElementById("profileName");
+
+    if(profile){
+
+        profile.textContent = "";
+
+    }
+
+    this.closeLogoutModal();
+
+    document.getElementById("app").style.display = "none";
+
+    document.getElementById("authPage").style.display = "none";
+
+    document.getElementById("landingPage").style.display = "block";
+
+    this.showNotification(
+        "👋 Vous êtes déconnecté avec succès."
+    );
 
 }
 

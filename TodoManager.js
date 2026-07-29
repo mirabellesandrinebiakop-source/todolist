@@ -131,16 +131,11 @@ search(text) {
 
 save() {
 
-    let users = JSON.parse(localStorage.getItem("utilisateurs")) || [];
+    localStorage.setItem(
+        "utilisateurConnecte",
+        JSON.stringify(this.utilisateur)
+    );
 
-    const index = users.findIndex(u => u.email === this.utilisateur.email);
-
-    if (index !== -1) {
-        users[index] = this.utilisateur;
-    }
-
-    localStorage.setItem("utilisateurs", JSON.stringify(users));
-    localStorage.setItem("utilisateurConnecte", JSON.stringify(this.utilisateur));
 }
 
 sortByPriority() {
