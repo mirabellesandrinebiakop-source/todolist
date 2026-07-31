@@ -233,8 +233,15 @@ async chargerDepuisServeur() {
 
     try {
 
+        const token = localStorage.getItem("token");
+
         const response = await fetch(
-            `http://localhost:3000/todos/${this.utilisateur.id}`
+            `http://localhost:3000/todos/${this.utilisateur.id}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
         );
 
         if (!response.ok) {

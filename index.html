@@ -58,6 +58,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <ul class="nav-links">
 
+<li><a href="#home">Home</a></li>
+
 <li><a href="#features">Features</a></li>
 
 <li><a href="#pricing">Pricing</a></li>
@@ -73,6 +75,12 @@ Login
 </li>
 
 <li>
+<button class="register-btn" onclick="openRegister()">
+Register
+</button>
+</li>
+
+<li>
     <button class="nav-start" onclick="goToAuth()">
         Get Started
     </button>
@@ -82,7 +90,7 @@ Login
 
 </nav>
 
-<section class="hero">
+<section id="home" class="hero">
 
 <div class="hero-left">
 
@@ -427,19 +435,19 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
     <div class="footer-links">
 
-        <a href="#">
-            Privacy
-        </a>
+    <a href="#" onclick="event.preventDefault(); openInfoModal('privacy')">
+        Privacy
+    </a>
 
-        <a href="#">
-            Terms
-        </a>
+    <a href="#" onclick="event.preventDefault(); openInfoModal('terms')">
+        Terms
+    </a>
 
-        <a href="#">
-            Contact
-        </a>
+    <a href="#" onclick="event.preventDefault(); openInfoModal('contact')">
+        Contact
+    </a>
 
-    </div>
+</div>
 
     <div class="footer-copy">
 
@@ -1195,6 +1203,46 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
 </div>
 
+<div id="appModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3 id="appModalTitle"></h3>
+
+            <button
+                class="close-modal"
+                onclick="closeModal()">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <p id="appModalMessage"></p>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="modal-btn"
+                onclick="closeModal()">
+
+                Fermer
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <div id="deleteModal" class="modal">
 
     <div class="modal-content">
@@ -1328,37 +1376,7 @@ window.addEventListener("load", () => {
 });
 
 </script>
-<div id="appModal" class="modal">
 
-    <div class="modal-content">
-
-        <div class="modal-header">
-
-            <h3 id="modalTitle">TodoApp Pro</h3>
-
-            <button class="close-modal" onclick="closeModal()">
-                &times;
-            </button>
-
-        </div>
-
-        <div class="modal-body">
-
-            <p id="modalMessage"></p>
-
-        </div>
-
-        <div class="modal-footer">
-
-            <button class="modal-btn" onclick="closeModal()">
-                OK
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
 
 <script>
 

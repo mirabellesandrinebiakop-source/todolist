@@ -81,12 +81,14 @@ async addTask() {
 
     try {
 
+        const token = localStorage.getItem("token");
         const response = await fetch("http://localhost:3000/todos", {
 
             method: "POST",
 
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
 
             body: JSON.stringify({
@@ -188,14 +190,17 @@ async deleteTask(id) {
 
     try {
 
+        const token = localStorage.getItem("token");
         const response = await fetch(
 
             `http://localhost:3000/todos/${id}`,
 
             {
+                method: "DELETE",
 
-                method: "DELETE"
-
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             }
 
         );
@@ -255,6 +260,7 @@ async toggleTask(id) {
 
     try {
 
+        const token = localStorage.getItem("token");
         const response = await fetch(
             `http://localhost:3000/todos/${id}`,
             {
@@ -262,7 +268,8 @@ async toggleTask(id) {
                 method:"PUT",
 
                 headers:{
-                    "Content-Type":"application/json"
+                    "Content-Type":"application/json",
+                    "Authorization": `Bearer ${token}`
                 },
 
                 body:JSON.stringify({
@@ -792,6 +799,7 @@ async addTaskFromModal(){
 
     try {
 
+        const token = localStorage.getItem("token");
         const response = await fetch(
             `http://localhost:3000/todos/${this.editingTaskId}`,
             {
@@ -799,7 +807,8 @@ async addTaskFromModal(){
                 method: "PUT",
 
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
 
                 body: JSON.stringify({

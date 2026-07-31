@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-
 const db = require("../database");
+const auth = require("../middleware/auth");
 
 
 router.post("/", (req, res) => {
@@ -73,7 +73,7 @@ router.post("/", (req, res) => {
 });
 
 
-router.get("/:utilisateur_id", (req, res) => {
+router.get("/:utilisateur_id", auth, (req, res) => {
 
     const utilisateur_id = req.params.utilisateur_id;
 

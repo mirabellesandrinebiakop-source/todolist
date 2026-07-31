@@ -246,6 +246,21 @@ textarea{
     color:var(--primary);
 }
 
+.register-btn{
+
+    background:transparent;
+
+    color:var(--text);
+
+    font-size:14px;
+    font-weight:600;
+
+}
+
+.register-btn:hover{
+    color:var(--primary);
+}
+
 .nav-start{
 
     background:var(--primary);
@@ -2436,7 +2451,7 @@ textarea{
 
     border-radius:10px;
 
-}
+}.
 
 @keyframes popup{
 

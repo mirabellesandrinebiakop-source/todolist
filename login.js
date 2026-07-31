@@ -22,6 +22,34 @@ function goToAuth() {
 
 }
 
+function openLogin(){
+
+    document.getElementById("landingPage").style.display = "none";
+
+    document.getElementById("authPage").style.display = "block";
+
+    document.getElementById("app").style.display = "none";
+
+
+    showLogin();
+
+}
+
+
+
+function openRegister(){
+
+    document.getElementById("landingPage").style.display = "none";
+
+    document.getElementById("authPage").style.display = "block";
+
+    document.getElementById("app").style.display = "none";
+
+
+    showRegister();
+
+}
+
 async function inscrireUtilisateur() {
 
     resetValidation();
@@ -227,7 +255,6 @@ async function connecterUtilisateur() {
 
     resetValidation();
 
-
     const email = document.getElementById("loginEmail").value.trim();
     const mdp = document.getElementById("loginPassword").value.trim();
     const loginMessage = document.getElementById("loginMessage");
@@ -235,10 +262,11 @@ async function connecterUtilisateur() {
     loginMessage.textContent = "";
 
     let user;
+    let token;
 
-try {
+    try {
 
-    const response = await fetch("http://localhost:3000/users/login", {
+        const response = await fetch("http://localhost:3000/users/login", {
 
         method: "POST",
 
@@ -271,7 +299,7 @@ try {
 
     user = data.utilisateur;
 
-    const token = data.token;
+    token = data.token;
 
     console.log("Utilisateur reçu :", user);
 
@@ -487,13 +515,13 @@ function showSection(section, element){
 
 }
 
-function showModal(title,message){
+function showModal(title, message){
 
-document.getElementById("modalTitle").textContent=title;
+    document.getElementById("appModalTitle").textContent = title;
 
-document.getElementById("modalMessage").textContent=message;
+    document.getElementById("appModalMessage").textContent = message;
 
-document.getElementById("appModal").classList.add("show");
+    document.getElementById("appModal").classList.add("show");
 
 }
 
@@ -524,5 +552,45 @@ function openTaskModal(){
 function closeTaskModal(){
 
     document.getElementById("taskModal").style.display = "none";
+
+}
+
+function openInfoModal(type){
+
+    let title = "";
+    let message = "";
+
+    switch(type){
+
+        case "privacy":
+
+            title = "Privacy Policy";
+
+            message =
+            "TodoApp Pro protège vos données personnelles. Toutes vos tâches sont stockées de manière sécurisée et ne sont jamais partagées sans votre autorisation.";
+
+            break;
+
+        case "terms":
+
+            title = "Terms of Service";
+
+            message =
+            "En utilisant TodoApp Pro, vous acceptez les conditions générales d'utilisation de l'application.";
+
+            break;
+
+        case "contact":
+
+            title = "Contact";
+
+            message =
+            "Email : support@todoapppro.com\nTéléphone : +237 600 000 000";
+
+            break;
+
+    }
+
+    showModal(title, message);
 
 }
