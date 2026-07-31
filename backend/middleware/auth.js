@@ -2,6 +2,10 @@ const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
 
+    console.log("=== AUTH ===");
+    console.log("Headers :", req.headers);
+    console.log("Authorization :", req.headers.authorization);
+
     const header = req.headers.authorization;
 
     if (!header) {
@@ -26,6 +30,8 @@ function auth(req, res, next) {
         next();
 
     } catch (error) {
+
+        console.log(error);
 
         return res.status(401).json({
             message: "Token invalide."

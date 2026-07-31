@@ -4,26 +4,27 @@ const db = require("../database");
 const auth = require("../middleware/auth");
 
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
 
 
     console.log("Tâche reçue :", req.body);
 
 
+    const utilisateur_id = req.utilisateur.id;
+
     const {
-        utilisateur_id,
         titre,
         description,
         priorite,
         dateFin
     } = req.body;
+    
 
-
-    if(!utilisateur_id || !titre){
+    if(!titre){
 
         return res.status(400).json({
 
-            message:"L'utilisateur et le titre sont obligatoires."
+            message:"Le titre sont obligatoire."
 
         });
 
@@ -73,10 +74,10 @@ router.post("/", (req, res) => {
 });
 
 
-router.get("/:utilisateur_id", auth, (req, res) => {
+router.get("/", auth, (req, res) => {
 
-    const utilisateur_id = req.params.utilisateur_id;
-
+    const utilisateur_id = req.utilisateur.id;
+    console.log("Utilisateur connecté :", req.utilisateur);
 
     const sql = `
         SELECT *
@@ -108,38 +109,58 @@ router.get("/:utilisateur_id", auth, (req, res) => {
 });
 
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, (req, res) => {
 
     const id = req.params.id;
+
+    const utilisateur_id = req.utilisateur.id;
+
 
     const sql = `
         DELETE FROM todos
         WHERE id = ?
+        AND utilisateur_id = ?
     `;
 
-    db.query(sql, [id], (err, result) => {
 
-        if (err) {
+    db.query(
+        sql,
+        [id, utilisateur_id],
+        (err, result) => {
 
-            console.log(err);
+            if (err) {
 
-            return res.status(500).json({
-                message: "Erreur lors de la suppression."
+                console.log(err);
+
+                return res.status(500).json({
+                    message: "Erreur lors de la suppression."
+                });
+
+            }
+
+
+            if (result.affectedRows === 0) {
+
+                return res.status(404).json({
+                    message: "Tâche introuvable ou non autorisée."
+                });
+
+            }
+
+
+            res.json({
+                message: "Tâche supprimée avec succès."
             });
 
         }
-
-        res.json({
-            message: "Tâche supprimée avec succès."
-        });
-
-    });
+    );
 
 });
 
-router.put("/:id", (req,res)=>{
+router.put("/:id", auth, (req, res) => {
 
     const id = req.params.id;
+    const utilisateur_id = req.utilisateur.id;
 
     console.log("ID reçu :", id);
     console.log("BODY reçu :", req.body);
@@ -166,7 +187,8 @@ router.put("/:id", (req,res)=>{
             priorite = ?,
             statut = ?,
             dateFin = ?
-        WHERE id = ?
+            WHERE id = ?
+            AND utilisateur_id = ?
     `;
 
 
@@ -178,7 +200,8 @@ router.put("/:id", (req,res)=>{
             priorite,
             statut,
             dateMysql,
-            id
+            id,
+            utilisateur_id
         ],
 
         (err,result)=>{
@@ -195,7 +218,14 @@ router.put("/:id", (req,res)=>{
 
 
             console.log("RESULTAT SQL :", result);
+            
+            if (result.affectedRows === 0) {
 
+                return res.status(404).json({
+                    message:"Tâche introuvable ou non autorisée."
+                });
+
+            }
 
             res.json({
                 message:"Tâche modifiée avec succès"

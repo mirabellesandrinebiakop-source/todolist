@@ -174,15 +174,20 @@ countOverdue() {
 
     const aujourdHui = new Date();
 
+    aujourdHui.setHours(0, 0, 0, 0);
+
     return this.utilisateur.todos.filter(todo => {
 
-        if (!todo.dateLimite) {
+        if (!todo.dateFin) {
             return false;
         }
 
+        const dateFin = new Date(todo.dateFin);
+        dateFin.setHours(0, 0, 0, 0);
+
         return (
             todo.statut !== "terminee" &&
-            new Date(todo.dateLimite) < aujourdHui
+            dateFin < aujourdHui
         );
 
     }).length;
@@ -236,7 +241,7 @@ async chargerDepuisServeur() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:3000/todos/${this.utilisateur.id}`,
+            "http://localhost:3000/todos",
             {
                 headers: {
                     "Authorization": `Bearer ${token}`

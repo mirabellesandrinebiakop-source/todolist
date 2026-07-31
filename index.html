@@ -435,15 +435,15 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
     <div class="footer-links">
 
-    <a href="#" onclick="event.preventDefault(); openInfoModal('privacy')">
+    <a href="#" onclick="openInfoModal('privacy'); return false;">
         Privacy
     </a>
 
-    <a href="#" onclick="event.preventDefault(); openInfoModal('terms')">
+    <a href="#" onclick="openInfoModal('terms'); return false;">
         Terms
     </a>
 
-    <a href="#" onclick="event.preventDefault(); openInfoModal('contact')">
+    <a href="#" onclick="openInfoModal('contact'); return false;">
         Contact
     </a>
 
@@ -969,7 +969,7 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
                             </th>
 
                             <th>
-                                Deadline
+                                DeadLine
                             </th>
 
                             <th>

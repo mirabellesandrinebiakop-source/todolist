@@ -93,7 +93,6 @@ async addTask() {
 
             body: JSON.stringify({
 
-                utilisateur_id: utilisateur.id,
                 titre: text,
                 description: "",
                 priorite: finalPriority,
@@ -240,6 +239,9 @@ async deleteTask(id) {
 
 async toggleTask(id) {
 
+    console.log("this =", this);
+    console.log("this.manager =", this.manager);
+
     const todo = this.manager.findById(id);
 
     console.log("ID reçu :", id);
@@ -282,9 +284,7 @@ async toggleTask(id) {
 
                     statut: nouveauStatut,
 
-                    dateFin: nouveauStatut === "terminee"
-                        ? (todo.dateFin ? todo.dateFin.substring(0,10) : null)
-                        : null
+                    dateFin: todo.dateFin
 
                 })
 
@@ -385,20 +385,38 @@ if (todo.dateFin) {
 
     const limite = new Date(todo.dateFin);
 
+    let deadlineWarning = "";
+
+if (todo.dateFin && todo.statut !== "terminee") {
+
+    const aujourdHui = new Date();
+    aujourdHui.setHours(0, 0, 0, 0);
+
+    const limite = new Date(todo.dateFin.substring(0,10));
+    limite.setHours(0, 0, 0, 0);
+
     const difference =
-        (limite - aujourdHui) / (1000 * 60 * 60 * 24);
+        Math.ceil((limite - aujourdHui) / (1000 * 60 * 60 * 24));
 
-    if (difference <= 1 && todo.statut !== "terminee") {
+    if (difference < 0) {
 
-        deadlineWarning =
-            `<span style="
-                color:red;
-                font-weight:bold;
-            ">
-            🔴 Deadline proche
-            </span>`;
+        deadlineWarning = `
+            <span style="color:red;font-weight:bold;">
+                🔴 En retard
+            </span>
+        `;
+
+    } else if (difference <= 3) {
+
+        deadlineWarning = `
+            <span style="color:orange;font-weight:bold;">
+                🟠 Deadline proche
+            </span>
+        `;
 
     }
+
+}
 
 }
         const tr = document.createElement("tr");
@@ -450,7 +468,7 @@ if (todo.dateFin) {
 <td>
     ${
         todo.dateFin
-        ? new Date(todo.dateFin).toLocaleDateString("fr-FR")
+        ? todo.dateFin.substring(0,10).split("-").reverse().join("/")
         : "-"
     }
 </td>
@@ -862,6 +880,8 @@ async addTaskFromModal(){
 
         try {
 
+            const token = localStorage.getItem("token");
+
             const response = await fetch(
                 "http://localhost:3000/todos",
                 {
@@ -869,7 +889,8 @@ async addTaskFromModal(){
                     method: "POST",
 
                     headers: {
-                    "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
                     },
 
                     body: JSON.stringify({
@@ -1030,12 +1051,17 @@ async confirmDeleteTask() {
 
     try {
 
+        const token = localStorage.getItem("token");
+
         const response = await fetch(
 
             `http://localhost:3000/todos/${this.deletingTaskId}`,
 
             {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             }
 
         );
