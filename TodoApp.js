@@ -5,6 +5,8 @@ constructor() {
     this.taskInput = document.getElementById("taskInput");
     this.taskList = document.getElementById("taskList");
     this.taskCounter = document.getElementById("taskCounter");
+    this.globalSearch =
+    document.getElementById("globalSearch");
 
     const saved = localStorage.getItem("utilisateurConnecte");
 
@@ -28,6 +30,8 @@ constructor() {
 
     this.manager = new TodoManager(this.utilisateur);
 
+    this.projects = [];
+
     this.init();
 
 }
@@ -36,9 +40,17 @@ async init() {
 
     await this.manager.chargerDepuisServeur();
 
+    await this.chargerProjets();
+
     this.render();
 
     this.updateCounter();
+
+    this.globalSearch.addEventListener("input", () => {
+
+        this.render();
+
+    });
 
 }
 
@@ -351,6 +363,26 @@ render(filter = "all") {
 
     let data = [...all];
 
+    const recherche =
+    this.globalSearch.value.trim().toLowerCase();
+
+if (recherche) {
+
+    data = data.filter(todo => {
+
+        return (
+            todo.titre.toLowerCase().includes(recherche) ||
+
+            (todo.description || "")
+                .toLowerCase()
+                .includes(recherche)
+
+        );
+
+    });
+
+}
+
 
     if (filter === "active") {
 
@@ -378,14 +410,6 @@ render(filter = "all") {
     data.forEach(todo => {
 
         let deadlineWarning = "";
-
-if (todo.dateFin) {
-
-    const aujourdHui = new Date();
-
-    const limite = new Date(todo.dateFin);
-
-    let deadlineWarning = "";
 
 if (todo.dateFin && todo.statut !== "terminee") {
 
@@ -418,9 +442,7 @@ if (todo.dateFin && todo.statut !== "terminee") {
 
 }
 
-}
         const tr = document.createElement("tr");
-
 
 
         tr.innerHTML = `
@@ -1161,6 +1183,39 @@ confirmLogout() {
     this.showNotification(
         "👋 Vous êtes déconnecté avec succès."
     );
+
+}
+
+async chargerProjets() {
+
+    try {
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+            "http://localhost:3000/projects",
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error("Erreur");
+
+        }
+
+        this.projects = await response.json();
+
+    } catch (error) {
+
+        console.error(error);
+
+        this.projects = [];
+
+    }
 
 }
 

@@ -27,11 +27,21 @@ function auth(req, res, next) {
 
         req.utilisateur = utilisateur;
 
+        console.log("Utilisateur connecté :", utilisateur);
+
         next();
 
     } catch (error) {
 
         console.log(error);
+
+        if (error.name === "TokenExpiredError") {
+
+            return res.status(401).json({
+                message: "Votre session a expiré. Veuillez vous reconnecter."
+            });
+
+        }
 
         return res.status(401).json({
             message: "Token invalide."

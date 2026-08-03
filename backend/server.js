@@ -8,6 +8,8 @@ const db = require("./database");
 
 const usersRoutes = require("./routes/users");
 const todosRoutes = require("./routes/todos");
+const projectsRoutes = require("./routes/projects");
+const attachmentRoutes = require("./routes/attachments");
 
 
 const app = express();
@@ -21,6 +23,8 @@ app.use(express.json());
 
 app.use("/users", usersRoutes);
 app.use("/todos", todosRoutes);
+app.use("/projects", projectsRoutes);
+app.use("/attachments", attachmentRoutes);
 
 
 app.get("/", (req, res) => {
