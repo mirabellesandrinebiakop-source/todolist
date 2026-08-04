@@ -5,12 +5,38 @@ constructor() {
     this.taskInput = document.getElementById("taskInput");
     this.taskList = document.getElementById("taskList");
     this.taskCounter = document.getElementById("taskCounter");
+
     this.globalSearch =
     document.getElementById("globalSearch");
+
+
+    this.globalSearch.addEventListener("input", (e)=>{
+
+        const value = e.target.value.trim();
+
+
+        if(value.length < 2){
+
+            const container = document.getElementById("globalResults");
+
+            if(container){
+                container.innerHTML = "";
+            }
+
+            return;
+        }
+
+
+        this.searchGlobal(value);
+
+    });
+
+
 
     const saved = localStorage.getItem("utilisateurConnecte");
 
     this.utilisateur = saved ? JSON.parse(saved) : null;
+
 
     if (!this.utilisateur) {
 
@@ -23,6 +49,7 @@ constructor() {
         return;
 
     }
+
 
     this.editingTaskId = null;
 
@@ -690,9 +717,61 @@ if(circle){
     
 }
 
-clearCompleted() {
-    this.manager.clearCompleted();
-    this.render();
+async clearCompleted() {
+
+    try {
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+            "http://localhost:3000/todos/completed/all",
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if(!response.ok){
+
+            this.showNotification(
+                data.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        await this.manager.chargerDepuisServeur();
+
+        this.render();
+
+        this.updateCounter();
+
+
+        this.showNotification(
+            `🗑️ ${data.deleted} tâche(s) terminée(s) supprimée(s).`
+        );
+
+
+    } catch(error){
+
+        console.error(error);
+
+        this.showNotification(
+            "Impossible de supprimer les tâches terminées.",
+            "error"
+        );
+
+    }
+
 }
 
 sortByPriority() {
@@ -750,6 +829,112 @@ searchTask(value) {
         this.taskList.appendChild(tr);
 
     });
+
+}
+
+async searchGlobal(value) {
+
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        `http://localhost:3000/search?query=${encodeURIComponent(value)}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    const results = await response.json();
+
+    this.displayGlobalResults(results);
+
+    return results;
+
+}
+
+displayGlobalResults(results) {
+
+    const container = document.getElementById("globalResults");
+
+    if (!container) return;
+
+
+    container.innerHTML = "";
+
+
+    if (
+        results.tasks.length === 0 &&
+        results.projects.length === 0 &&
+        results.attachments.length === 0
+    ) {
+
+        container.innerHTML = `
+            <p>Aucun résultat trouvé</p>
+        `;
+
+        return;
+    }
+
+
+
+    if (results.tasks.length > 0) {
+
+        container.innerHTML += `
+            <h4>📋 Tasks</h4>
+        `;
+
+        results.tasks.forEach(task => {
+
+            container.innerHTML += `
+                <div class="result-item">
+                    ${task.titre}
+                </div>
+            `;
+
+        });
+
+    }
+
+
+
+    if (results.projects.length > 0) {
+
+        container.innerHTML += `
+            <h4>📁 Projects</h4>
+        `;
+
+        results.projects.forEach(project => {
+
+            container.innerHTML += `
+                <div class="result-item">
+                    ${project.nom}
+                </div>
+            `;
+
+        });
+
+    }
+
+
+
+    if (results.attachments.length > 0) {
+
+        container.innerHTML += `
+            <h4>📎 Attachments</h4>
+        `;
+
+        results.attachments.forEach(file => {
+
+            container.innerHTML += `
+                <div class="result-item">
+                    ${file.nom}
+                </div>
+            `;
+
+        });
+
+    }
 
 }
 
@@ -840,6 +1025,7 @@ async addTaskFromModal(){
     try {
 
         const token = localStorage.getItem("token");
+        const ancienneTache = this.manager.findById(this.editingTaskId);
         const response = await fetch(
             `http://localhost:3000/todos/${this.editingTaskId}`,
             {
@@ -856,7 +1042,9 @@ async addTaskFromModal(){
                     titre: titre.trim(),
                     description: description,
                     priorite: priorite,
-                    statut: "a faire",
+                    statut: ancienneTache 
+                        ? ancienneTache.statut 
+                        : "a faire",
                     dateFin: deadline
 
                 })
@@ -1153,6 +1341,8 @@ closeLogoutModal() {
 confirmLogout() {
 
     localStorage.removeItem("utilisateurConnecte");
+
+    localStorage.removeItem("token");
 
     sessionStorage.clear();
 

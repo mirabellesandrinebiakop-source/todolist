@@ -212,6 +212,8 @@ moveUp(id) {
 
     this.save();
 
+    this.updatePositions();
+
 }
 
 moveDown(id) {
@@ -231,6 +233,39 @@ moveDown(id) {
     ];
 
     this.save();
+
+    this.updatePositions();
+
+}
+
+async updatePositions() {
+
+    console.log("UPDATE POSITIONS APPELE");
+    console.log(this.utilisateur.todos);
+
+    const token = localStorage.getItem("token");
+
+    const positions = this.utilisateur.todos.map(
+        (todo, index) => ({
+            id: todo.id,
+            position: index + 1
+        })
+    );
+
+
+    await fetch(
+        "http://localhost:3000/todos/order",
+        {
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+
+            body: JSON.stringify(positions)
+        }
+    );
 
 }
 

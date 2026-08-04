@@ -24,7 +24,7 @@ router.post("/", auth, (req, res) => {
 
         return res.status(400).json({
 
-            message:"Le titre sont obligatoire."
+            message:"Le titre est obligatoire."
 
         });
 
@@ -83,7 +83,7 @@ router.get("/", auth, (req, res) => {
         SELECT *
         FROM todos
         WHERE utilisateur_id = ?
-        ORDER BY dateCreation DESC
+        ORDER BY position ASC, dateCreation DESC
     `;
 
 
@@ -150,6 +150,204 @@ router.delete("/:id", auth, (req, res) => {
 
             res.json({
                 message: "Tâche supprimée avec succès."
+            });
+
+        }
+    );
+
+});
+
+router.put("/order", auth, (req, res) => {
+
+
+
+    const utilisateur_id = req.utilisateur.id;
+
+
+
+    const positions = req.body;
+
+    
+
+    console.log("POSITIONS RECUES :", positions);
+
+    console.log("UTILISATEUR :", req.utilisateur.id);
+
+
+
+    if (!Array.isArray(positions)) {
+
+
+
+        return res.status(400).json({
+
+            message: "Format incorrect."
+
+        });
+
+
+
+    }
+
+
+
+
+
+    const queries = positions.map(item => {
+
+
+
+        return new Promise((resolve, reject) => {
+
+
+
+            const sql = `
+
+                UPDATE todos
+
+                SET position = ?
+
+                WHERE id = ?
+
+                AND utilisateur_id = ?
+
+            `;
+
+
+
+
+
+            db.query(
+
+                sql,
+
+                [
+
+                    item.position,
+
+                    item.id,
+
+                    utilisateur_id
+
+                ],
+
+                (err, result) => {
+
+
+
+                    if (err) {
+
+
+
+                        reject(err);
+
+
+
+                    } else {
+
+
+
+                        resolve(result);
+
+
+
+                    }
+
+
+
+                }
+
+            );
+
+
+
+        });
+
+
+
+    });
+
+
+
+
+
+    Promise.all(queries)
+
+
+
+    .then(() => {
+
+
+
+        res.json({
+
+            message: "Ordre des tâches mis à jour."
+
+        });
+
+
+
+    })
+
+
+
+    .catch(error => {
+
+
+
+        console.log(error);
+
+
+
+        res.status(500).json({
+
+            message: "Erreur mise à jour ordre."
+
+        });
+
+
+
+    });
+
+
+
+
+
+});
+
+router.delete("/completed/all", auth, (req, res) => {
+
+    const utilisateur_id = req.utilisateur.id;
+
+
+    const sql = `
+        DELETE FROM todos
+        WHERE utilisateur_id = ?
+        AND statut = 'terminee'
+    `;
+
+
+    db.query(
+        sql,
+        [utilisateur_id],
+        (err, result) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json({
+                    message: "Erreur suppression des tâches terminées."
+                });
+
+            }
+
+
+            res.json({
+
+                message: "Tâches terminées supprimées avec succès.",
+                deleted: result.affectedRows
+
             });
 
         }

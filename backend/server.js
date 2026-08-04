@@ -10,6 +10,7 @@ const usersRoutes = require("./routes/users");
 const todosRoutes = require("./routes/todos");
 const projectsRoutes = require("./routes/projects");
 const attachmentRoutes = require("./routes/attachments");
+const searchRoutes = require("./routes/search");
 
 
 const app = express();
@@ -25,6 +26,7 @@ app.use("/users", usersRoutes);
 app.use("/todos", todosRoutes);
 app.use("/projects", projectsRoutes);
 app.use("/attachments", attachmentRoutes);
+app.use("/search", searchRoutes);
 
 
 app.get("/", (req, res) => {
