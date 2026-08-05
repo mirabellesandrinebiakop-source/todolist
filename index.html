@@ -836,6 +836,8 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
 </header>
 
+<div id="dashboardSection">
+
 <section class="stats-grid">
 
     <div class="stat-card">
@@ -910,7 +912,27 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
 </section>
 
-            <section class="task-controls">
+</div>
+
+<section id="projectsSection" style="display:none;">
+
+    <div class="section-header">
+
+        <h2>📁 Projects</h2>
+
+        <button onclick="openProjectModal()">
+            + Nouveau projet
+        </button>
+
+    </div>
+
+    <div id="projectsList">
+
+    </div>
+
+</section>
+            
+<section class="task-controls">
 
     <input
     oninput="todoApp.searchTask(this.value)"
@@ -990,6 +1012,30 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
                 </table>
 
             </section>
+
+            <section
+    id="projectsSection"
+    style="display:none;"
+>
+
+    <div class="projects-header">
+
+        <h2>Mes projets</h2>
+
+        <button onclick="todoApp.openProjectModal()">
+            + Nouveau projet
+        </button>
+
+    </div>
+
+    <div
+        id="projectsList"
+        class="projects-grid"
+    >
+
+    </div>
+
+</section>
 
             <section class="bottom-dashboard">
 
@@ -1110,6 +1156,24 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
     </div>
 
             </section>
+
+            <section id="projectsSection" style="display:none;">
+
+    <div class="projects-header">
+
+        <h2>Projects</h2>
+
+        <button onclick="openProjectModal()">
+            + Nouveau projet
+        </button>
+
+    </div>
+
+    <div id="projectsList">
+
+    </div>
+
+</section>
         
             <footer class="dashboard-footer">
 
@@ -1428,6 +1492,46 @@ window.onload = function(){
             <p id="infoText"></p>
 
         </div>
+
+    </div>
+
+</div>
+
+<div id="projectModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2 id="projectModalTitle">
+            Nouveau projet
+        </h2>
+
+
+        <input 
+        id="projectName"
+        placeholder="Nom du projet">
+
+
+        <textarea
+        id="projectDescription"
+        placeholder="Description">
+        </textarea>
+
+
+        <input
+        type="color"
+        id="projectColor"
+        value="#2563eb">
+
+
+        <button onclick="saveProject()">
+            Enregistrer
+        </button>
+
+
+        <button onclick="closeProjectModal()">
+            Annuler
+        </button>
+
 
     </div>
 

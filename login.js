@@ -455,21 +455,33 @@ function showSection(section, element){
 
     const title = document.getElementById("pageTitle");
 
+    const dashboard =
+    document.getElementById("dashboardSection");
+
+    const projects =
+    document.getElementById("projectsSection");
+
     switch(section){
 
         case "dashboard":
 
+            dashboard.style.display = "block";
+
+            projects.style.display = "none";
+
             title.textContent = "Dashboard";
+
             break;
 
         case "projects":
 
+            dashboard.style.display = "none";
+
+            projects.style.display = "block";
+
             title.textContent = "Projects";
 
-            showModal(
-                "Projects",
-                "Le module Projects sera disponible dans une prochaine version."
-            );
+            todoApp.chargerProjets();
 
             break;
 

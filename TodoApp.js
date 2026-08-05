@@ -4,6 +4,7 @@ constructor() {
 
     this.taskInput = document.getElementById("taskInput");
     this.taskList = document.getElementById("taskList");
+    this.initDragAndDrop();
     this.taskCounter = document.getElementById("taskCounter");
 
     this.globalSearch =
@@ -471,6 +472,10 @@ if (todo.dateFin && todo.statut !== "terminee") {
 
         const tr = document.createElement("tr");
 
+        tr.draggable = true;
+
+        tr.dataset.id = todo.id;
+
 
         tr.innerHTML = `
 <td class="task-cell">
@@ -543,7 +548,20 @@ if (todo.dateFin && todo.statut !== "terminee") {
 </td>
 `;
 
+tr.addEventListener("dragstart", (e) => {
 
+    e.dataTransfer.setData("text/plain", todo.id);
+
+    tr.classList.add("dragging");
+
+});
+
+
+tr.addEventListener("dragend", () => {
+
+    tr.classList.remove("dragging");
+
+});
 
         this.taskList.appendChild(tr);
 
@@ -554,6 +572,38 @@ if (todo.dateFin && todo.statut !== "terminee") {
 
 
     this.updateCounter();
+
+}
+
+initDragAndDrop() {
+
+    this.taskList.addEventListener("dragover", (e) => {
+
+        e.preventDefault();
+
+    });
+
+    this.taskList.addEventListener("drop", (e) => {
+
+        e.preventDefault();
+
+        const draggedId = Number(
+            e.dataTransfer.getData("text/plain")
+        );
+
+        const targetRow = e.target.closest("tr");
+
+        if (!targetRow) return;
+
+        const targetId = Number(targetRow.dataset.id);
+
+        if (draggedId === targetId) return;
+
+        this.manager.moveTask(draggedId, targetId);
+
+        this.render();
+
+    });
 
 }
 
@@ -1398,6 +1448,7 @@ async chargerProjets() {
         }
 
         this.projects = await response.json();
+        this.displayProjects();
 
     } catch (error) {
 
@@ -1406,6 +1457,105 @@ async chargerProjets() {
         this.projects = [];
 
     }
+
+}
+
+renderProjects() {
+
+    const container =
+    document.getElementById("projectsList");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    this.projects.forEach(project => {
+
+        const card = document.createElement("div");
+
+        card.className = "project-card";
+
+        card.style.borderLeftColor =
+        project.couleur;
+
+        card.innerHTML = `
+
+            <h3>${project.nom}</h3>
+
+            <p>
+                ${
+                    project.description ||
+                    "Aucune description"
+                }
+            </p>
+
+            <br>
+
+            <button
+                onclick="todoApp.editProject(${project.id})">
+                ✏️ Modifier
+            </button>
+
+            <button
+                onclick="todoApp.deleteProject(${project.id})">
+                🗑️ Supprimer
+            </button>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+displayProjects(){
+
+    const container =
+    document.getElementById("projectsList");
+
+
+    if(!container) return;
+
+
+    container.innerHTML = "";
+
+
+    if(this.projects.length === 0){
+
+        container.innerHTML = `
+            <p>Aucun projet trouvé.</p>
+        `;
+
+        return;
+
+    }
+
+
+    this.projects.forEach(project => {
+
+
+        container.innerHTML += `
+
+            <div class="project-card">
+
+                <h3>
+                    📁 ${project.nom}
+                </h3>
+
+
+                <p>
+                    ${project.description || "Aucune description"}
+                </p>
+
+
+            </div>
+
+        `;
+
+
+    });
+
 
 }
 
@@ -1424,5 +1574,125 @@ function openInfoModal(type){
 function closeInfoModal(){
 
     todoApp.closeInfoModal();
+
+}
+
+function openProjectModal(){
+
+    document
+    .getElementById("projectModal")
+    .classList.add("show");
+
+}
+
+
+function closeProjectModal(){
+
+    document
+    .getElementById("projectModal")
+    .classList.remove("show");
+
+}
+
+async function saveProject(){
+
+    const nom =
+    document.getElementById("projectName").value;
+
+
+    const description =
+    document.getElementById("projectDescription").value;
+
+
+    const couleur =
+    document.getElementById("projectColor").value;
+
+
+    if(!nom.trim()){
+
+        todoApp.showNotification(
+            "Le nom du projet est obligatoire."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const token =
+        localStorage.getItem("token");
+
+
+        const response = await fetch(
+            "http://localhost:3000/projects",
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":"application/json",
+
+                    "Authorization":
+                    `Bearer ${token}`
+
+                },
+
+
+                body:JSON.stringify({
+
+                    nom: nom,
+
+                    description: description,
+
+                    couleur: couleur
+
+                })
+
+            }
+        );
+
+
+        const data =
+        await response.json();
+
+
+        if(!response.ok){
+
+            todoApp.showNotification(data.message);
+
+            return;
+
+        }
+
+
+        todoApp.showNotification(
+            "📁 Projet créé avec succès !"
+        );
+
+
+        closeProjectModal();
+
+
+        await todoApp.chargerProjets();
+
+
+
+        document.getElementById("projectName").value="";
+
+        document.getElementById("projectDescription").value="";
+
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        todoApp.showNotification("Erreur serveur.");
+
+    }
 
 }

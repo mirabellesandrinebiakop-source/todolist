@@ -109,51 +109,81 @@ router.get("/", auth, (req, res) => {
 });
 
 
-router.delete("/:id", auth, (req, res) => {
+router.delete("/completed/all", auth, (req, res) => {
 
-    const id = req.params.id;
+
 
     const utilisateur_id = req.utilisateur.id;
 
 
+
+
+
     const sql = `
+
         DELETE FROM todos
-        WHERE id = ?
-        AND utilisateur_id = ?
+
+        WHERE utilisateur_id = ?
+
+        AND statut = 'terminee'
+
     `;
 
 
+
+
+
     db.query(
+
         sql,
-        [id, utilisateur_id],
+
+        [utilisateur_id],
+
         (err, result) => {
+
+
 
             if (err) {
 
+
+
                 console.log(err);
 
+
+
                 return res.status(500).json({
-                    message: "Erreur lors de la suppression."
+
+                    message: "Erreur suppression des tâches terminées."
+
                 });
+
+
 
             }
 
 
-            if (result.affectedRows === 0) {
 
-                return res.status(404).json({
-                    message: "Tâche introuvable ou non autorisée."
-                });
-
-            }
 
 
             res.json({
-                message: "Tâche supprimée avec succès."
+
+
+
+                message: "Tâches terminées supprimées avec succès.",
+
+                deleted: result.affectedRows
+
+
+
             });
 
+
+
         }
+
     );
+
+
 
 });
 
@@ -315,21 +345,23 @@ router.put("/order", auth, (req, res) => {
 
 });
 
-router.delete("/completed/all", auth, (req, res) => {
+router.delete("/:id", auth, (req, res) => {
+
+    const id = req.params.id;
 
     const utilisateur_id = req.utilisateur.id;
 
 
     const sql = `
         DELETE FROM todos
-        WHERE utilisateur_id = ?
-        AND statut = 'terminee'
+        WHERE id = ?
+        AND utilisateur_id = ?
     `;
 
 
     db.query(
         sql,
-        [utilisateur_id],
+        [id, utilisateur_id],
         (err, result) => {
 
             if (err) {
@@ -337,17 +369,23 @@ router.delete("/completed/all", auth, (req, res) => {
                 console.log(err);
 
                 return res.status(500).json({
-                    message: "Erreur suppression des tâches terminées."
+                    message: "Erreur lors de la suppression."
+                });
+
+            }
+
+
+            if (result.affectedRows === 0) {
+
+                return res.status(404).json({
+                    message: "Tâche introuvable ou non autorisée."
                 });
 
             }
 
 
             res.json({
-
-                message: "Tâches terminées supprimées avec succès.",
-                deleted: result.affectedRows
-
+                message: "Tâche supprimée avec succès."
             });
 
         }

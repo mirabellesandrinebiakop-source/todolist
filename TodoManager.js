@@ -238,6 +238,32 @@ moveDown(id) {
 
 }
 
+moveTask(draggedId, targetId) {
+
+    const todos = this.utilisateur.todos;
+
+    const fromIndex = todos.findIndex(
+        t => Number(t.id) === Number(draggedId)
+    );
+
+    const toIndex = todos.findIndex(
+        t => Number(t.id) === Number(targetId)
+    );
+
+    if (fromIndex === -1 || toIndex === -1) {
+        return;
+    }
+
+    const [draggedTodo] = todos.splice(fromIndex, 1);
+
+    todos.splice(toIndex, 0, draggedTodo);
+
+    this.save();
+
+    this.updatePositions();
+
+}
+
 async updatePositions() {
 
     console.log("UPDATE POSITIONS APPELE");

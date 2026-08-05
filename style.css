@@ -3170,3 +3170,119 @@ button:hover{
     display:block;
 
 }
+
+.dragging{
+    opacity:0.5;
+    cursor:grabbing;
+}
+
+tr{
+    cursor:grab;
+} 
+
+#projectModal .modal-content{
+
+    padding:25px;
+
+}
+
+
+#projectModal input,
+#projectModal textarea{
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    margin-bottom:15px;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+}
+
+
+#projectModal textarea{
+
+    min-height:100px;
+
+    resize:vertical;
+
+}
+
+
+#projectModal input[type="color"]{
+
+    width:60px;
+
+    height:40px;
+
+    padding:0;
+
+    cursor:pointer;
+
+}
+
+
+#projectModal button{
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    margin-right:10px;
+
+}
+
+.projects-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.projects-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+
+    gap:20px;
+
+}
+
+.project-card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+    border-left:8px solid #2563eb;
+
+}
+
+.project-card h3{
+
+    margin-bottom:10px;
+
+}
+
+.project-card p{
+
+    color:#64748b;
+
+}
