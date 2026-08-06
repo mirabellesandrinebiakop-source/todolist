@@ -1,24 +1,26 @@
 class TodoApp {
 
-constructor() {
+    constructor() {
 
-    this.taskInput = document.getElementById("taskInput");
-    this.taskList = document.getElementById("taskList");
-    this.initDragAndDrop();
-    this.taskCounter = document.getElementById("taskCounter");
+        this.taskInput = document.getElementById("taskInput");
+        this.taskList = document.getElementById("taskList");
+        this.taskCounter = document.getElementById("taskCounter");
 
-    this.globalSearch =
-    document.getElementById("globalSearch");
+        this.globalSearch =
+        document.getElementById("globalSearch");
 
 
-    this.globalSearch.addEventListener("input", (e)=>{
+        if(this.globalSearch){
+
+        this.globalSearch.addEventListener("input", (e)=>{
 
         const value = e.target.value.trim();
 
 
         if(value.length < 2){
 
-            const container = document.getElementById("globalResults");
+            const container =
+            document.getElementById("globalResults");
 
             if(container){
                 container.innerHTML = "";
@@ -32,6 +34,7 @@ constructor() {
 
     });
 
+}
 
 
     const saved = localStorage.getItem("utilisateurConnecte");
@@ -70,15 +73,25 @@ async init() {
 
     await this.chargerProjets();
 
+    this.initSettings();
+
+    this.loadDarkMode();
+
+    this.initDragAndDrop();
+
     this.render();
 
     this.updateCounter();
 
-    this.globalSearch.addEventListener("input", () => {
+    if(this.globalSearch){
 
-        this.render();
+        this.globalSearch.addEventListener("input", () => {
 
-    });
+            this.render();
+
+        });
+
+    }
 
 }
 
@@ -989,7 +1002,28 @@ displayGlobalResults(results) {
 }
 
 toggleDarkMode() {
+
     document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "darkMode",
+        dark
+    );
+
+    const icon =
+        document.getElementById("darkModeIcon");
+
+    if(icon){
+
+        icon.className = dark
+            ? "fa-solid fa-sun"
+            : "fa-solid fa-moon";
+
+    }
+
 }
 
 moveUp(id) {
@@ -1449,6 +1483,7 @@ async chargerProjets() {
 
         this.projects = await response.json();
         this.displayProjects();
+        this.updateProjectsStats();
 
     } catch (error) {
 
@@ -1457,6 +1492,34 @@ async chargerProjets() {
         this.projects = [];
 
     }
+
+}
+
+loadSettings() {
+
+    const utilisateur = JSON.parse(
+        localStorage.getItem("utilisateurConnecte")
+    );
+
+    if (!utilisateur) {
+        console.log("Aucun utilisateur connecté");
+        return;
+    }
+
+
+    document.getElementById("settingsNom").value =
+        utilisateur.nom || "";
+
+
+    document.getElementById("settingsPrenom").value =
+        utilisateur.prenom || "";
+
+
+    document.getElementById("settingsEmail").value =
+        utilisateur.email || "";
+
+
+    document.getElementById("settingsPassword").value = "";
 
 }
 
@@ -1556,6 +1619,158 @@ displayProjects(){
 
     });
 
+
+}
+
+updateProjectsStats() {
+
+    const totalProjects =
+        this.projects.length;
+
+    document.getElementById("totalProjects").textContent =
+        totalProjects;
+
+}
+
+initSettings() {
+
+    const form = document.getElementById("settingsForm");
+
+    if (!form) return;
+
+    this.loadSettings();
+
+    if (!form.dataset.initialized) {
+
+    form.addEventListener("submit", (e) => {
+
+        e.preventDefault();
+
+        this.updateSettings();
+
+    });
+
+    form.dataset.initialized = "true";
+}
+
+}
+
+async updateSettings() {
+
+    try {
+
+        const utilisateur = JSON.parse(
+            localStorage.getItem("utilisateurConnecte")
+        );
+
+        console.log("Utilisateur dans updateSettings :", utilisateur);
+
+        const token = localStorage.getItem("token");
+
+        console.log({
+            nom: document.getElementById("settingsNom").value,
+            prenom: document.getElementById("settingsPrenom").value,
+            email: document.getElementById("settingsEmail").value,
+            motDePasse: document.getElementById("settingsPassword").value
+        });
+
+        const response = await fetch(
+
+            `http://localhost:3000/users/${utilisateur.id}`,
+
+            {
+
+                method: "PUT",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "Authorization": `Bearer ${token}`
+
+                },
+
+                body: JSON.stringify({
+
+                    nom: document.getElementById("settingsNom").value,
+
+                    prenom: document.getElementById("settingsPrenom").value,
+
+                    email: document.getElementById("settingsEmail").value,
+
+                    motDePasse: document.getElementById("settingsPassword").value
+
+                })
+
+            }
+
+        );
+
+        const data = await response.json();
+
+        console.log("Réponse backend :", data);
+        console.log("Status :", response.status);
+
+        if (!response.ok) {
+
+            this.showNotification(
+                data.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+        const utilisateurMisAJour = {
+            ...utilisateur,
+            nom: document.getElementById("settingsNom").value,
+            prenom: document.getElementById("settingsPrenom").value,
+            email: document.getElementById("settingsEmail").value
+        };
+
+        localStorage.setItem(
+            "utilisateurConnecte",
+            JSON.stringify(utilisateurMisAJour)
+        );
+
+        this.showNotification(
+            data.message,
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        this.showNotification(
+            "Erreur lors de la mise à jour du profil.",
+            "error"
+        );
+
+    }
+
+}
+
+loadDarkMode() {
+
+    const dark =
+        localStorage.getItem("darkMode") === "true";
+
+    if(dark){
+
+        document.body.classList.add("dark");
+
+        const icon =
+            document.getElementById("darkModeIcon");
+
+        if(icon){
+
+            icon.className = "fa-solid fa-sun";
+
+        }
+
+    }
 
 }
 

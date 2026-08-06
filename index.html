@@ -910,27 +910,123 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
     </div>
 
+    <div class="stat-card">
+
+    <div class="stat-icon blue">
+        <i class="fa-regular fa-folder-open"></i>
+    </div>
+
+    <div class="stat-content">
+
+        <h3>Projects</h3>
+
+        <strong id="totalProjects">0</strong>
+
+        <small>Total des projets</small>
+
+    </div>
+
+</div>
+
 </section>
 
 </div>
 
-<section id="projectsSection" style="display:none;">
+<section id="settingsSection" style="display:none;">
 
     <div class="section-header">
 
-        <h2>📁 Projects</h2>
+        <h2>Settings</h2>
 
-        <button onclick="openProjectModal()">
-            + Nouveau projet
+        <p>Modifier les informations de votre compte.</p>
+
+    </div>
+
+    <form id="settingsForm">
+
+        <input
+            type="text"
+            id="settingsNom"
+            placeholder="Nom">
+
+        <input
+            type="text"
+            id="settingsPrenom"
+            placeholder="Prénom">
+
+        <input
+            type="email"
+            id="settingsEmail"
+            placeholder="Email">
+
+        <input
+            type="password"
+            id="settingsPassword"
+            placeholder="Nouveau mot de passe (optionnel)">
+
+        <button type="submit">
+            Enregistrer
         </button>
 
-    </div>
-
-    <div id="projectsList">
-
-    </div>
+    </form>
 
 </section>
+
+<section id="helpSection" style="display:none;">
+
+    <div class="section-header">
+
+        <h2>❓ Help</h2>
+
+        <p>
+            Centre d'aide de TodoApp Pro.
+        </p>
+
+    </div>
+
+
+    <div class="help-container">
+
+
+        <div class="help-card">
+
+            <h3>✅ Gestion des tâches</h3>
+
+            <p>
+                Créez, modifiez, supprimez et organisez vos tâches.
+            </p>
+
+        </div>
+
+
+        <div class="help-card">
+
+            <h3>📁 Gestion des projets</h3>
+
+            <p>
+                Organisez vos activités avec des projets.
+            </p>
+
+        </div>
+
+
+        <div class="help-card">
+
+            <h3>⚙️ Paramètres</h3>
+
+            <p>
+                Modifiez vos informations personnelles dans Settings.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+<section id="tasksSection">
             
 <section class="task-controls">
 
@@ -942,32 +1038,37 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
             <section class="filters">
 
+    <button onclick="todoApp.filterTasks('all')">
+        All
+    </button>
 
-                <button onclick="todoApp.filterTasks('all')">
-                    All
-                </button>
+    <button onclick="todoApp.filterTasks('active')">
+        Active
+    </button>
 
-                <button onclick="todoApp.filterTasks('active')">
-                    Active
-                </button>
+    <button onclick="todoApp.filterTasks('completed')">
+        Completed
+    </button>
 
-                <button onclick="todoApp.filterTasks('completed')">
-                    Completed
-                </button>
+    <button onclick="todoApp.sortByPriority()">
+        Tri priorité
+    </button>
 
-                <button onclick="todoApp.sortByPriority()">
-                    Tri priorité
-                </button>
+    <button onclick="todoApp.clearCompleted()">
+        Supprimer terminées
+    </button>
 
-                <button onclick="todoApp.clearCompleted()">
-                    Supprimer terminées
-                </button>
+    <button
+        id="darkModeBtn"
+        class="icon-action-btn"
+        onclick="todoApp.toggleDarkMode()"
+        title="Mode sombre">
 
-                <button onclick="todoApp.toggleDarkMode()">
-                    Dark Mode
-                </button>
+        <i id="darkModeIcon" class="fa-solid fa-moon"></i>
 
-            </section>
+    </button>
+
+</section>
 
             <section class="tasks-table-container">
 
@@ -1010,6 +1111,8 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
                     </tbody>
 
                 </table>
+
+            </section>
 
             </section>
 
@@ -1161,20 +1264,23 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
     <div class="projects-header">
 
-        <h2>Projects</h2>
+        <h2>Mes projets</h2>
 
-        <button onclick="openProjectModal()">
+        <button onclick="todoApp.openProjectModal()">
             + Nouveau projet
         </button>
 
     </div>
 
-    <div id="projectsList">
+    <div
+        id="projectsList"
+        class="projects-grid"
+    >
 
     </div>
 
 </section>
-        
+
             <footer class="dashboard-footer">
 
     <p class="footer-copy">
@@ -1414,31 +1520,23 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
 window.addEventListener("load", () => {
 
-    const utilisateur = JSON.parse(
-        localStorage.getItem("utilisateurConnecte")
-    );
+    const saved = localStorage.getItem("utilisateurConnecte");
 
-    if (utilisateur) {
-
-        document.getElementById("landingPage").style.display = "none";
-
-        document.getElementById("authPage").style.display = "none";
-
-        document.getElementById("app").style.display = "block";
-
-        window.todoApp = new TodoApp();
-
-        afficherUtilisateur(utilisateur);
-
-    } else {
-
-        document.getElementById("landingPage").style.display = "block";
-
-        document.getElementById("authPage").style.display = "none";
-
-        document.getElementById("app").style.display = "none";
-
+    if (!saved) {
+        return;
     }
+
+    utilisateurConnecte = JSON.parse(saved);
+
+    document.getElementById("landingPage").style.display = "none";
+    document.getElementById("authPage").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+
+    window.todoApp = new TodoApp();
+
+
+    afficherUtilisateur(utilisateurConnecte);
 
 });
 

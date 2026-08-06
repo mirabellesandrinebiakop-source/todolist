@@ -461,21 +461,32 @@ function showSection(section, element){
     const projects =
     document.getElementById("projectsSection");
 
+    const settings =
+    document.getElementById("settingsSection");
+
+    const help =
+    document.getElementById("helpSection");
+
+    const tasks =
+    document.getElementById("tasksSection");
+
+    dashboard.style.display = "none";
+    projects.style.display = "none";
+    tasks.style.display = "none";
+    settings.style.display = "none";
+    help.style.display = "none";
+
     switch(section){
 
         case "dashboard":
 
             dashboard.style.display = "block";
 
-            projects.style.display = "none";
-
             title.textContent = "Dashboard";
 
             break;
 
         case "projects":
-
-            dashboard.style.display = "none";
 
             projects.style.display = "block";
 
@@ -487,7 +498,10 @@ function showSection(section, element){
 
         case "tasks":
 
+            tasks.style.display = "block";
+
             title.textContent = "Tasks";
+
             break;
 
         case "messages":
@@ -503,26 +517,21 @@ function showSection(section, element){
 
         case "settings":
 
+            settings.style.display = "block";
+
             title.textContent = "Settings";
 
-            showModal(
-                "Settings",
-                "Les paramètres seront bientôt disponibles."
-            );
+            todoApp.textcontent = "settings";
 
             break;
 
         case "help":
 
+            help.style.display = "block";
+
             title.textContent = "Help";
 
-            showModal(
-                "Centre d'aide",
-                "Bienvenue dans le centre d'aide de TodoApp Pro."
-            );
-
             break;
-
     }
 
 }
