@@ -1,6 +1,5 @@
 const mysql = require("mysql2");
 
-
 const connection = mysql.createConnection({
 
     host: "localhost",
@@ -9,10 +8,11 @@ const connection = mysql.createConnection({
 
     password: "MySql@12345",
 
-    database: "todolist"
+    database: "todolist",
+
+    dateStrings: true
 
 });
-
 
 connection.connect((err) => {
 
@@ -26,6 +26,5 @@ connection.connect((err) => {
     console.log("✅ MySQL connecté !");
 
 });
-
 
 module.exports = connection;

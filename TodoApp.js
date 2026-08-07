@@ -77,6 +77,14 @@ async init() {
 
     this.loadDarkMode();
 
+    this.loadLanguage();
+
+    this.loadNotificationPreference();
+
+    this.loadDisplayMode();
+
+    this.loadSettings();
+
     this.initDragAndDrop();
 
     this.render();
@@ -395,7 +403,37 @@ async toggleTask(id) {
 }
 
 filterTasks(type) {
+
+
     this.render(type);
+
+
+    document
+    .querySelectorAll(".filters button")
+    .forEach(btn => {
+
+        btn.classList.remove("active-filter");
+
+    });
+
+
+    const bouton =
+    document.getElementById(
+        "filter" +
+        type.charAt(0).toUpperCase() +
+        type.slice(1)
+    );
+
+
+    if(bouton){
+
+        bouton.classList.add(
+            "active-filter"
+        );
+
+    }
+
+
 }
 
 render(filter = "all") {
@@ -445,8 +483,6 @@ if (recherche) {
 
 
     this.taskList.innerHTML = "";
-
-
 
     data.forEach(todo => {
 
@@ -541,14 +577,6 @@ if (todo.dateFin && todo.statut !== "terminee") {
 </td>
 
 <td class="action-buttons">
-
-    <button onclick="todoApp.moveUp(${todo.id})">
-        ⬆️
-    </button>
-
-    <button onclick="todoApp.moveDown(${todo.id})">
-        ⬇️
-    </button>
 
     <button onclick="todoApp.editTask(${todo.id})">
         ✏️
@@ -1058,23 +1086,44 @@ updateProfile(){
 
 showNotification(message, type = "success") {
 
-    const notification = document.getElementById("notification");
+
+    const preference =
+        localStorage.getItem("notifications");
+
+
+    if(preference === "disabled"){
+
+        return;
+
+    }
+
+
+
+    const notification =
+        document.getElementById("notification");
+
 
     if (!notification) return;
 
+
     notification.textContent = message;
+
 
     notification.className = "";
 
+
     notification.classList.add(type);
 
+
     notification.classList.add("show");
+
 
     setTimeout(() => {
 
         notification.classList.remove("show");
 
     }, 3000);
+
 
 }
 
@@ -1260,7 +1309,7 @@ async addTaskFromModal(){
 
 }
 
-openInfoModal(type){
+async openInfoModal(type){
 
     const modal =
     document.getElementById("infoModal");
@@ -1272,40 +1321,58 @@ openInfoModal(type){
     document.getElementById("infoText");
 
 
-    if(type === "privacy"){
+    try {
 
-        title.textContent = "Privacy";
+
+        const response = await fetch(
+            `http://localhost:3000/informations/${type}`
+        );
+
+
+        const data = await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(data.message);
+
+        }
+
+
+        title.textContent =
+        data.titre;
+
 
         text.textContent =
-        "Vos données restent privées et sont stockées localement dans votre navigateur.";
+        data.contenu;
+
+
+        modal.classList.add("show");
+
 
     }
+    catch(error){
 
 
-    if(type === "terms"){
+        console.error(
+            "Erreur chargement information :",
+            error
+        );
 
-        title.textContent = "Terms";
+
+        title.textContent =
+        "Erreur";
+
 
         text.textContent =
-        "En utilisant TodoApp Pro, vous acceptez les conditions d'utilisation de l'application.";
+        "Impossible de charger les informations.";
+
+
+        modal.classList.add("show");
 
     }
-
-
-    if(type === "contact"){
-
-        title.textContent = "Contact";
-
-        text.textContent =
-        "Pour toute question, contactez l'équipe TodoApp Pro.";
-
-    }
-
-
-    modal.classList.add("show");
 
 }
-
 
 
 closeInfoModal(){
@@ -1771,6 +1838,289 @@ loadDarkMode() {
         }
 
     }
+
+}
+
+initPreferences(){
+
+    const darkBtn =
+    document.getElementById("settingsDarkBtn");
+
+
+    const language =
+    document.getElementById("languageSelect");
+
+
+    const notification =
+    document.getElementById("notificationSelect");
+
+
+    const display =
+    document.getElementById("displayMode");
+
+    const preferences =
+    JSON.parse(
+        localStorage.getItem("preferences")
+    ) || {};
+
+
+
+    if(language){
+
+        language.value =
+        preferences.language || "fr";
+
+    }
+
+
+
+    if(notification){
+
+        notification.value =
+        preferences.notifications || "enabled";
+
+    }
+
+
+
+    if(display){
+
+        display.value =
+        preferences.display || "normal";
+
+    }
+
+
+
+    if(darkBtn){
+
+        const dark =
+        document.body.classList.contains("dark");
+
+
+        darkBtn.textContent =
+        dark ? "Désactiver" : "Activer";
+
+
+        darkBtn.onclick = () => {
+
+
+            this.toggleDarkMode();
+
+
+            const actif =
+            document.body.classList.contains("dark");
+
+
+            darkBtn.textContent =
+            actif ? "Désactiver" : "Activer";
+
+
+            this.savePreferences();
+
+
+        };
+
+    }
+
+
+
+    if(language){
+
+        language.addEventListener(
+            "change",
+            ()=>{
+
+                this.savePreferences();
+
+            }
+        );
+
+    }
+
+
+
+    if(notification){
+
+        notification.addEventListener(
+            "change",
+            ()=>{
+
+                this.savePreferences();
+
+            }
+        );
+
+    }
+
+
+
+    if(display){
+
+        display.addEventListener(
+            "change",
+            ()=>{
+
+                this.savePreferences();
+
+            }
+        );
+
+    }
+
+}
+
+saveLanguage(){
+
+    const language =
+        document.getElementById("languageSelect").value;
+
+
+    localStorage.setItem(
+        "language",
+        language
+    );
+
+
+    this.showNotification(
+        "Langue enregistrée",
+        "success"
+    );
+
+}
+
+loadLanguage(){
+
+    const language =
+        localStorage.getItem("language") || "fr";
+
+
+    const select =
+        document.getElementById("languageSelect");
+
+
+    if(select){
+
+        select.value = language;
+
+    }
+
+}
+
+saveNotificationPreference(){
+
+    const value =
+        document.getElementById("notificationSelect").value;
+
+
+    localStorage.setItem(
+        "notifications",
+        value
+    );
+
+
+    this.showNotification(
+        "Préférence enregistrée",
+        "success"
+    );
+
+}
+
+loadNotificationPreference(){
+
+    const value =
+        localStorage.getItem("notifications") || "enabled";
+
+
+    const select =
+        document.getElementById("notificationSelect");
+
+
+    if(select){
+
+        select.value = value;
+
+    }
+
+}
+
+saveDisplayMode(){
+
+    const mode =
+        document.getElementById("displayMode").value;
+
+
+    localStorage.setItem(
+        "displayMode",
+        mode
+    );
+
+    console.log("Mode affichage enregistré :", mode);
+
+    this.applyDisplayMode();
+
+    this.showNotification(
+        "Mode d'affichage enregistré",
+        "success"
+    );
+
+
+}
+
+loadDisplayMode(){
+
+    const mode =
+        localStorage.getItem("displayMode") || "normal";
+
+
+    const select =
+        document.getElementById("displayMode");
+
+
+    if(select){
+
+        select.value = mode;
+
+    }
+
+    console.log("Mode chargé :", mode);
+
+    this.applyDisplayMode();
+
+}
+
+
+
+applyDisplayMode(){
+
+    const mode =
+        localStorage.getItem("displayMode");
+
+
+    if(mode === "compact"){
+
+        document.body.classList.add("compact");
+
+    }else{
+
+        document.body.classList.remove("compact");
+
+    }
+
+}
+
+savePreferences(){
+
+    this.saveLanguage();
+
+    this.saveNotificationPreference();
+
+    this.saveDisplayMode();
+
+    this.showNotification(
+        "Préférences enregistrées",
+        "success"
+    );
 
 }
 

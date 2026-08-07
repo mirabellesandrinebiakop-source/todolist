@@ -521,7 +521,9 @@ function showSection(section, element){
 
             title.textContent = "Settings";
 
-            todoApp.textcontent = "settings";
+            todoApp.loadSettings();
+
+            todoApp.initPreferences();
 
             break;
 

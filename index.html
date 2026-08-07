@@ -934,41 +934,167 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
 <section id="settingsSection" style="display:none;">
 
-    <div class="section-header">
+<div class="section-header">
 
-        <h2>Settings</h2>
+    <h2>Settings</h2>
 
-        <p>Modifier les informations de votre compte.</p>
+    <p>Modifier les informations de votre compte.</p>
 
-    </div>
+</div>
+
+
+<div class="settings-container">
+
+
 
     <form id="settingsForm">
 
-        <input
-            type="text"
-            id="settingsNom"
-            placeholder="Nom">
+        <h3>👤 Profil</h3>
+
 
         <input
-            type="text"
-            id="settingsPrenom"
-            placeholder="Prénom">
+        type="text"
+        id="settingsNom"
+        placeholder="Nom">
+
 
         <input
-            type="email"
-            id="settingsEmail"
-            placeholder="Email">
+        type="text"
+        id="settingsPrenom"
+        placeholder="Prénom">
+
 
         <input
-            type="password"
-            id="settingsPassword"
-            placeholder="Nouveau mot de passe (optionnel)">
+        type="email"
+        id="settingsEmail"
+        placeholder="Email">
+
+
+        <input
+        type="password"
+        id="settingsPassword"
+        placeholder="Nouveau mot de passe">
+
 
         <button type="submit">
             Enregistrer
         </button>
 
+
     </form>
+
+
+    <div class="preferences-box">
+
+
+        <h3>⚙️ Préférences</h3>
+
+
+
+        <div class="setting-item">
+
+            <label>
+            🌙 Mode sombre
+            </label>
+
+
+            <button
+            id="settingsDarkBtn"
+            type="button">
+
+            Activer
+
+            </button>
+
+        </div>
+
+
+
+
+        <div class="setting-item">
+
+            <label>
+            🌍 Langue
+            </label>
+
+
+            <select 
+id="languageSelect"
+onchange="todoApp.saveLanguage()">
+
+    <option value="fr">
+        🇫🇷 Français
+    </option>
+
+    <option value="en">
+        🇬🇧 English
+    </option>
+
+</select>
+
+        </div>
+
+
+
+
+        <div class="setting-item">
+
+            <label>
+            🔔 Notifications
+            </label>
+
+
+            <select 
+                id="notificationSelect"
+                onchange="todoApp.saveNotificationPreference()">
+
+                <option value="enabled">
+                    Activées
+                </option>
+
+                <option value="disabled">
+                    Désactivées
+                </option>
+
+            </select>
+
+
+        </div>
+
+
+
+
+        <div class="setting-item">
+
+            <label>
+            📋 Affichage
+            </label>
+
+
+            <select 
+                id="displayMode"
+                onchange="todoApp.saveDisplayMode()">
+
+                <option value="normal">
+                    Normal
+                </option>
+
+                <option value="compact">
+                    Compact
+                </option>
+
+            </select>
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
 
 </section>
 
@@ -1038,17 +1164,23 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
             <section class="filters">
 
-    <button onclick="todoApp.filterTasks('all')">
+    <button id="filterAll"
+        onclick="todoApp.filterTasks('all')">
         All
     </button>
 
-    <button onclick="todoApp.filterTasks('active')">
+
+    <button id="filterActive"
+        onclick="todoApp.filterTasks('active')">
         Active
     </button>
 
-    <button onclick="todoApp.filterTasks('completed')">
+
+    <button id="filterCompleted"
+        onclick="todoApp.filterTasks('completed')">
         Completed
     </button>
+
 
     <button onclick="todoApp.sortByPriority()">
         Tri priorité
@@ -1059,14 +1191,13 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
     </button>
 
     <button
-        id="darkModeBtn"
-        class="icon-action-btn"
-        onclick="todoApp.toggleDarkMode()"
-        title="Mode sombre">
+    id="darkModeBtn"
+    class="icon-action-btn"
+    onclick="todoApp.toggleDarkMode()">
 
-        <i id="darkModeIcon" class="fa-solid fa-moon"></i>
+    <i id="darkModeIcon" class="fa-solid fa-moon"></i>
 
-    </button>
+</button>
 
 </section>
 

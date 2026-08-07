@@ -11,6 +11,7 @@ const todosRoutes = require("./routes/todos");
 const projectsRoutes = require("./routes/projects");
 const attachmentRoutes = require("./routes/attachments");
 const searchRoutes = require("./routes/search");
+const informationsRoutes = require("./routes/informations");
 
 
 const app = express();
@@ -27,6 +28,7 @@ app.use("/todos", todosRoutes);
 app.use("/projects", projectsRoutes);
 app.use("/attachments", attachmentRoutes);
 app.use("/search", searchRoutes);
+app.use("/informations", informationsRoutes);
 
 
 app.get("/", (req, res) => {
