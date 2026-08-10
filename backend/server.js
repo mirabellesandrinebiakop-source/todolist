@@ -1,5 +1,4 @@
 require("dotenv").config();
-console.log("JWT SECRET :", process.env.JWT_SECRET);
 
 const express = require("express");
 const cors = require("cors");
@@ -16,18 +15,24 @@ const informationsRoutes = require("./routes/informations");
 
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 
 app.use(cors());
+
 app.use(express.json());
 
 
 app.use("/users", usersRoutes);
+
 app.use("/todos", todosRoutes);
+
 app.use("/projects", projectsRoutes);
+
 app.use("/attachments", attachmentRoutes);
+
 app.use("/search", searchRoutes);
+
 app.use("/informations", informationsRoutes);
 
 
@@ -46,10 +51,11 @@ app.get("/test-db", (req, res) => {
 
             console.log(err);
 
-            return res.status(500).send("Erreur MySQL");
+            return res
+                .status(500)
+                .send("Erreur MySQL");
 
         }
-
 
         res.send("✅ Connexion MySQL réussie !");
 
@@ -58,8 +64,10 @@ app.get("/test-db", (req, res) => {
 });
 
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
 
-    console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+    console.log(
+        `🚀 Serveur démarré sur le port ${PORT}`
+    );
 
 });

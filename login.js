@@ -484,7 +484,7 @@ function showSection(section, element){
 
             title.textContent = "Dashboard";
 
-            break;
+        break;
 
         case "projects":
 
@@ -494,7 +494,7 @@ function showSection(section, element){
 
             todoApp.chargerProjets();
 
-            break;
+        break;
 
         case "tasks":
 
@@ -502,7 +502,7 @@ function showSection(section, element){
 
             title.textContent = "Tasks";
 
-            break;
+        break;
 
         case "messages":
 
@@ -513,7 +513,7 @@ function showSection(section, element){
                 "Vous n'avez aucun nouveau message."
             );
 
-            break;
+        break;
 
         case "settings":
 
@@ -525,7 +525,7 @@ function showSection(section, element){
 
             todoApp.initPreferences();
 
-            break;
+        break;
 
         case "help":
 
@@ -533,7 +533,8 @@ function showSection(section, element){
 
             title.textContent = "Help";
 
-            break;
+        break;
+   
     }
 
 }

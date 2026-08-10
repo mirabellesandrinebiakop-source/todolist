@@ -415,45 +415,25 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
 </section>
 
-<footer class="footer">
+<footer class="dashboard-footer">
 
-    <div class="logo">
-
-    <div class="logo-icon">
-        <i class="fa-solid fa-circle-check"></i>
-    </div>
-
-    <div class="logo-text">
-
-        <h2>TodoApp</h2>
-
-        <span>PRO</span>
-
-    </div>
-
-</div>
+    <p class="footer-copy">
+        © 2026 TodoApp Pro — Designed by Florinda Kombou
+    </p>
 
     <div class="footer-links">
 
-    <a href="#" onclick="openInfoModal('privacy'); return false;">
-        Privacy
-    </a>
+        <a href="#" onclick="event.preventDefault(); openInfoModal('privacy')">
+            Privacy
+        </a>
 
-    <a href="#" onclick="openInfoModal('terms'); return false;">
-        Terms
-    </a>
+        <a href="#" onclick="event.preventDefault(); openInfoModal('terms')">
+            Terms
+        </a>
 
-    <a href="#" onclick="openInfoModal('contact'); return false;">
-        Contact
-    </a>
-
-</div>
-
-    <div class="footer-copy">
-
-        <p>
-            © 2026 TodoApp Pro Inc.
-        </p>
+        <a href="#" onclick="event.preventDefault(); openInfoModal('contact')">
+            Contact
+        </a>
 
     </div>
 
@@ -1019,8 +999,8 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
 
 
             <select 
-id="languageSelect"
-onchange="todoApp.saveLanguage()">
+                id="languageSelect"
+                onchange="todoApp.saveLanguage()">
 
     <option value="fr">
         🇫🇷 Français
@@ -1033,8 +1013,6 @@ onchange="todoApp.saveLanguage()">
 </select>
 
         </div>
-
-
 
 
         <div class="setting-item">
@@ -1418,21 +1396,21 @@ onchange="todoApp.saveLanguage()">
         © 2026 TodoApp Pro — Designed by Florinda Kombou
     </p>
 
-<div class="footer-links">
+    <div class="footer-links">
 
-    <a href="#" onclick="event.preventDefault(); openInfoModal('privacy')">
-        Privacy
-    </a>
+        <a href="#" onclick="event.preventDefault(); openInfoModal('privacy')">
+            Privacy
+        </a>
 
-    <a href="#" onclick="event.preventDefault(); openInfoModal('terms')">
-        Terms
-    </a>
+        <a href="#" onclick="event.preventDefault(); openInfoModal('terms')">
+            Terms
+        </a>
 
-    <a href="#" onclick="event.preventDefault(); openInfoModal('contact')">
-        Contact
-    </a>
+        <a href="#" onclick="event.preventDefault(); openInfoModal('contact')">
+            Contact
+        </a>
 
-</div>
+    </div>
 
 </footer>
 
