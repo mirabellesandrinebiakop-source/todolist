@@ -14,10 +14,15 @@ const connection = mysql.createConnection({
 
     port: process.env.DB_PORT || 3306,
 
-    dateStrings: true
+    dateStrings: true,
+
+    ssl: process.env.DB_SSL === "true"
+        ? {
+            rejectUnauthorized: false
+        }
+        : undefined
 
 });
-
 
 connection.connect((err) => {
 
@@ -35,6 +40,5 @@ connection.connect((err) => {
     console.log("✅ MySQL connecté !");
 
 });
-
 
 module.exports = connection;
