@@ -75,6 +75,7 @@ update(id, data) {
     todo.priorite = data.priorite ?? todo.priorite;
     todo.statut = data.statut ?? todo.statut;
     todo.dateFin = data.dateFin ?? todo.dateFin;
+    todo.heure = data.heure ?? todo.heure;
 
     this.save();
 

@@ -2409,20 +2409,15 @@ body.dark .logout-btn{
 
 }
 
-.modal-content{
-
-    width:400px;
-
-    background:#FFFFFF;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    animation:popup .25s ease;
-
-    box-shadow:0 12px 30px rgba(15,23,42,.15);
-
+.modal-content {
+    width: 400px;
+    max-width: 90%;
+    max-height: 90vh;
+    background: #FFFFFF;
+    border-radius: 20px;
+    overflow-y: auto;
+    animation: popup .25s ease;
+    box-shadow: 0 12px 30px rgba(15,23,42,.15);
 }
 
 .modal-header{
@@ -2461,24 +2456,23 @@ body.dark .logout-btn{
 
 }
 
-.modal-footer{
-
-    padding:20px;
-
-    text-align:right;
-
+.modal-footer {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    border-top: 1px solid var(--border);
 }
 
-.modal-btn{
-
-    padding:12px 24px;
-
-    background:var(--primary);
-
-    color:white;
-
-    border-radius:10px;
-
+.modal-btn {
+    padding: 12px 24px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 @keyframes popup{
@@ -3109,7 +3103,6 @@ button:hover{
 
 }
 
-}
 
 .whatsapp-btn:hover{
 
@@ -3864,4 +3857,47 @@ body.dark .preferences-box select{
 
     color:#f8fafc;
 
+}
+
+
+.task-action {
+    background: transparent !important;
+    border: none !important;
+
+    padding: 6px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+
+.edit-action {
+    color: #2563eb !important;
+}
+
+
+.delete-action {
+    color: #dc2626 !important;
+}
+
+
+.task-action:hover {
+    background: transparent !important;
+
+    transform: scale(1.15);
+}
+
+.edit-action:hover {
+    color: #1d4ed8 !important;
+}
+
+.delete-action:hover {
+    color: #b91c1c !important;
 }

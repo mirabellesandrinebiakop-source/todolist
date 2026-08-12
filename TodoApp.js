@@ -234,6 +234,9 @@ editTask(id){
     document.getElementById("modalDeadline").value =
     todo.dateFin || "";
 
+    document.getElementById("modalTime").value =
+    todo.heure || "";
+
 
     document.getElementById("taskModal").style.display =
     "flex";
@@ -345,7 +348,10 @@ async toggleTask(id) {
 
                     statut: nouveauStatut,
 
-                    dateFin: todo.dateFin
+                    dateFin: todo.dateFin,
+
+                    heure: todo.heure
+
 
                 })
 
@@ -540,12 +546,18 @@ if (todo.dateFin && todo.statut !== "terminee") {
             <br>
 
             <small>
-                ${todo.description || "Aucune description"}
-            </small>
+    ${todo.description || "Aucune description"}
+</small>
 
-            <br>
+<br>
 
-            ${deadlineWarning}
+<small class="task-time">
+    🕐 ${todo.heure ? todo.heure.substring(0, 5) : "Aucune heure"}
+</small>
+
+<br>
+
+${deadlineWarning}
         </div>
     </div>
 </td>
@@ -578,13 +590,21 @@ if (todo.dateFin && todo.statut !== "terminee") {
 
 <td class="action-buttons">
 
-    <button onclick="todoApp.editTask(${todo.id})">
-        ✏️
-    </button>
+    <button
+    class="task-action edit-action"
+    onclick="todoApp.editTask(${todo.id})"
+    title="Modifier la tâche"
+    aria-label="Modifier la tâche">
+    <i class="fa-solid fa-pen"></i>
+</button>
 
-    <button onclick="todoApp.openDeleteModal(${todo.id})">
-        🗑️
-    </button>
+<button
+    class="task-action delete-action"
+    onclick="todoApp.openDeleteModal(${todo.id})"
+    title="Supprimer la tâche"
+    aria-label="Supprimer la tâche">
+    <i class="fa-solid fa-trash"></i>
+</button>
 
 </td>
 `;
@@ -1141,6 +1161,9 @@ async addTaskFromModal(){
     const deadline =
     document.getElementById("modalDeadline").value;
 
+    const heure =
+    document.getElementById("modalTime").value;
+
 
     if(!titre.trim()){
 
@@ -1178,7 +1201,8 @@ async addTaskFromModal(){
                     statut: ancienneTache 
                         ? ancienneTache.statut 
                         : "a faire",
-                    dateFin: deadline
+                    dateFin: deadline,
+                    heure: heure
 
                 })
 
@@ -1242,7 +1266,8 @@ async addTaskFromModal(){
                         titre: titre.trim(),
                         description: description,
                         priorite: priorite,
-                        dateFin: deadline
+                        dateFin: deadline,
+                        heure: heure
 
                     })
 
@@ -1296,6 +1321,8 @@ async addTaskFromModal(){
     document.getElementById("modalTaskDescription").value="";
     
     document.getElementById("modalDeadline").value="";
+
+    document.getElementById("modalTime").value="";
 
     this.editingTaskId = null;
 

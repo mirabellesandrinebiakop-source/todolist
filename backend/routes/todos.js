@@ -16,7 +16,8 @@ router.post("/", auth, (req, res) => {
         titre,
         description,
         priorite,
-        dateFin
+        dateFin,
+        heure
     } = req.body;
     
 
@@ -39,8 +40,8 @@ router.post("/", auth, (req, res) => {
 
     const sql = `
         INSERT INTO todos
-        (utilisateur_id, titre, description, priorite, dateFin)
-        VALUES (?, ?, ?, ?, ?)
+        (utilisateur_id, titre, description, priorite, dateFin, heure)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
 
 
@@ -51,7 +52,8 @@ router.post("/", auth, (req, res) => {
             titre,
             descriptionFinale,
             prioriteFinale,
-            dateFin || null
+            dateFin || null,
+            heure || null
         ],
         (err, result) => {
 
@@ -407,7 +409,8 @@ router.put("/:id", auth, (req, res) => {
         description,
         priorite,
         statut,
-        dateFin
+        dateFin,
+        heure
     } = req.body;
 
     const dateMysql = dateFin
@@ -422,7 +425,8 @@ router.put("/:id", auth, (req, res) => {
             description = ?,
             priorite = ?,
             statut = ?,
-            dateFin = ?
+            dateFin = ?,
+            heure = ?
             WHERE id = ?
             AND utilisateur_id = ?
     `;
@@ -436,6 +440,7 @@ router.put("/:id", auth, (req, res) => {
             priorite,
             statut,
             dateMysql,
+            heure || null,
             id,
             utilisateur_id
         ],
