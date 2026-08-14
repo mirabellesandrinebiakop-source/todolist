@@ -3901,3 +3901,36 @@ body.dark .preferences-box select{
 .delete-action:hover {
     color: #b91c1c !important;
 }
+
+.author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.testimonial-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 2px solid #e2e8f0;
+    flex-shrink: 0;
+}
+
+.author div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.author strong {
+    font-size: 15px;
+    color: #1e293b;
+}
+
+.author small {
+    font-size: 13px;
+    color: #64748b;
+}
