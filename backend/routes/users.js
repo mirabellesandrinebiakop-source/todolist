@@ -8,6 +8,8 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
+const auth = require("../middleware/auth");
+
 router.post("/register", async (req, res) => {
 
     try {
@@ -54,10 +56,10 @@ router.post("/register", async (req, res) => {
         const motDePasseHash = await bcrypt.hash(motDePasse, 10);
 
     const sql = `
-        INSERT INTO utilisateurs 
-        (nom, prenom, email, motDePasse)
-        VALUES (?, ?, ?, ?)
-    `;
+    INSERT INTO utilisateurs
+    (nom, prenom, email, motDePasse, plan, debutEssai, finEssai)
+    VALUES (?, ?, ?, ?, 'free', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY))
+`;
 
 
     db.query(
@@ -229,13 +231,17 @@ router.post("/login", async (req, res) => {
 
                     utilisateur: {
 
-                        id: utilisateur.id,
-                        nom: utilisateur.nom,
-                        prenom: utilisateur.prenom,
-                        email: utilisateur.email,
-                        dateCreation: utilisateur.dateCreation
+    id: utilisateur.id,
+    nom: utilisateur.nom,
+    prenom: utilisateur.prenom,
+    email: utilisateur.email,
+    dateCreation: utilisateur.dateCreation,
 
-                    }
+    plan: utilisateur.plan,
+    debutEssai: utilisateur.debutEssai,
+    finEssai: utilisateur.finEssai
+
+}
 
                 });
 
@@ -290,6 +296,252 @@ router.get("/", (req, res) => {
 
 });
 
+router.get("/subscription", auth, (req, res) => {
+
+    const id = req.utilisateur.id;
+
+    const sql = `
+        SELECT
+            id,
+            plan,
+            debutEssai,
+            finEssai,
+            finAbonnement
+        FROM utilisateurs
+        WHERE id = ?
+    `;
+
+    db.query(sql, [id], (err, result) => {
+
+        if (err) {
+
+            console.log(err);
+
+            return res.status(500).json({
+                message: "Erreur serveur."
+            });
+
+        }
+
+        if (result.length === 0) {
+
+            return res.status(404).json({
+                message: "Utilisateur introuvable."
+            });
+
+        }
+
+        res.json(result[0]);
+
+    });
+
+});
+
+router.get("/subscription/check", auth, (req, res) => {
+
+    const utilisateur_id = req.utilisateur.id;
+
+
+    const sql = `
+        SELECT
+            id,
+            plan,
+            debutEssai,
+            finEssai,
+            finAbonnement
+        FROM utilisateurs
+        WHERE id = ?
+    `;
+
+
+    db.query(
+        sql,
+        [utilisateur_id],
+        (err, result) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json({
+                    message: "Erreur serveur."
+                });
+
+            }
+
+
+            if (result.length === 0) {
+
+                return res.status(404).json({
+                    message: "Utilisateur introuvable."
+                });
+
+            }
+
+
+            const utilisateur = result[0];
+
+
+
+            if (
+                utilisateur.plan === "premium" &&
+                utilisateur.finAbonnement &&
+                new Date(utilisateur.finAbonnement) <= new Date()
+            ) {
+
+                const updateSql = `
+                    UPDATE utilisateurs
+                    SET plan = 'free',
+                        finAbonnement = NULL
+                    WHERE id = ?
+                `;
+
+
+                db.query(
+                    updateSql,
+                    [utilisateur_id],
+                    (updateErr) => {
+
+                        if (updateErr) {
+
+                            console.log(updateErr);
+
+                            return res.status(500).json({
+                                message: "Erreur lors de l'expiration de l'abonnement."
+                            });
+
+                        }
+
+
+                        return res.json({
+
+                            id: utilisateur.id,
+
+                            plan: "free",
+
+                            debutEssai: utilisateur.debutEssai,
+
+                            finEssai: utilisateur.finEssai,
+
+                            finAbonnement: null,
+
+                            abonnementExpire: true
+
+                        });
+
+                    }
+                );
+
+
+                return;
+
+            }
+
+
+            res.json({
+
+                id: utilisateur.id,
+
+                plan: utilisateur.plan,
+
+                debutEssai: utilisateur.debutEssai,
+
+                finEssai: utilisateur.finEssai,
+
+                finAbonnement: utilisateur.finAbonnement,
+
+                abonnementExpire: false
+
+            });
+
+        }
+    );
+
+});
+
+router.post("/upgrade", auth, (req, res) => {
+
+    const utilisateur_id = req.utilisateur.id;
+
+    const { plan } = req.body;
+
+
+    if (plan !== "monthly" && plan !== "yearly") {
+
+        return res.status(400).json({
+            message: "Plan d'abonnement invalide."
+        });
+
+    }
+
+
+    let duree;
+
+
+    if (plan === "monthly") {
+
+        duree = 1;
+
+    } else {
+
+        duree = 12;
+
+    }
+
+
+    const sql = `
+        UPDATE utilisateurs
+
+        SET
+            plan = 'premium',
+            finAbonnement = DATE_ADD(
+                NOW(),
+                INTERVAL ? MONTH
+            )
+
+        WHERE id = ?
+    `;
+
+
+    db.query(
+        sql,
+        [duree, utilisateur_id],
+        (err, result) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json({
+                    message: "Erreur lors de l'activation de l'abonnement."
+                });
+
+            }
+
+
+            if (result.affectedRows === 0) {
+
+                return res.status(404).json({
+                    message: "Utilisateur introuvable."
+                });
+
+            }
+
+
+            res.json({
+
+                message: "Abonnement activé avec succès.",
+
+                plan: "premium",
+
+                finAbonnement: null
+
+            });
+
+        }
+    );
+
+});
 
 router.get("/:id", (req, res) => {
 
