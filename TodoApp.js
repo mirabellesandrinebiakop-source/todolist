@@ -63,6 +63,10 @@ class TodoApp {
 
     this.projects = [];
 
+    this.editingProjectId = null;
+
+    this.deletingProjectId = null;
+
     this.init();
 
 }
@@ -90,6 +94,10 @@ async init() {
     this.render();
 
     this.updateCounter();
+
+    await this.chargerAbonnement();
+
+    this.updateSubscriptionDisplay();
 
     if(this.globalSearch){
 
@@ -1669,14 +1677,11 @@ renderProjects() {
 displayProjects(){
 
     const container =
-    document.getElementById("projectsList");
-
+        document.getElementById("projectsList");
 
     if(!container) return;
 
-
     container.innerHTML = "";
-
 
     if(this.projects.length === 0){
 
@@ -1685,34 +1690,219 @@ displayProjects(){
         `;
 
         return;
-
     }
-
 
     this.projects.forEach(project => {
 
+        const couleur =
+            project.couleur || "#2563eb";
 
         container.innerHTML += `
 
             <div class="project-card">
 
-                <h3>
-                    📁 ${project.nom}
-                </h3>
+                <div class="project-card-header">
 
+                    <div class="project-title">
+
+                        <span
+                            class="project-color"
+                            style="background:${couleur};">
+                        </span>
+
+                        <h3>
+                            ${project.nom}
+                        </h3>
+
+                    </div>
+
+                    <div class="project-actions">
+
+                        <button
+                            class="project-edit-btn"
+                            onclick="todoApp.editProject(${project.id})"
+                            title="Modifier le projet">
+
+                            <i class="fa-solid fa-pen"></i>
+
+                        </button>
+
+                        <button
+                            class="project-delete-btn"
+                            onclick="todoApp.deleteProject(${project.id})"
+                            title="Supprimer le projet">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
 
                 <p>
                     ${project.description || "Aucune description"}
                 </p>
 
-
             </div>
 
         `;
 
-
     });
 
+}
+
+editProject(id){
+
+    const project = this.projects.find(
+        p => Number(p.id) === Number(id)
+    );
+
+    if(!project){
+
+        this.showNotification(
+            "Projet introuvable.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById("projectModalTitle").textContent =
+        "Modifier le projet";
+
+
+    document.getElementById("projectName").value =
+        project.nom || "";
+
+
+    document.getElementById("projectDescription").value =
+        project.description || "";
+
+
+    document.getElementById("projectColor").value =
+        project.couleur || "#2563eb";
+
+
+    this.editingProjectId = id;
+
+
+    document
+        .getElementById("projectModal")
+        .classList.add("show");
+
+}
+
+deleteProject(id){
+
+    this.openDeleteProjectModal(id);
+
+}
+
+openDeleteProjectModal(id){
+
+    const project = this.projects.find(
+        p => Number(p.id) === Number(id)
+    );
+
+    if(!project){
+
+        this.showNotification(
+            "Projet introuvable.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    this.deletingProjectId = project.id;
+
+    document.getElementById(
+        "projectDeleteMessage"
+    ).textContent =
+        `Voulez-vous vraiment supprimer le projet "${project.nom}" ?`;
+
+    document.getElementById(
+        "projectDeleteModal"
+    ).classList.add("show");
+
+}
+
+closeProjectDeleteModal(){
+
+    document
+        .getElementById("projectDeleteModal")
+        .classList.remove("show");
+
+    this.deletingProjectId = null;
+
+}
+
+async confirmDeleteProject(){
+
+    if(!this.deletingProjectId){
+
+        return;
+
+    }
+
+    try {
+
+        const token =
+            localStorage.getItem("token");
+
+        const response = await fetch(
+
+            `http://localhost:3000/projects/${this.deletingProjectId}`,
+
+            {
+                method: "DELETE",
+
+                headers: {
+                    "Authorization":
+                        `Bearer ${token}`
+                }
+            }
+
+        );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            this.showNotification(
+                data.message ||
+                "Erreur lors de la suppression.",
+                "error"
+            );
+
+            return;
+
+        }
+
+        this.closeProjectDeleteModal();
+
+        this.showNotification(
+            "🗑️ Projet supprimé avec succès !"
+        );
+
+        await this.chargerProjets();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        this.showNotification(
+            "Impossible de supprimer le projet.",
+            "error"
+        );
+
+    }
 
 }
 
@@ -2151,10 +2341,301 @@ savePreferences(){
 
 }
 
+isTrialExpired() {
+
+    const utilisateur =
+        JSON.parse(
+            localStorage.getItem("utilisateurConnecte")
+        );
+
+    if (!utilisateur) {
+        return true;
+    }
+
+    if (utilisateur.plan !== "free") {
+        return false;
+    }
+
+    if (!utilisateur.finEssai) {
+        return true;
+    }
+
+    const maintenant = new Date();
+    const finEssai = new Date(utilisateur.finEssai);
+
+    return maintenant > finEssai;
+}
+
+getTrialDaysRemaining() {
+
+    const utilisateur =
+        JSON.parse(
+            localStorage.getItem("utilisateurConnecte")
+        );
+
+    if (!utilisateur) {
+        return 0;
+    }
+
+    if (utilisateur.plan !== "free") {
+        return Infinity;
+    }
+
+    if (!utilisateur.finEssai) {
+        return 0;
+    }
+
+    const maintenant = new Date();
+    const finEssai = new Date(utilisateur.finEssai);
+
+    const difference =
+        finEssai - maintenant;
+
+    const jours =
+        Math.ceil(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+    return Math.max(0, jours);
+}
+
+updateSubscriptionDisplay() {
+
+    const utilisateur =
+        JSON.parse(
+            localStorage.getItem("utilisateurConnecte")
+        );
+
+    const planElement =
+        document.getElementById("subscriptionPlan");
+
+    const daysElement =
+        document.getElementById("subscriptionDays");
+
+
+    if (!utilisateur || !planElement || !daysElement) {
+
+        return;
+
+    }
+
+
+    if (utilisateur.plan === "premium") {
+
+        planElement.textContent =
+            "Plan Premium";
+
+
+        if (utilisateur.finAbonnement) {
+
+            const dateFin =
+                new Date(
+                    utilisateur.finAbonnement
+                );
+
+
+            const maintenant =
+                new Date();
+
+
+            const difference =
+                dateFin - maintenant;
+
+
+            const jours =
+                Math.ceil(
+                    difference /
+                    (1000 * 60 * 60 * 24)
+                );
+
+
+            if (jours > 0) {
+
+                daysElement.textContent =
+                    `${jours} jour${jours > 1 ? "s" : ""} restant${jours > 1 ? "s" : ""}`;
+
+            } else {
+
+                daysElement.textContent =
+                    "Abonnement expiré";
+
+            }
+
+        } else {
+
+            daysElement.textContent =
+                "Abonnement actif";
+
+        }
+
+
+        return;
+
+    }
+
+
+    const jours =
+        this.getTrialDaysRemaining();
+
+
+    planElement.textContent =
+        "Essai gratuit";
+
+
+    daysElement.textContent =
+        jours > 0
+            ? `${jours} jour${jours > 1 ? "s" : ""} restant${jours > 1 ? "s" : ""}`
+            : "Essai expiré";
+
+}
+
+openUpgradeModal() {
+
+    const modal =
+        document.getElementById("upgradeModal");
+
+    if (!modal) {
+
+        console.error(
+            "Le modal Upgrade est introuvable."
+        );
+
+        return;
+    }
+
+    modal.classList.add("show");
+
+}
+
+async chargerAbonnement() {
+
+    try {
+
+        const token =
+            localStorage.getItem("token");
+
+
+        if (!token) {
+            return;
+        }
+
+
+        const checkResponse = await fetch(
+            "http://localhost:3000/users/subscription/check",
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+
+        const checkData =
+            await checkResponse.json();
+
+
+        if (!checkResponse.ok) {
+
+            console.error(
+                "Erreur vérification abonnement :",
+                checkData.message
+            );
+
+            return;
+
+        }
+
+
+        console.log(
+            "Vérification abonnement :",
+            checkData
+        );
+
+
+        const response = await fetch(
+            "http://localhost:3000/users/subscription",
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Erreur abonnement :",
+                data.message
+            );
+
+            return;
+
+        }
+
+
+        console.log(
+            "Abonnement récupéré :",
+            data
+        );
+
+
+        const utilisateur =
+            JSON.parse(
+                localStorage.getItem(
+                    "utilisateurConnecte"
+                )
+            );
+
+
+        if (!utilisateur) {
+            return;
+        }
+
+
+        utilisateur.plan =
+            data.plan;
+
+        utilisateur.debutEssai =
+            data.debutEssai;
+
+        utilisateur.finEssai =
+            data.finEssai;
+
+        utilisateur.finAbonnement =
+            data.finAbonnement;
+
+
+        localStorage.setItem(
+            "utilisateurConnecte",
+            JSON.stringify(utilisateur)
+        );
+
+
+        this.updateSubscriptionDisplay();
+
+
+    } catch (error) {
+
+        console.error(
+            "Impossible de charger l'abonnement :",
+            error
+        );
+
+    }
+
+}
+
 }
 
 const todoApp = new TodoApp();
 
+todoApp.openProjectModal = openProjectModal;
 
 function openInfoModal(type){
 
@@ -2177,6 +2658,10 @@ function openProjectModal(){
 
 }
 
+if (typeof todoApp !== "undefined") {
+    todoApp.openProjectModal = openProjectModal;
+}
+
 
 function closeProjectModal(){
 
@@ -2186,21 +2671,25 @@ function closeProjectModal(){
 
 }
 
+function closeProjectDeleteModal(){
+
+    todoApp.closeProjectDeleteModal();
+
+}
+
 async function saveProject(){
 
     const nom =
-    document.getElementById("projectName").value;
-
+        document.getElementById("projectName").value.trim();
 
     const description =
-    document.getElementById("projectDescription").value;
-
+        document.getElementById("projectDescription").value.trim();
 
     const couleur =
-    document.getElementById("projectColor").value;
+        document.getElementById("projectColor").value;
 
 
-    if(!nom.trim()){
+    if(!nom){
 
         todoApp.showNotification(
             "Le nom du projet est obligatoire."
@@ -2213,34 +2702,173 @@ async function saveProject(){
 
     try {
 
-
         const token =
-        localStorage.getItem("token");
+            localStorage.getItem("token");
+
+
+        const modification =
+            todoApp.editingProjectId !== null;
+
+
+        const url = modification
+
+            ? `http://localhost:3000/projects/${todoApp.editingProjectId}`
+
+            : "http://localhost:3000/projects";
+
+
+        const method =
+            modification ? "PUT" : "POST";
 
 
         const response = await fetch(
-            "http://localhost:3000/projects",
+
+            url,
+
             {
 
-                method:"POST",
+                method: method,
 
-                headers:{
+                headers: {
 
-                    "Content-Type":"application/json",
+                    "Content-Type":
+                        "application/json",
 
                     "Authorization":
-                    `Bearer ${token}`
+                        `Bearer ${token}`
 
                 },
 
-
-                body:JSON.stringify({
+                body: JSON.stringify({
 
                     nom: nom,
 
-                    description: description,
+                    description: description || null,
 
                     couleur: couleur
+
+                })
+
+            }
+
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            todoApp.showNotification(
+                data.message || "Erreur lors de l'opération.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(modification){
+
+            todoApp.showNotification(
+                "✏️ Projet modifié avec succès !"
+            );
+
+        }else{
+
+            todoApp.showNotification(
+                "📁 Projet créé avec succès !"
+            );
+
+        }
+
+
+        closeProjectModal();
+
+
+        todoApp.editingProjectId = null;
+
+
+        document.getElementById("projectName").value = "";
+
+        document.getElementById("projectDescription").value = "";
+
+        document.getElementById("projectColor").value =
+            "#2563eb";
+
+
+        document.getElementById("projectModalTitle").textContent =
+            "Nouveau projet";
+
+
+        await todoApp.chargerProjets();
+
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        todoApp.showNotification(
+            "Erreur serveur.",
+            "error"
+        );
+
+    }
+
+}
+
+function closeUpgradeModal() {
+
+    document
+        .getElementById("upgradeModal")
+        .classList.remove("show");
+
+}
+
+
+async function selectPlan(plan) {
+
+    console.log("Plan sélectionné :", plan);
+
+
+    const token =
+        localStorage.getItem("token");
+
+
+    if (!token) {
+
+        todoApp.showNotification(
+            "Veuillez vous connecter."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:3000/users/upgrade",
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "Authorization":
+                        `Bearer ${token}`
+
+                },
+
+                body: JSON.stringify({
+
+                    plan: plan
 
                 })
 
@@ -2249,12 +2877,21 @@ async function saveProject(){
 
 
         const data =
-        await response.json();
+            await response.json();
 
 
-        if(!response.ok){
+        console.log(
+            "Réponse Upgrade :",
+            data
+        );
 
-            todoApp.showNotification(data.message);
+
+        if (!response.ok) {
+
+            todoApp.showNotification(
+                data.message ||
+                "Erreur lors de l'abonnement."
+            );
 
             return;
 
@@ -2262,28 +2899,29 @@ async function saveProject(){
 
 
         todoApp.showNotification(
-            "📁 Projet créé avec succès !"
+            "🎉 Votre abonnement Premium est activé !"
         );
 
 
-        closeProjectModal();
+        await todoApp.chargerAbonnement();
 
 
-        await todoApp.chargerProjets();
-
-
-
-        document.getElementById("projectName").value="";
-
-        document.getElementById("projectDescription").value="";
+        todoApp.updateSubscriptionDisplay();
 
 
     }
-    catch(error){
 
-        console.error(error);
+    catch (error) {
 
-        todoApp.showNotification("Erreur serveur.");
+        console.error(
+            "Erreur Upgrade :",
+            error
+        );
+
+
+        todoApp.showNotification(
+            "Impossible de contacter le serveur."
+        );
 
     }
 

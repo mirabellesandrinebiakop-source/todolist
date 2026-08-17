@@ -793,10 +793,24 @@ Pas de carte de crédit requise • Essai gratuit de 14 jours
                 <i class="fa-regular fa-calendar"></i>
             </button>
 
-            <button class="upgrade-btn">
-                Upgrade Now
-            </button>
-            <span class="upgrade-price">5 000 FCFA / mois</span>
+            <div class="subscription-status" id="subscriptionStatus">
+
+    <span class="subscription-plan" id="subscriptionPlan">
+        Essai gratuit
+    </span>
+
+    <span class="subscription-days" id="subscriptionDays">
+        7 jours restants
+    </span>
+
+    <button
+        type="button"
+        onclick="todoApp.openUpgradeModal()"
+        class="upgrade-btn">
+        Upgrade Now
+    </button>
+
+</div>
 
             <div class="header-profile">
 
@@ -1775,6 +1789,153 @@ window.onload = function(){
             Annuler
         </button>
 
+
+    </div>
+
+</div>
+
+<div id="projectDeleteModal" class="modal">
+
+    <div class="modal-content small-modal">
+
+        <div class="modal-header">
+
+            <h3>Supprimer le projet</h3>
+
+            <button
+                class="close-modal"
+                onclick="closeProjectDeleteModal()">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <p id="projectDeleteMessage">
+                Voulez-vous vraiment supprimer ce projet ?
+            </p>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="cancel-btn"
+                onclick="closeProjectDeleteModal()">
+
+                Annuler
+
+            </button>
+
+            <button
+                class="delete-btn"
+                onclick="todoApp.confirmDeleteProject()">
+
+                🗑️ Supprimer
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="upgradeModal" class="modal">
+
+    <div class="modal-content upgrade-modal">
+
+        <div class="modal-header">
+
+            <h3>
+                Passer à TodoApp Pro
+            </h3>
+
+            <button
+                class="close-modal"
+                onclick="closeUpgradeModal()">
+
+                &times;
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <p class="upgrade-intro">
+                Profitez de toutes les fonctionnalités
+                de TodoApp Pro.
+            </p>
+
+
+            <div class="plans-container">
+
+                <div class="plan-card">
+
+                    <h3>Mensuel</h3>
+
+                    <strong>
+                        5 000 FCFA
+                    </strong>
+
+                    <span>
+                        / mois
+                    </span>
+
+                    <button
+                        class="modal-btn"
+                        onclick="selectPlan('monthly')">
+
+                        Choisir
+
+                    </button>
+
+                </div>
+
+
+                <div class="plan-card">
+
+                    <h3>Annuel</h3>
+
+                    <strong>
+                        50 000 FCFA
+                    </strong>
+
+                    <span>
+                        / an
+                    </span>
+
+                    <button
+                        class="modal-btn"
+                        onclick="selectPlan('yearly')">
+
+                        Choisir
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="cancel-btn"
+                onclick="closeUpgradeModal()">
+
+                Annuler
+
+            </button>
+
+        </div>
 
     </div>
 
