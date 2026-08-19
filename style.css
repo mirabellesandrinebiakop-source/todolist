@@ -4151,3 +4151,687 @@ body.dark .project-actions button:hover{
     }
 
 }
+
+
+body.dark {
+
+    background: #0f172a;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark label {
+
+    color: #e2e8f0;
+
+}
+
+
+body.dark span {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark strong {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark a {
+
+    color: #93c5fd;
+
+}
+
+
+body.dark a:hover {
+
+    color: #bfdbfe;
+
+}
+
+
+body.dark input,
+body.dark textarea,
+body.dark select {
+
+    background: #1e293b;
+
+    color: #f8fafc;
+
+    border-color: #475569;
+
+}
+
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+
+    color: #94a3b8;
+
+}
+
+
+body.dark .auth-card,
+body.dark .stat-card,
+body.dark .summary-card,
+body.dark .performance-card,
+body.dark .calendar-card,
+body.dark .project-card,
+body.dark .tasks-table-container,
+body.dark .help-container,
+body.dark .help-card,
+body.dark .modal-content {
+
+    background: #1e293b;
+
+    color: #f8fafc;
+
+    border-color: #334155;
+
+}
+
+
+body.dark .auth-card h2,
+body.dark .stat-card h3,
+body.dark .project-card h3,
+body.dark .help-card h3 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark .auth-card p,
+body.dark .stat-card small,
+body.dark .project-card p,
+body.dark .help-card p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark .sidebar {
+
+    background: #111827;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark .sidebar a {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark .sidebar a:hover,
+body.dark .sidebar a.active {
+
+    color: #ffffff;
+
+}
+
+
+body.dark .dashboard-header {
+
+    background: #1f2937;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark table {
+
+    background: #1e293b;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark th {
+
+    background: #334155;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark td {
+
+    color: #cbd5e1;
+
+    border-color: #475569;
+
+}
+
+
+body.dark .modal-content {
+
+    background: #1e293b;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark .modal-content h1,
+body.dark .modal-content h2,
+body.dark .modal-content h3 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark .modal-content p,
+body.dark .modal-content label {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark button {
+
+    color: #ffffff;
+
+}
+
+
+body.dark .toggle-password {
+
+    background: transparent !important;
+
+    color: #94a3b8;
+
+}
+
+
+body.dark .toggle-password:hover {
+
+    color: #93c5fd;
+
+}
+
+
+body.dark footer {
+
+    background: #111827;
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark footer p,
+body.dark footer span {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #upgradeModal .modal-content {
+
+    background: #1e293b;
+    color: #f8fafc;
+
+}
+
+
+body.dark #upgradeModal .modal-content h1,
+body.dark #upgradeModal .modal-content h2,
+body.dark #upgradeModal .modal-content h3,
+body.dark #upgradeModal .modal-content h4 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #upgradeModal .modal-content p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #upgradeModal .modal-content span {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #upgradeModal .modal-content strong {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #upgradeModal .plan-card {
+
+    background: #273449;
+
+    color: #f8fafc;
+
+    border-color: #475569;
+
+}
+
+
+body.dark #upgradeModal .plan-card h3 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #upgradeModal .plan-card p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #upgradeModal .price {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #upgradeModal small {
+
+    color: #94a3b8;
+
+}
+
+
+body.dark #upgradeModal button {
+
+    color: #ffffff;
+
+}
+
+
+body.dark #landingPage {
+
+    background: #0f172a;
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .navbar {
+
+    background: #111827;
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .nav-links a {
+
+    color: #e2e8f0;
+
+}
+
+
+body.dark #landingPage .nav-links a:hover {
+
+    color: #93c5fd;
+
+}
+
+
+body.dark #landingPage .logo-text h2 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .logo-text span {
+
+    color: #93c5fd;
+
+}
+
+
+body.dark #landingPage .hero {
+
+    background: #0f172a;
+
+}
+
+
+body.dark #landingPage .hero h1 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .hero p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .primary-btn {
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+}
+
+
+body.dark #landingPage .primary-btn:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+body.dark #landingPage .secondary-btn {
+
+    background: transparent;
+
+    color: #93c5fd;
+
+    border-color: #475569;
+
+}
+
+
+body.dark #landingPage .secondary-btn:hover {
+
+    background: #1e293b;
+
+    color: #bfdbfe;
+
+}
+
+
+body.dark #landingPage #features {
+
+    background: #111827;
+
+}
+
+
+body.dark #landingPage #features > h2 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage #features > p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .feature-card {
+
+    background: #1e293b;
+
+    color: #f8fafc;
+
+    border-color: #334155;
+
+}
+
+
+body.dark #landingPage .feature-card h3 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .feature-card p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .mini-task {
+
+    background: #334155;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .mini-task.done {
+
+    background: #14532d;
+
+    color: #dcfce7;
+
+}
+
+
+body.dark #landingPage .priority-preview span {
+
+    color: #ffffff;
+
+}
+
+
+body.dark #landingPage .info-section {
+
+    background: #0f172a;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .info-section h2 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .info-section > p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .pricing-card {
+
+    background: #1e293b;
+
+    color: #f8fafc;
+
+    border-color: #334155;
+
+}
+
+
+body.dark #landingPage .pricing-card h3 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .pricing-card strong {
+
+    color: #93c5fd;
+
+}
+
+
+body.dark #landingPage .pricing-card p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage #testimonials {
+
+    background: #111827;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .testimonial-header h2 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .testimonial-header p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .testimonial-card {
+
+    background: #1e293b;
+
+    color: #f8fafc;
+
+    border-color: #334155;
+
+}
+
+
+body.dark #landingPage .testimonial-card p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .testimonial-card strong {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .testimonial-card small {
+
+    color: #94a3b8;
+
+}
+
+
+body.dark #landingPage .stars {
+
+    color: #fbbf24;
+
+}
+
+
+body.dark #landingPage .cta-section {
+
+    background: #1e293b;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .cta-section h2 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark #landingPage .cta-section p {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .cta-section .trial {
+
+    color: #94a3b8;
+
+}
+
+
+body.dark #landingPage .dashboard-footer {
+
+    background: #111827;
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .footer-copy {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .footer-links a {
+
+    color: #cbd5e1;
+
+}
+
+
+body.dark #landingPage .footer-links a:hover {
+
+    color: #93c5fd;
+
+}

@@ -428,21 +428,51 @@ function githubLogin(){
 
 }
 
-function forgotPassword(){
+function forgotPassword() {
 
-let email = prompt(
-"Entrez votre email pour récupérer votre mot de passe"
-);
+    const emailInput =
+        document.getElementById("loginEmail");
 
+    if (!emailInput) {
 
-if(email){
+        todoApp.showNotification(
+            "Impossible de récupérer l'adresse email."
+        );
 
-showModal(
-"Récupération",
-"Un lien de récupération a été envoyé à : " + email
-);
+        return;
+    }
 
-}
+    const email =
+        emailInput.value.trim();
+
+    if (!email) {
+
+        todoApp.showNotification(
+            "Veuillez d'abord entrer votre adresse email."
+        );
+
+        emailInput.focus();
+
+        return;
+    }
+
+    const emailValide =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailValide.test(email)) {
+
+        todoApp.showNotification(
+            "Veuillez entrer une adresse email valide."
+        );
+
+        emailInput.focus();
+
+        return;
+    }
+
+    todoApp.showNotification(
+        "Un lien de récupération sera envoyé à : " + email
+    );
 
 }
 
